@@ -23,4 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
+backend/node_modules
+frontend/dist
+frontend/node_modules
+
 README.txt
