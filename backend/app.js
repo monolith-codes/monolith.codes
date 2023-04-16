@@ -1,16 +1,19 @@
 const express =  require('express');
+const cors = require('cors');
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-    host: CHANGE_HOSTNAME,
+    host: CHANGE_HOST,
     port: CHANGE_PORT,
-    user: CHANGE_USER,
+    user: CHANGE_USERNAME,
     password: CHANGE_PASSWORD,
     database: CHANGE_DBNAME
 });
 
 
 const app = express();
+
+app.use(cors());
 
 let database_connected = false;
 
@@ -31,7 +34,14 @@ app.get('/', (req, res) => {
     if (database_connected == false){
         res.send('DATABASE CONNECTION FAILED');
     }else {
-        res.send('DATABASE CONNECTION ESTABLISHED');
+
+        connection.query("SELECT user_email FROM contact_users WHERE user_id = ?", [1], function (err, result, fields) {
+            if (err) throw err;
+            console.log(result);
+
+            let results1 =JSON.parse(JSON.stringify(result))
+            res.json({ user_email: results1[0].user_email })
+        });
     }
 });
 

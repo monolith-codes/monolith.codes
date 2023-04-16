@@ -16,6 +16,9 @@ export default defineConfig({
   },
   server: {
     port: 8080, // Specifies the port for the development server to listen on
+    watch: {
+      usePolling: true
+    }
   },
   optimizeDeps: {
     include: [], // You can specify additional dependencies to optimize

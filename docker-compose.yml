@@ -2,8 +2,17 @@ services:
   frontend:
     build: frontend/.
     ports:
-      - "9000:80"
+      - "7000:80"
+    networks:
+      - my-network
+
   backend:
     build: backend/.
     ports:
       - "8000:3000"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
