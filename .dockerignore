@@ -1,9 +1,20 @@
-.env
-.vscode
-
+frontend/.nuxt/
+frontend/.output/
+frontend/node_modules/
+frontend/.data
 frontend/.nuxt
-frontend/.output
-frontend/node_modules
+frontend/.nitro
+frontend/.cache
+frontend/dist
+frontend/logs
+frontend/*.log
+frontend/.DS_Store
+frontend/.fleet
+frontend/.idea
 
 backend/dist
 backend/node_modules
+
+/.docker-compose.yml
+.env
+/.vscode
