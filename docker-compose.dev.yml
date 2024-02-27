@@ -24,7 +24,8 @@ services:
     ports:
       - 4000:1909
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@postgres:${DB_PORT}/${DB_DATABASE}
     command: sh -c "npx prisma migrate dev --name init && npm run dev"
