@@ -1,14 +1,8 @@
-FROM node:lts-alpine AS frontend
-RUN mkdir -p /app
-RUN mkdir -p /app/frontend
-WORKDIR /app/frontend
-COPY package.json ./
-RUN npm install
+# Production stage
+FROM node:21-alpine AS build
+WORKDIR /usr/src/frontend
+COPY package*.json ./
+RUN npm install --production
 COPY . .
 RUN npm run build
-
-# CREATE NGINX SERVER
-FROM nginx:stable-alpine AS prod-stage
-COPY --from=frontend app/frontend/dist/ usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 3000

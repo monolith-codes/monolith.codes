@@ -1,30 +1,19 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-node_modules/
-dist/
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-backend/node_modules
+frontend/.nuxt/
+frontend/.output/
+frontend/node_modules/
+frontend/.data
+frontend/.nuxt
+frontend/.nitro
+frontend/.cache
 frontend/dist
-frontend/node_modules
+frontend/logs
+frontend/*.log
+frontend/.DS_Store
+frontend/.fleet
+frontend/.idea
 
-README.txt
+backend/dist
+backend/node_modules
+
+docker-compose.yml
+.env

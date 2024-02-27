@@ -1,0 +1,9 @@
+.env
+.vscode
+
+frontend/.nuxt
+frontend/.output
+frontend/node_modules
+
+backend/dist
+backend/node_modules

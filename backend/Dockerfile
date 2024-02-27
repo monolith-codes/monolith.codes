@@ -1,19 +1,15 @@
-FROM node:lts-alpine
-
-RUN apk update
-RUN mkdir app
-RUN mkdir app/backend
-
-WORKDIR /app/backend
-
-COPY package.json ./
+FROM node:21-alpine as build
+WORKDIR /usr/src/app
+COPY package*.json ./
 RUN npm install
-COPY . ./
+COPY . .
+RUN npm run build
 
-ENV DB_HOST=CHANGE_HOST
-ENV DB_PORT=CHANGE_PORT
-ENV DB_USER=CHANGE_USER
-ENV DB_PASSWORD=CHANGE_PASSWORD
-ENV DB_NAME=CHANGE_DBNAME
-
-CMD ["npm", "start"]
+FROM node:21-alpine as production
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY --from=build /usr/src/app/dist ./dist
+CMD ["node", "dist/index.js"]
