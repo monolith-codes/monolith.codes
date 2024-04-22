@@ -1,26 +1,41 @@
-# monolith.codes
-This is my personal portfolio homepage made with Nuxt3, NodeJS, ExpressJS and PrismaORM.  
-Everything is dockerized in one fullstack app repo.
+<br />
+<div align="center">
+  <a href="https://github.com/monolith-codes/monolith.codes">
+    <img src="https://cdn.discordapp.com/attachments/1227412631632216145/1232033294309261332/logo.png?ex=6627fbeb&is=6626aa6b&hm=be78ec06dbabfa59e2854a67d7370e2e593091faeee6c582f76c9daaba3b3e22&" alt="Logo" width="100" height="100">
+  </a>
+
+  <h3 align="center">monolith.codes</h3>
+
+  <p align="center">
+    Personal portfolio fullstack app
+    <br />
+    <a href="https://monolith.codes/" targer="_blank"><strong>View Demo »</strong></a>
+    <br />
+    <br />
+  </p>
+</div>
+
+## Info
+This is my personal portfolio homepage made with Nuxt3, Three.js, NodeJS, ExpressJS and PrismaORM.
+The whole full stack app is wrapped in a docker compose mono repo setup.  
+
+
+## Prerequisites
+This project needs you to install prerequisite software:
+- <a href="https://www.docker.com/get-started/" target="_blank">Docker Engine</a>
+- <div style="display: flex; flex-direction: row;"><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank">VSCode Docker Dev Container</a><a>&nbsp(optional for dev setup)</a></div>
 
 ## Usage
 
 ### Setup Dev Envoirnment
 
-To have a smooth experience while editing the source code you have to take a few steps locally.  
+To have a smooth experience while editing the source code you have to take a few steps locally:
+1. install docker containers vscode extension
+2. clone repo and open in vscode
+3. reopen in devcontainers (strg + shift + p)
 
-In folder frontend and backend you have to do a ```npm i``` to install all dependencies.
+### Deployment
 
-After this you should migrate the database vie prisma locally to fix all prisma errors.  
-For this you can run ```sudo npx prisma migrate dev --name init```
+To deploy and start the docker container simply use:
 
-### Starting Dev Envoirnment
-
-After you have no errors in your code editor run the docker dev startup shell script for development.
-
-``` ./dev_startup.sh ```
-
-### Starting Dev Envoirnment
-
-To build a final production use the prod startup shell script.
-
-``` ./dev_startup.sh ```
+``` ./startup.sh ```
