@@ -1,5 +1,5 @@
 <template>
-  <div class="homeWrapper"></div>
+  <div class="homeWrapper" />
 </template>
 
 <script setup lang="ts">
