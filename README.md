@@ -1,6 +1,6 @@
 <br />
 <div align="center">
-  <a href="https://github.com/monolith-codes/monolith.codes">
+  <a href="https://github.com/monolith-codes/monolith.codes" target="_blank">
     <img src="https://cdn.discordapp.com/attachments/1227412631632216145/1232033294309261332/logo.png?ex=6627fbeb&is=6626aa6b&hm=be78ec06dbabfa59e2854a67d7370e2e593091faeee6c582f76c9daaba3b3e22&" alt="Logo" width="100" height="100">
   </a>
 
