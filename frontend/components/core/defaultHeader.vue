@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="headerCenterWrapper text-red">
-      <h2 class="headerText">monolith.codes</h2>
+      <h2 class="headerText">monolith.codes2</h2>
     </div>
     <div class="headerRightWrapper" />
   </div>
