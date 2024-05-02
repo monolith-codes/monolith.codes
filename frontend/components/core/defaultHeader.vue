@@ -21,9 +21,11 @@
 <style scoped lang="scss">
 .headerWrapper {
   display: flex;
+  position: relative;
   height: 100%;
   width: 100%;
   align-items: center;
+  top: -100%;
 }
 
 .headerLeftWrapper {

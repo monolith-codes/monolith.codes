@@ -14,5 +14,11 @@
 
 html {
   overflow-y: auto;
+  background-color: black;
+}
+
+body,
+.v-application {
+  background-color: black !important;
 }
 </style>
