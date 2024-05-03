@@ -18,13 +18,8 @@ jobs:
         cd frontend
         npm install
         npm run build
-        cd ../backend
-        npm install
-        npm run build
 
     - name: Start the application
       run: |
         cd frontend
-        npm run start &
-        cd ../backend
-        npm run start
+        node .output/server/index.mjs
