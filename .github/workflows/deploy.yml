@@ -1,0 +1,30 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main  # Setzen Sie hier den Namen Ihres Hauptzweigs ein
+
+jobs:
+  build:
+    runs-on: self-hosted  # Verwenden Sie Ihren eigenen Runner
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies and build
+      run: |
+        cd frontend
+        npm install
+        npm run build
+        cd ../backend
+        npm install
+        npm run build
+
+    - name: Start the application
+      run: |
+        cd frontend
+        npm run start &
+        cd ../backend
+        npm run start

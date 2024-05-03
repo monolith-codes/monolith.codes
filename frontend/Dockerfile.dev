@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 
 # Expose port 3000 (optional if you're only using it during development)
-EXPOSE 3019
+EXPOSE 3000
 
 # Command to run your application
 CMD ["sh", "-c", "rm -rf /tmp/nitro/worker-* && npm run dev"]
