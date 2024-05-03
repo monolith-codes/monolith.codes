@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: self-hosted  # Verwenden Sie Ihren eigenen Runner
     env:
-      NUXT_PORT: "3019"
+      NUXT_PORT: 3019
 
     steps:
     - name: Checkout code
