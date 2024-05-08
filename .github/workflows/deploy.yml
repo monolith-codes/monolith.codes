@@ -13,11 +13,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Docker Image
-        run:
-          using: docker
-          image: postgres/Dockerfile
-          args:
-            - DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            - DB_USERNAME=${{ secrets.DB_USERNAME }}
-            - DB_DATABASE=${{ secrets.DB_DATABASE }}
-            - DB_PORT=${{ secrets.DB_PORT }}
+        id: postgres
+        uses: actions/hello-world-docker-action@v2
+        run: docker build -t postgres .

@@ -1,0 +1,10 @@
+name: 'Postgres'
+description: 'Postgres docker container'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+    - DB_USERNAME=${{ secrets.DB_USERNAME }}
+    - DB_DATABASE=${{ secrets.DB_DATABASE }}
+    - DB_PORT=${{ secrets.DB_PORT }}
