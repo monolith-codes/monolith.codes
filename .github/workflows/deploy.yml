@@ -34,28 +34,4 @@ jobs:
     - name: Run PostgreSQL container
       run: |
         cd ./postgres
-        docker run -d -p ${{ secrets.DB_PORT}}:5432 --name postgres postgres
-      env:
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_USERNAME: ${{ secrets.DB_USERNAME }}
-        DB_DATABASE: ${{ secrets.DB_DATABASE }}
-        DB_PORT: ${{ secrets.DB_PORT }}
-
-    - name: Wait for PostgreSQL to start
-      run: |
-        timeout=60
-        while ! docker exec postgres pg_isready -U ${{ secrets.DB_USERNAME }} -d ${{ secrets.DB_DATABASE }} -h localhost -p ${{ secrets.DB_PORT }} > /dev/null; do
-            timeout=$((timeout - 1))
-            if [ $timeout -eq 0 ]; then
-                echo "Timeout waiting for PostgreSQL to start"
-                exit 1
-            fi
-            sleep 1
-        done
-
-    - name: Build Backend Docker image
-      run: |
-        cd ./backend
-        docker build -t backend .
-      env:
-        DATABASE_URL: postgres://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@localhost:${{ secrets.DB_PORT }}/${{ secrets.DB_DATABASE }}
+        docker run -d -p ${{ secrets.DB_PORT}}:5432 --name postgres -e POSTGRES_PASSWORD=${{ secrets.DB_PASSWORD }} -e POSTGRES_USER=${{ secrets.DB_USERNAME }} -e POSTGRES_DB=${{ secrets.DB_DATABASE }} postgres
