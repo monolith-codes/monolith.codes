@@ -1,27 +1,23 @@
-name: Deploy
+name: CI/CD with Docker Compose
 
 on:
   push:
     branches:
-      - main  # Setzen Sie hier den Namen Ihres Hauptzweigs ein
+      - main
 
 jobs:
   build:
-    runs-on: self-hosted  # Verwenden Sie Ihren eigenen Runner
-    env:
-      NUXT_PORT: 3019
-
+    runs-on: ubuntu-latest
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Install dependencies and build
-      run: |
-        cd frontend
-        npm install
-        npm run build
-
-    - name: Start the application
-      run: |
-        cd frontend
-        node .output/server/index.mjs
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+      
+    - name: Build Docker images
+      run: docker-compose -f docker-compose.yml build
+      
+    - name: Deploy to server
+      run: docker-compose -f docker-compose.yml up -d
