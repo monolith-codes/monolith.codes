@@ -28,10 +28,7 @@ jobs:
       
     - name: Fetch dotenv-vault decryption key
       id: dotenv_key
-      run: |
-        export DOTENV_KEY=$(npx dotenv-vault@latest keys production)
-        echo DOTENV_KEY
-      
+      run: npx dotenv-vault@latest keys production
     - name: Decrypt .env.vault file
       run: echo "$DOTENV_KEY" | npx dotenv-vault@latest decrypt .env.vault > .env
 
