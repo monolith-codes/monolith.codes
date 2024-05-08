@@ -9,6 +9,9 @@ jobs:
   postgres_job:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Build Docker Image
+        uses: ./postgres-action
         id: postgres
-        uses: actions/postgres-action@v2
