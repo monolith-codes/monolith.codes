@@ -41,35 +41,6 @@ jobs:
         DB_DATABASE: ${{ secrets.DB_DATABASE }}
         DB_PORT: ${{ secrets.DB_PORT }}
 
-    
     - name: Wait for PostgreSQL to start
       run: dockerize -wait tcp://localhost:${{ secrets.DB_PORT }} -timeout 1m
-
-    - name: Build Backend Docker image
-      run: |
-        cd ./backend
-        docker build -t backend .
-      env:
-        DATABASE_URL: postgres://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@localhost:${{ secrets.DB_PORT }}/${{ secrets.DB_DATABASE }}
-
-     - name: Run Backend container
-      run: |
-        cd ./backend
-        docker run -d -p 4000:1909 --name backend backend
-      env:
-        DATABASE_URL: postgres://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@localhost:${{ secrets.DB_PORT }}/${{ secrets.DB_DATABASE }}
-
-    - name: Prisma migration deploy
-      run: |
-        cd ./backend
-        docker exec backend npx prisma migrate deploy
-      env:
-        DATABASE_URL: postgres://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@localhost:${{ secrets.DB_PORT }}/${{ secrets.DB_DATABASE }}
-
-    - name: Start Backend server
-      run: |
-        cd ./backend
-        docker exec backend npm run start
-      env:
-        DATABASE_URL: postgres://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@localhost:${{ secrets.DB_PORT }}/${{ secrets.DB_DATABASE }}
 
