@@ -14,5 +14,5 @@ jobs:
 
       - name: Build Docker Image
         id: postgres
-        uses: actions/hello-world-docker-action@v2
+        uses: actions/postgres@v2
         run: docker build -t postgres .
