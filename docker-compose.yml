@@ -6,9 +6,9 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     environment:
-      - NITRO_PORT=3019
+      - NITRO_PORT
     ports:
-      - 3019:3019
+      - ${NITRO_PORT}:${NITRO_PORT}
     depends_on:
       - backend
     command: node .output/server/index.mjs
