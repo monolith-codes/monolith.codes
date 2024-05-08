@@ -27,13 +27,14 @@ jobs:
         npm install dotenv-vault
       
     - name: Fetch dotenv-vault decryption key
-      id: dotenv_key
-      run: npx dotenv-vault@latest keys production
-    - name: Decrypt .env.vault file
-      run: echo "$DOTENV_KEY" | npx dotenv-vault@latest decrypt .env.vault > .env
+      run: npx dotenv-vault@latest keys ci
 
     - name: Build Docker images
       run: docker-compose -f docker-compose.yml --env-file .env build
+      env:
+        DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
       
     - name: Deploy to server
       run: docker-compose -f docker-compose.yml --env-file .env up -d
+      env:
+        DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
