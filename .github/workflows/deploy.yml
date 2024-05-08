@@ -8,16 +8,20 @@ on:
 jobs:
   postgres_job:
     runs-on: ubuntu-latest
+    env:
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_DATABASE: ${{ secrets.DB_DATABASE }}
+      DB_PORT: ${{ secrets.DB_PORT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Build Docker Image
-        id: postgres
-        uses: ./postgres-action
         with:
           env:
-            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-            DB_USERNAME: ${{ secrets.DB_USERNAME }}
-            DB_DATABASE: ${{ secrets.DB_DATABASE }}
-            DB_PORT: ${{ secrets.DB_PORT }}
+            DB_PASSWORD: ${{ env.DB_PASSWORD }}
+            DB_USERNAME: ${{ env.DB_USERNAME }}
+            DB_DATABASE: ${{ env.DB_DATABASE }}
+            DB_PORT: ${{ env.DB_PORT }}
+      - name: Build Docker Image
+        uses: ./postgres-action
+        id: postgres
