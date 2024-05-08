@@ -20,7 +20,7 @@ jobs:
         buildkitd-flags: --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host
         install: false
         use: true
-      
+
     - name: Build PostgreSQL Docker image
       run: |
         cd ./postgres
