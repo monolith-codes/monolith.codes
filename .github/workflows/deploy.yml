@@ -6,12 +6,9 @@ on:
       - main
 
 jobs:
-  deploy:
+  postgres_job:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
       - name: Build Docker Image
         id: postgres
-        uses: actions/postgres@v2
+        uses: actions/postgres-action@v2
