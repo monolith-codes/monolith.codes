@@ -13,11 +13,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Docker Image
+        id: postgres
         uses: ./postgres-action
-                with:
+        with:
           env:
             DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
             DB_USERNAME: ${{ secrets.DB_USERNAME }}
             DB_DATABASE: ${{ secrets.DB_DATABASE }}
             DB_PORT: ${{ secrets.DB_PORT }}
-        id: postgres
