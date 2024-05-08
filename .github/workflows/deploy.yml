@@ -16,12 +16,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          env:
-            DB_PASSWORD: ${{ env.DB_PASSWORD }}
-            DB_USERNAME: ${{ env.DB_USERNAME }}
-            DB_DATABASE: ${{ env.DB_DATABASE }}
-            DB_PORT: ${{ env.DB_PORT }}
+        env:
+          DB_PASSWORD: ${{ env.DB_PASSWORD }}
+          DB_USERNAME: ${{ env.DB_USERNAME }}
+          DB_DATABASE: ${{ env.DB_DATABASE }}
+          DB_PORT: ${{ env.DB_PORT }}
       - name: Build Docker Image
         uses: ./postgres-action
         id: postgres
