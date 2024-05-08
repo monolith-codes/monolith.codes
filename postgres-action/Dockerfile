@@ -2,10 +2,6 @@
 FROM postgres:13
 
 # Set environment variables from.env file
-ENV POSTGRES_DB
-ENV POSTGRES_USER
-ENV POSTGRES_PASSWORD
-ENV DB_PORT
 
 # Expose PostgreSQL port
 EXPOSE $DB_PORT
