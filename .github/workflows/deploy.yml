@@ -22,7 +22,7 @@ jobs:
         use: true
       
     - name: Build Docker images
-      run: docker-compose build --no-cache
+      run: docker-compose build
       env:
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         DB_USERNAME: ${{ secrets.DB_USERNAME }}
