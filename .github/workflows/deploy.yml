@@ -23,6 +23,7 @@ jobs:
         run: |
           ls
           pwd
+          whoami
 
       - name: Run Docker Image
         run: |
