@@ -5,10 +5,10 @@ runs:
   image: 'Dockerfile'
   args:
     - -e
-    - POSTGRES_DB=${{ secrets.DB_NAME }}
+    - POSTGRES_DB=$POSTGRES_DB
     - -e
-    - POSTGRES_USER=${{ secrets.DB_USERNAME }}
+    - POSTGRES_USER=$POSTGRES_USER
     - -e
-    - POSTGRES_PASSWORD=${{ secrets.DB_PASSWORD }}
+    - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
     - -e
-    - DB_PORT=${{ secrets.DB_PORT }}
+    - DB_PORT=$DB_PORT
