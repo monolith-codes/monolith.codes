@@ -33,10 +33,8 @@ jobs:
         echo "::set-output name=dotenv_key::$DOTENV_KEY"
       
     - name: Decrypt .env.vault file
-      run: |
-        echo "$DOTENV_KEY" | npx dotenv-vault@latest decrypt .env.vault .env
-        chmod 600 .env
-      
+      run: echo "$DOTENV_KEY" | npx dotenv-vault@latest decrypt .env.vault > .env
+
     - name: Build Docker images
       run: docker-compose -f docker-compose.yml --env-file .env build
       
