@@ -4,11 +4,10 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY prisma/schema.prisma ./prisma/schema.prisma
 COPY tsconfig.json ./
-
-
 RUN npm install --production
 COPY . .
 RUN npm run build
+
 FROM node:21-alpine as production
 WORKDIR /usr/src/app
 COPY tsconfig.json ./

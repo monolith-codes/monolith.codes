@@ -21,16 +21,16 @@ jobs:
         install: false
         use: true
       
-    - name: Build Docker images
-      run: docker-compose -f docker-compose.yml build
+    - name: Build PostgreSQL Docker image
+      run: docker build -t my-postgres .
       env:
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         DB_USERNAME: ${{ secrets.DB_USERNAME }}
         DB_DATABASE: ${{ secrets.DB_DATABASE }}
         DB_PORT: ${{ secrets.DB_PORT }}
 
-    - name: Deploy to server
-      run: docker compose -f docker-compose.yml up
+    - name: Run PostgreSQL container
+      run: docker run -d -p ${{ secrets.DB_PORT}}:5432 --name my-postgres my-postgres
       env:
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         DB_USERNAME: ${{ secrets.DB_USERNAME }}
