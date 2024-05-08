@@ -25,7 +25,13 @@ jobs:
         buildkitd-flags: --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host
         install: false
         use: true
-      
+        
+    - name: Load environment variables from .env file
+      run: |
+        set -o allexport
+        source .env
+        set +o allexport
+
     - name: Build Docker images
       run: docker-compose -f docker-compose.yml build
       
