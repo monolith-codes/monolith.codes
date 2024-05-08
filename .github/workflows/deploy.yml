@@ -22,7 +22,9 @@ jobs:
         use: true
       
     - name: Install dotenv-vault
-      run: npm install dotenv
+      run: |
+        npm install dotenv
+        npm install dotenv-vault
       
     - name: Fetch dotenv-vault decryption key
       id: dotenv_key
