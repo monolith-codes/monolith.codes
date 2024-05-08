@@ -22,7 +22,9 @@ jobs:
         use: true
       
     - name: Build PostgreSQL Docker image
-      run: docker build -t my-postgres .
+      run: |
+        cd ./postgres
+        docker build -t postgres .
       env:
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         DB_USERNAME: ${{ secrets.DB_USERNAME }}
