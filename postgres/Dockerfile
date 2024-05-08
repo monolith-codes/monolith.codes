@@ -1,17 +1,21 @@
 # Use the official PostgreSQL image from Docker Hub
-FROM postgres
+FROM postgres:13
 
-# Set environment variables
-ENV POSTGRES_DB=${DB_DATABASE} \
-    POSTGRES_USER=${DB_USERNAME} \
-    POSTGRES_PASSWORD=${DB_PASSWORD}
+# Set environment variables from.env file
+ENV POSTGRES_DB
+ENV POSTGRES_USER
+ENV POSTGRES_PASSWORD
+ENV DB_PORT
 
 # Expose PostgreSQL port
-EXPOSE ${DB_PORT}
+EXPOSE $DB_PORT
 
 # Healthcheck to ensure PostgreSQL is ready to accept connections
 HEALTHCHECK --interval=10s --retries=5 \
-    CMD pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}
+    CMD pg_isready -U $POSTGRES_USER -d $POSTGRES_DB
+
+# Set working directory
+WORKDIR /app
 
 # Run PostgreSQL service with the specified configurations
 CMD ["postgres"]
