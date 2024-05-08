@@ -23,13 +23,13 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./path/to/Dockerfile
+          file: ./postgres/Dockerfile
           push: false # Set to true if you need to push the image
 
       - name: Deploy PostgreSQL Container
         uses: docker/metadata-action@v3
         with:
-          images: username/postgres:latest # Replace with your Docker image
+          images: maurice/postgres:latest # Replace with your Docker image
           args: >
             -e POSTGRES_PASSWORD=${{ env.DB_PASSWORD }}
             -e POSTGRES_USER=${{ env.DB_USERNAME }}
