@@ -3,12 +3,8 @@ description: Postgres docker container
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - -e
-    - POSTGRES_DB=$POSTGRES_DB
-    - -e
-    - POSTGRES_USER=$POSTGRES_USER
-    - -e
-    - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-    - -e
-    - DB_PORT=$DB_PORT
+  env:
+    POSTGRES_DB: $POSTGRES_DB
+    POSTGRES_USER: $POSTGRES_USER
+    POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    DB_PORT: $DB_PORT
