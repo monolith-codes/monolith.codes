@@ -8,16 +8,16 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
       - name: Build Docker Image
-        using: docker
-        image: postgres/Dockerfile
-        args:
-          - DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-          - DB_USERNAME=${{ secrets.DB_USERNAME }}
-          - DB_DATABASE=${{ secrets.DB_DATABASE }}
-          - DB_PORT=${{ secrets.DB_PORT }}
+        runs:
+          using: docker
+          image: postgres/Dockerfile
+          args:
+            - DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            - DB_USERNAME=${{ secrets.DB_USERNAME }}
+            - DB_DATABASE=${{ secrets.DB_DATABASE }}
+            - DB_PORT=${{ secrets.DB_PORT }}
