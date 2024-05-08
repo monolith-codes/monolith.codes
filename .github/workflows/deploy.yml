@@ -13,7 +13,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Docker Image
-        description: Deploy a PostgreSQL container
         run:
           using: docker
           image: postgres/Dockerfile
