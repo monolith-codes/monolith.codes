@@ -30,7 +30,7 @@ jobs:
         DB_PORT: ${{ secrets.DB_PORT }}
 
     - name: Deploy to server
-      run: docker compose -f docker-compose.yml up"
+      run: docker compose -f docker-compose.yml up
       env:
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         DB_USERNAME: ${{ secrets.DB_USERNAME }}
