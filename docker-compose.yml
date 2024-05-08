@@ -5,23 +5,25 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    environment:
+      - NITRO_PORT=3019
     ports:
-      - 3000:3000
+      - 3019:3019
     depends_on:
       - backend
-    command: npm start
+    command: node .output/server/index.mjs
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - 4000:4000
+      - 4000:1909
     depends_on:
       - postgres
     environment:
       DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@postgres:${DB_PORT}/${DB_DATABASE}
-    command: sh -c "npx prisma migrate deploy --name init && npm start"
+    command: sh -c "npx prisma migrate deploy && npm run start"
 
   postgres:
     image: postgres

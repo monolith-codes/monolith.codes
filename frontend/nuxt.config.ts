@@ -2,9 +2,6 @@
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 
 export default defineNuxtConfig({
-  server: {
-    port: process.env.NUXT_PORT || 3000 // Use the environment variable or default to 3000
-  },
   app: {},
   build: {
     transpile: ['vuetify']
