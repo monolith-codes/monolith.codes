@@ -21,10 +21,18 @@ jobs:
         install: false
         use: true
       
-    - name: Load environment variables from dotenv-vault
+    - name: Install dotenv-vault
+      run: npm install dotenv
+      
+    - name: Fetch dotenv-vault decryption key
+      id: dotenv_key
       run: |
-        npm install -g dotenv-vault
-        dotenv-vault -s .env.vault -t .env
+        export DOTENV_KEY=$(npx dotenv-vault@latest keys production)
+        echo "::set-output name=dotenv_key::$DOTENV_KEY"
+      
+    - name: Decrypt .env.vault file
+      run: |
+        echo "$DOTENV_KEY" | npx dotenv-vault@latest decrypt .env.vault .env
         chmod 600 .env
       
     - name: Build Docker images
