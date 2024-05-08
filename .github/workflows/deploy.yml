@@ -22,11 +22,11 @@ jobs:
         use: true
       
     - name: Build Docker images
-      run: docker-compose -f docker-compose.yml
+      run: docker-compose -f docker-compose.yml build
       env:
         DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
       
     - name: Deploy to server
-      run: docker-compose -f docker-compose.yml
+      run: docker compose -f docker-compose.yml
       env:
         DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
