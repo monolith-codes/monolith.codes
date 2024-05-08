@@ -34,4 +34,4 @@ jobs:
     - name: Run PostgreSQL container
       run: |
         cd ./postgres
-        docker run -d -p ${{ secrets.DB_PORT}}:5432 --name postgres -e POSTGRES_PASSWORD=${{ secrets.DB_PASSWORD }} -e POSTGRES_USER=${{ secrets.DB_USERNAME }} -e POSTGRES_DB=${{ secrets.DB_DATABASE }} postgres
+        docker run -d -p ${{ secrets.DB_PORT}}:5432 --name postgres --restart always -e POSTGRES_PASSWORD=${{ secrets.DB_PASSWORD }} -e POSTGRES_USER=${{ secrets.DB_USERNAME }} -e POSTGRES_DB=${{ secrets.DB_DATABASE }} postgres
