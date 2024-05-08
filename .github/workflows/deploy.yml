@@ -22,8 +22,8 @@ jobs:
         use: true
   
     - name: Export dotenv key
-      run: export DOTENV_KEY="${{ secrets.DOTENV_KEY }}"
-
+      run: echo "Secret value: ${{ secrets.DOTENV_KEY }}"
+      
     - name: Build Docker images
       run: docker compose build 
       
