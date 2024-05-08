@@ -20,19 +20,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Docker Image
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./postgres/Dockerfile
-          push: false # Set to true if you need to push the image
+        run: |
+          cd ./postgres
+          docker build -t postgres postgres
 
-      - name: Deploy PostgreSQL Container
-        uses: docker/metadata-action@v3
-        with:
-          images: maurice/postgres:latest # Replace with your Docker image
-          args: >
-            -e POSTGRES_PASSWORD=${{ env.DB_PASSWORD }}
-            -e POSTGRES_USER=${{ env.DB_USERNAME }}
-            -e POSTGRES_DB=${{ env.DB_DATABASE }}
-            -p ${{ env.DB_PORT }}:5432
-            -d postgres
+      - name: Run Docker Image
+        run: |
+          cd ./postgres
+          docker run -d --name postgres -p 5432:5432 postgres
