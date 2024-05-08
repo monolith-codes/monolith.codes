@@ -30,7 +30,7 @@ jobs:
       id: dotenv_key
       run: |
         export DOTENV_KEY=$(npx dotenv-vault@latest keys production)
-        echo "::set-output name=dotenv_key::$DOTENV_KEY"
+        echo DOTENV_KEY
       
     - name: Decrypt .env.vault file
       run: echo "$DOTENV_KEY" | npx dotenv-vault@latest decrypt .env.vault > .env
