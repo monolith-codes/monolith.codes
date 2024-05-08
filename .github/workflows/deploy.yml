@@ -55,21 +55,21 @@ jobs:
      - name: Run Backend container
       run: |
         cd ./backend
-        docker run -d -p 4000:1909 --name my-backend my-backend
+        docker run -d -p 4000:1909 --name backend backend
       env:
         DATABASE_URL: postgres://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@localhost:${{ secrets.DB_PORT }}/${{ secrets.DB_DATABASE }}
 
     - name: Prisma migration deploy
       run: |
         cd ./backend
-        docker exec my-backend npx prisma migrate deploy
+        docker exec backend npx prisma migrate deploy
       env:
         DATABASE_URL: postgres://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@localhost:${{ secrets.DB_PORT }}/${{ secrets.DB_DATABASE }}
 
     - name: Start Backend server
       run: |
         cd ./backend
-        docker exec my-backend npm run start
+        docker exec backend npm run start
       env:
         DATABASE_URL: postgres://${{ secrets.DB_USERNAME }}:${{ secrets.DB_PASSWORD }}@localhost:${{ secrets.DB_PORT }}/${{ secrets.DB_DATABASE }}
 
