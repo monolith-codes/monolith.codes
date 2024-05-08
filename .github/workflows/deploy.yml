@@ -15,7 +15,7 @@ jobs:
         uses: ./postgres-action
         id: postgres
         env:
-          DB_PASSWORD: ${{ env.DB_PASSWORD }}
-          DB_USERNAME: ${{ env.DB_USERNAME }}
-          DB_DATABASE: ${{ env.DB_DATABASE }}
-          DB_PORT: ${{ env.DB_PORT }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_PORT: ${{ secrets.DB_PORT }}
