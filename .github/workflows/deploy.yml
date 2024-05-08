@@ -21,9 +21,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          ls
-          pwd
-          whoami
+          cd postgres
 
       - name: Run Docker Image
         run: |
