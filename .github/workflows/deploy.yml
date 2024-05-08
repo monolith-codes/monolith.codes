@@ -21,20 +21,12 @@ jobs:
         install: false
         use: true
       
-    - name: Install dotenv-vault
-      run: |
-        npm install dotenv
-        npm install dotenv-vault
-      
-    - name: Fetch dotenv-vault decryption key
-      run: npx dotenv-vault@latest keys ci
-
     - name: Build Docker images
-      run: docker-compose -f docker-compose.yml --env-file .env build
+      run: docker-compose -f docker-compose.yml
       env:
         DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
       
     - name: Deploy to server
-      run: docker-compose -f docker-compose.yml --env-file .env up -d
+      run: docker-compose -f docker-compose.yml
       env:
         DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
