@@ -15,4 +15,3 @@ jobs:
       - name: Build Docker Image
         id: postgres
         uses: actions/postgres@v2
-        run: docker build -t postgres .
