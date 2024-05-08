@@ -26,6 +26,10 @@ jobs:
       
     - name: Build Docker images
       run: docker compose build 
+      env:
+          DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
       
     - name: Deploy to server
       run: docker compose -f docker-compose.yml up"
+      env:
+          DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
