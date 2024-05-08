@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: debian-bullseye-lts
 
     env:
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
