@@ -11,6 +11,7 @@ COPY . .
 RUN npm run build
 FROM node:21-alpine as production
 WORKDIR /usr/src/app
+COPY tsconfig.json ./
 COPY package*.json ./
 RUN npm ci --production
 COPY --from=build /usr/src/app/dist ./dist
