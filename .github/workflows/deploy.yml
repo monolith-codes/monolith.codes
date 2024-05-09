@@ -15,7 +15,7 @@ jobs:
       - name: Build Docker Image
         uses: ./postgres-action
         with:
-          secrets:
+          secrets: |
             "db_password=${{ secrets.DB_PASSWORD }}"
             "db_username=${{ secrets.DB_USERNAME }}"
             "db_database=${{ secrets.DB_DATABASE }}"
