@@ -14,3 +14,6 @@ jobs:
       run: |
         export DOCKER_PW=$DOCKER_PASSWORD
         echo $DOCKER_PW |docker login -u $DOCKER_USER --password-stdin
+    - name: docker build app
+      run: |
+        docker build ./fronted -t monolith.codes/frontend:latest
