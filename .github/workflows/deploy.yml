@@ -12,4 +12,5 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
-        docker login -u $DOCKER_USER --password-stdin $DOCKER_PASSWORD
+        export DOCKER_PW=$DOCKER_PASSWORD
+        echo $DOCKER_PW |docker login -u $DOCKER_USER --password-stdin
