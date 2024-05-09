@@ -1,6 +1,9 @@
 # Use the official PostgreSQL image from Docker Hub
 FROM postgres:13
 
+RUN echo "AMENA"
+
+
 # Set environment variables from.env file
 
 ENV POSTGRES_DB=$POSTGRES_DB
