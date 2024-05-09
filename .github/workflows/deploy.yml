@@ -11,12 +11,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Build Docker Image
         uses: ./postgres-action
         with:
-        secrets:
-          "db_password=${{ secrets.DB_PASSWORD }}"
-          "db_username=${{ secrets.DB_USERNAME }}"
-          "db_database=${{ secrets.DB_DATABASE }}"
-          "db_port=${{ secrets.DB_PORT }}"
+          secrets:
+            "db_password=${{ secrets.DB_PASSWORD }}"
+            "db_username=${{ secrets.DB_USERNAME }}"
+            "db_database=${{ secrets.DB_DATABASE }}"
+            "db_port=${{ secrets.DB_PORT }}"
         id: postgres
