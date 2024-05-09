@@ -13,13 +13,21 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
         export DOCKER_PW=$DOCKER_PASSWORD
-        echo $DOCKER_PW |docker login -u $DOCKER_USER --password-stdin
+        echo $DOCKER_PW |docker login -u $DOCKER_USER --password-stdin docker.io
     - name: docker build postgres
       run: |
         docker build postgres -t monolith_codes-postgres:latest
     - name: docker build backend
       run: |
         docker build backend -t monolith.codes/backend:latest
-    - name: docker push
-      run: |
-        docker push monolith_codes-postgres:latest
+    - name: SSH and deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        password: ${{ secrets.SERVER_PASSWORD }}
+        port: ${{ secrets.SERVER_PORT }}
+        script: |
+          docker pull monolith_codes-postgres:latest
+          docker pull monolith.codes/backend:latest
+          docker-compose up -d
