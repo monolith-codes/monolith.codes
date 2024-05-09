@@ -4,7 +4,7 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ POSTGRES_DB }}
-    - ${{ POSTGRES_USER }}
-    - ${{ POSTGRES_PASSWORD }}
-    - ${{ DB_PORT }}
+    - ${{ env.POSTGRES_DB }}
+    - ${{ env.POSTGRES_USER }}
+    - ${{ env.POSTGRES_PASSWORD }}
+    - ${{ env.DB_PORT }}
