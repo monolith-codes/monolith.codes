@@ -8,6 +8,11 @@ on:
 jobs:
   postgres_job:
     runs-on: ubuntu-latest
+    env:
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_DATABASE: ${{ secrets.DB_DATABASE }}
+      DB_PORT: ${{ secrets.DB_PORT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -15,7 +20,7 @@ jobs:
         uses: ./postgres-action
         id: postgres
         env:
-          POSTGRES_DB: ${{ secrets.DB_PASSWORD }}
-          POSTGRES_USER: ${{ secrets.DB_USERNAME }}
-          POSTGRES_PASSWORD: ${{ secrets.DB_DATABASE }}
-          DB_PORT: ${{ secrets.DB_PORT }}
+          POSTGRES_DB: ${{ events.DB_PASSWORD }}
+          POSTGRES_USER: ${{ events.DB_USERNAME }}
+          POSTGRES_PASSWORD: ${{ events.DB_DATABASE }}
+          DB_PORT: ${{ events.DB_PORT }}
