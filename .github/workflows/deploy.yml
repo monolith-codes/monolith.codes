@@ -16,10 +16,10 @@ jobs:
         echo $DOCKER_PW |docker login -u $DOCKER_USER --password-stdin
     - name: docker build postgres
       run: |
-        docker build postgres -t monolith.codes/postgres:latest
+        docker build postgres -t monolith_codes-postgres:latest
     - name: docker build backend
       run: |
         docker build backend -t monolith.codes/backend:latest
     - name: docker push
       run: |
-        docker push monolith.codes/postgres:latest
+        docker pushmonolith_codes-postgres:latest
