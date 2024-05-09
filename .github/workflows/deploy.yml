@@ -5,21 +5,15 @@ jobs:
   # Label of the container job
   build:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     steps:
     - uses: actions/checkout@v4
-    - name: docker login
-      env:
-        DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: |
-        export DOCKER_PW=$DOCKER_PASSWORD
-        echo $DOCKER_PW |docker login -u $DOCKER_USER --password-stdin docker.io
-    - name: docker build postgres
-      run: |
-        docker build postgres -t monolith_codes-postgres:latest
-    - name: docker build backend
-      run: |
-        docker build backend -t monolith.codes/backend:latest
-    - name: docker push
-      run: |
-        docker push monolith_codes-postgres:latest
+    - uses: docker/login@v2
+    - name: Build and push PostgreSQL image
+      uses: docker/build-push-action@v2
+      with:
+        context: postgres
+        push: true
+        tags: monolith_codes-postgres:latest
