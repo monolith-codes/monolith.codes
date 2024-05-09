@@ -21,7 +21,7 @@ jobs:
         id: postgres
         with:
           secrets:
-            DB_PASSWORD: ${{ events.DB_PASSWORD }}
-            DB_USERNAME: ${{ events.DB_USERNAME }}
-            DB_DATABASE: ${{ events.DB_DATABASE }}
-            DB_PORT: ${{ events.DB_PORT }}
+            DB_PASSWORD: ${{ env.DB_PASSWORD }}
+            DB_USERNAME: ${{ env.DB_USERNAME }}
+            DB_DATABASE: ${{ env.DB_DATABASE }}
+            DB_PORT: ${{ env.DB_PORT }}
