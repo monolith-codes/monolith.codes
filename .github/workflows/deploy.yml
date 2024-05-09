@@ -1,12 +1,12 @@
 name: PostgreSQL service example
-on: push
+on: [push]
 
 jobs:
   # Label of the container job
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: action/checkout@v4
+    - uses: actions/checkout@v4
     - name: docker login
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
