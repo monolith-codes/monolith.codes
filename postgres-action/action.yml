@@ -1,10 +1,26 @@
 name: Postgres
 description: Postgres docker container
+
+inputs:
+  db_password:
+    description: 'PostgreSQL password'
+    required: true
+  db_username:
+    description: 'PostgreSQL username'
+    required: true
+  db_database:
+    description: 'PostgreSQL database name'
+    required: true
+  db_port:
+    description: 'PostgreSQL port'
+    required: true
+
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
-    POSTGRES_DB: ${{ secrets.db_database }}
-    POSTGRES_USER: ${{ secrets.db_username }}
-    POSTGRES_PASSWORD: ${{ secrets.db_password }}
-    DB_PORT: ${{ secrets.db_port }}
+    POSTGRES_DB: ${{ inputs.db_database }}
+    POSTGRES_USER: ${{ inputs.db_username }}
+    POSTGRES_PASSWORD: ${{ inputs.db_password }}
+    DB_PORT: ${{ inputs.db_port }}
