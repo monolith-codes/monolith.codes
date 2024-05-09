@@ -6,10 +6,16 @@ RUN echo "AMENA"
 
 # Set environment variables from.env file
 
-ENV POSTGRES_DB=$POSTGRES_DB
-ENV POSTGRES_USER=$POSTGRES_USER
-ENV POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-ENV DB_PORT=$DB_PORT
+ENV DB_USERNAME=${DB_USERNAME}
+ENV DB_PASSWORD=${DB_PASSWORD}
+ENV DB_NAME=${DB_NAME}
+ENV DB_PORT=${DB_PORT}
+
+# Print environment variables to verify they are set
+RUN echo "DB_USERNAME: $DB_USERNAME"
+RUN echo "DB_PASSWORD: $DB_PASSWORD"
+RUN echo "DB_NAME: $DB_NAME"
+RUN echo "DB_PORT: $DB_PORT"
 
 
 # Healthcheck to ensure PostgreSQL is ready to accept connections
