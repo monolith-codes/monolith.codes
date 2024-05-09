@@ -1,6 +1,3 @@
-name: PostgreSQL service example
-on: push
-
 jobs:
   # Label of the container job
   container-job:
