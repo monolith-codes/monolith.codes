@@ -16,7 +16,7 @@ jobs:
         id: postgres
         with:
           secrets:
-            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-            DB_USERNAME: ${{ secrets.DB_USERNAME }}
-            DB_DATABASE: ${{ secrets.DB_DATABASE }}
-            DB_PORT: ${{ secrets.DB_PORT }}
+            "db_password=${{ secrets.DB_PASSWORD }}"  
+            "db_username"=${{ secrets.DB_USERNAME }}
+            "db_database"=${{ secrets.DB_DATABASE }}
+            "db_port"=${{ secrets.DB_PORT }}
