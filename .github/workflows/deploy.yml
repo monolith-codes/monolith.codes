@@ -22,5 +22,5 @@ jobs:
         docker build backend -t monolith.codes/backend:latest
     - name: docker push
       run: |
-        docker push monolith.codes/frontend:latest
+        docker push monolith.codes/postgres:latest
         docker push monolith.codes/backend:latest
