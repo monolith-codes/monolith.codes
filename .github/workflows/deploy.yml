@@ -15,7 +15,7 @@ jobs:
         id: postgres
         uses: ./postgres-action
         with:
-            db_password: ${{ secrets.DB_PASSWORD }}"
-            db_username: ${{ secrets.DB_USERNAME }}"
-            db_database: ${{ secrets.DB_DATABASE }}"
+            db_password: ${{ secrets.DB_PASSWORD }}
+            db_username: ${{ secrets.DB_USERNAME }}
+            db_database: ${{ secrets.DB_DATABASE }}
             db_port: ${{ secrets.DB_PORT }}"
