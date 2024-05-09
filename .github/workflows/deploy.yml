@@ -19,8 +19,9 @@ jobs:
       - name: Build Docker Image
         uses: ./postgres-action
         id: postgres
-        secrets:
-          DB_PASSWORD: ${{ events.DB_PASSWORD }}
-          DB_USERNAME: ${{ events.DB_USERNAME }}
-          DB_DATABASE: ${{ events.DB_DATABASE }}
-          DB_PORT: ${{ events.DB_PORT }}
+        with:
+          secrets:
+            DB_PASSWORD: ${{ events.DB_PASSWORD }}
+            DB_USERNAME: ${{ events.DB_USERNAME }}
+            DB_DATABASE: ${{ events.DB_DATABASE }}
+            DB_PORT: ${{ events.DB_PORT }}
