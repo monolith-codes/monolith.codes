@@ -1,5 +1,5 @@
 # Production stage
-FROM node:22-alpine AS build
+FROM node:21-alpine AS build
 
 ## Set working directory
 WORKDIR /usr/src/app/frontend
@@ -14,7 +14,7 @@ COPY . .
 
 RUN npm run build
 
-FROM node:22-alpine AS prod
+FROM node:21-alpine AS prod
 
 WORKDIR /usr/src/app/frontend
 
