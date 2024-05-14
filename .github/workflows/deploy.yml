@@ -12,6 +12,9 @@ jobs:
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
+      DEPLOY_USERNAME: ${{ secrets.DEPLOY_USERNAME }}
+      DEPLOY_PASSWORD: ${{ secrets.DEPLOY_PASSWORD }}
 
     steps:
     - name: Checkout code
@@ -24,21 +27,14 @@ jobs:
       run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 
     - name: Build Docker images using Docker Compose
-      run: docker compose -f docker-compose.yml build
+      run: docker-compose -f docker-compose.yml build
 
     - name: Push Docker images using Docker Compose
-      run: docker compose -f docker-compose.yml push
+      run: docker-compose -f docker-compose.yml push
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
-
-    env:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER }}
-      DEPLOY_USERNAME: ${{ secrets.DEPLOY_USERNAME }}
-      DEPLOY_PASSWORD: ${{ secrets.DEPLOY_PASSWORD }}
 
     steps:
     - name: Checkout code
@@ -47,39 +43,10 @@ jobs:
     - name: Stop and remove the running container
       uses: appleboy/ssh-action@v0.1.6
       with:
-        host: ${{ env.DEPLOY_SERVER }}
-        username: ${{ env.DEPLOY_USERNAME }}
-        password: ${{ env.DEPLOY_PASSWORD }}
-        script: docker compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml down
-
-    - name: Remove the old image
-      uses: appleboy/ssh-action@v0.1.6
-      with:
-        host: ${{ env.DEPLOY_SERVER }}
-        username: ${{ env.DEPLOY_USERNAME }}
-        password: ${{ env.DEPLOY_PASSWORD }}
-        script: docker rmi ${DOCKER_USERNAME}/monolith-codes-frontend:latest || true
-
-    - name: Clean up unused Docker objects
-      uses: appleboy/ssh-action@v0.1.6
-      with:
-        host: ${{ env.DEPLOY_SERVER }}
-        username: ${{ env.DEPLOY_USERNAME }}
-        password: ${{ env.DEPLOY_PASSWORD }}
-        script: docker system prune -f || true
-
-    - name: Pull the latest image
-      uses: appleboy/ssh-action@v0.1.6
-      with:
-        host: ${{ env.DEPLOY_SERVER }}
-        username: ${{ env.DEPLOY_USERNAME }}
-        password: ${{ env.DEPLOY_PASSWORD }}
-        script: docker pull ${DOCKER_USERNAME}/monolith-codes-frontend:latest
-
-    - name: Deploy using Docker Compose
-      uses: appleboy/ssh-action@v0.1.6
-      with:
-        host: ${{ env.DEPLOY_SERVER }}
-        username: ${{ env.DEPLOY_USERNAME }}
-        password: ${{ env.DEPLOY_PASSWORD }}
-        script: docker compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml up -d
+        host: ${{ secrets.DEPLOY_SERVER }}
+        username: ${{ secrets.DEPLOY_USERNAME }}
+        password: ${{ secrets.DEPLOY_PASSWORD }}
+        script: |
+          docker-compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml down
+          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker-compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml pull
+          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker-compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml up -d
