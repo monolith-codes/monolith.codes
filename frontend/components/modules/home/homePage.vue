@@ -10,7 +10,7 @@
       />
 
       <div class="homePageHeadingWrapper">
-        <h1 class="homePageHeading">Hello im Monolith LOOOL</h1>
+        <h1 class="homePageHeading">Hello im Monolith</h1>
       </div>
     </div>
 
@@ -115,7 +115,7 @@ onMounted(() => {
 
     animate()
   }
-  startAnimation('homePageHeading', 'Hello im Monolith LOOOOL')
+  startAnimation('homePageHeading', 'Hello im Monolith')
 })
 </script>
 
