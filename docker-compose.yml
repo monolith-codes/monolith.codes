@@ -16,6 +16,21 @@ services:
       interval: 10s
       retries: 5
 
+  monolith-codes-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: ${DOCKER_USERNAME}/monolith-codes-backend:latest
+    container_name: monolith-codes-backend
+    depends_on:
+      monolith-codes-postgres:
+        condition: service_healthy
+    ports:
+      - 4000:4000
+    environment:
+      DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@monolith-codes-postgres:${DB_PORT}/${DB_DATABASE}
+    command: sh -c "npx prisma migrate deploy --name init && npm start"
+
   monolith-codes-frontend:
     build:
       context: ./frontend
@@ -26,6 +41,7 @@ services:
     depends_on:
       monolith-codes-postgres:
         condition: service_healthy
+      - monolith-codes-backend
     environment:
       - NITRO_PORT=3019
       - DB_HOST=postgres
