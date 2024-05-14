@@ -27,7 +27,7 @@ jobs:
       run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 
     - name: Build Docker images using Docker Compose
-      run: docker compose -f docker-compose.yml build
+      run: DB_DATABASE=${{ secrets.DB_DATABASE }} DB_USERNAME=${{ secrets.DB_USERNAME }} DB_PASSWORD=${{ secrets.DB_PASSWORD }} DB_PORT=${{ secrets.DB_PORT }} docker compose -f docker-compose.yml build
 
     - name: Push Docker images using Docker Compose
       run: docker compose -f docker-compose.yml push
