@@ -1,10 +1,13 @@
 version: "3.4"
 
 services:
-  frontend:
+  monolith-codes-frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    image: ${{ secrets.DOCKER_USERNAME }}/monolith-codes-frontend:latest
+    container_name: monolith-codes
+    restart: unless-stopped
     environment:
       - NITRO_PORT=3019
     ports:
