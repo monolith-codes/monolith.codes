@@ -39,8 +39,6 @@ services:
     container_name: monolith-codes-frontend
     restart: unless-stopped
     depends_on:
-      monolith-codes-postgres:
-        condition: service_healthy
       - monolith-codes-backend
     environment:
       - NITRO_PORT=3019
