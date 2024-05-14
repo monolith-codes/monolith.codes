@@ -27,10 +27,10 @@ jobs:
       run: echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 
     - name: Build Docker images using Docker Compose
-      run: docker-compose -f docker-compose.yml build
+      run: docker compose -f docker-compose.yml build
 
     - name: Push Docker images using Docker Compose
-      run: docker-compose -f docker-compose.yml push
+      run: docker compose -f docker-compose.yml push
 
   deploy:
     runs-on: ubuntu-latest
@@ -47,6 +47,6 @@ jobs:
         username: ${{ secrets.DEPLOY_USERNAME }}
         password: ${{ secrets.DEPLOY_PASSWORD }}
         script: |
-          docker-compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml down
+          docker compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml down
           DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker-compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml pull
           DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker-compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml up -d
