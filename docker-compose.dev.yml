@@ -1,9 +1,36 @@
 version: "3.4"
 
 services:
-  monolith-codes-postgres:
-    image: postgres:latest
-    container_name: postgres
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./frontend:/usr/src/frontend
+      - /usr/src/frontend/node_modules
+    ports:
+      - 3019:3019
+    depends_on:
+      - backend
+      - postgres
+    command: sh -c "rm -rf /tmp/nitro/worker-* && npm run dev"
+  backend:
+    build:
+      context: backend
+      target: build
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 4000:1909
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@postgres:${DB_PORT}/${DB_DATABASE}
+    command: sh -c "npx prisma migrate dev --name init && npm run dev"
+  postgres:
+    image: postgres
     restart: always
     environment:
       POSTGRES_DB: ${DB_DATABASE}
@@ -15,24 +42,3 @@ services:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"]
       interval: 10s
       retries: 5
-
-  monolith-codes-frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    image: ${DOCKER_USERNAME}/monolith-codes-frontend:latest
-    container_name: monolith-codes-frontend
-    restart: unless-stopped
-    depends_on:
-      monolith-codes-postgres:
-        condition: service_healthy
-    environment:
-      - NITRO_PORT=3019
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-    ports:
-      - 3019:3019
-    command: node .output/server/index.mjs
