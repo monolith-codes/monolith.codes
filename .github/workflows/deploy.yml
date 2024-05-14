@@ -58,9 +58,10 @@ jobs:
         username: ${{ secrets.DEPLOY_USERNAME }}
         password: ${{ secrets.DEPLOY_PASSWORD }}
         script: |
-          cd /home/maurice/MONOLITH/monolith.codes
+          cd ${{ secrets.DOCKER_PATH }}
           git fetch
           git pull
           docker compose down
           docker compose pull
+          docker compose build
           DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose up -d
