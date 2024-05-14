@@ -6,7 +6,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     image: ${DOCKER_USERNAME}/monolith-codes-frontend:latest
-    container_name: monolith-codes-frontend
+    container_name: monolithcodes/monolith-codes-frontend
     restart: unless-stopped
     environment:
       - NITRO_PORT=3019
