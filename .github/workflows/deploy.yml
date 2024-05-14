@@ -49,5 +49,5 @@ jobs:
         script: |
           cd /home/maurice/MONOLITH/monolith.codes
           docker compose down
-          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose pull
-          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose up -d
+          docker compose pull
+          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} DB_DATABASE=${{ secrets.DB_DATABASE }} DB_USERNAME=${{ secrets.DB_USERNAME }} DB_PASSWORD=${{ secrets.DB_PASSWORD }} DB_PORT=${{ secrets.DB_PORT }} docker compose up -d
