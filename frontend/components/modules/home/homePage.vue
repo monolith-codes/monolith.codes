@@ -8,47 +8,21 @@
         alt="Monolith Logo Animation"
         class="monolithLogoAnimation"
       />
-
       <div class="homePageHeadingWrapper">
-        <h1 class="homePageHeading">Hello im Monolith</h1>
+        <h1 class="homePageHeading">Hello, I'm Monolith</h1>
       </div>
     </div>
-
     <div class="homeWhoAmIWrapper"></div>
-
-    <!--v-col cols="12" md="4">
-      <v-card>
-        <template v-slot:title>This is a title</template>
-
-        <template v-slot:subtitle>This is a card subtitle</template>
-
-        <template v-slot:text>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,
-          ratione debitis quis est labore voluptatibus!
-        </template>
-      </v-card>
-    </v-col-->
-    <!--canvas id="bg" class="appWrapper bg-black" /-->
+    <div ref="threeContainer" class="appWrapper bg-black"></div>
   </div>
 </template>
 
 <script setup lang="ts">
 import * as THREE from 'three'
-import { onMounted } from 'vue'
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-import { OrbitControls } from 'three/examples/jsm/Addons.js'
-import { startAnimation } from '~/components/shared/helpers/promptText'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
-function handleResize(
-  renderer: THREE.WebGLRenderer,
-  camera: THREE.PerspectiveCamera
-) {
-  const aspect = window.innerWidth / (window.innerHeight - 65)
-  renderer.setPixelRatio(window.innerWidth / (window.innerHeight - 65))
-  renderer.setSize(window.innerWidth, window.innerHeight - 65)
-  camera.aspect = aspect
-  camera.updateProjectionMatrix() // Update the camera's projection matrix
-}
+const threeContainer = ref<HTMLDivElement | null>(null)
 
 onMounted(() => {
   const scene = new THREE.Scene()
@@ -59,63 +33,60 @@ onMounted(() => {
     1000
   )
 
-  const canvas = document.querySelector('#bg') as HTMLCanvasElement | null
-  if (canvas) {
-    const renderer = new THREE.WebGLRenderer({ canvas })
-    const loader = new GLTFLoader()
-    const controls = new OrbitControls(camera, renderer.domElement)
+  const renderer = new THREE.WebGLRenderer()
+  renderer.setSize(window.innerWidth, window.innerHeight - 65)
+  threeContainer.value?.appendChild(renderer.domElement)
 
-    renderer.setPixelRatio(window.innerWidth / (window.innerHeight - 65))
-    renderer.setSize(window.innerWidth, window.innerHeight - 65)
-    camera.position.setZ(8)
+  const loader = new GLTFLoader()
+  const controls = new OrbitControls(camera, renderer.domElement)
 
-    controls.enableRotate = true // Enable rotation
-    controls.enablePan = true // Enable panning
-    controls.minDistance = 0 // Set minimum zoom distance
-    controls.maxDistance = 100 // Set maximum zoom distance
+  camera.position.set(0, 0, 8)
 
-    loader.load(
-      '/models/mogelei2.glb',
-      function (gltf) {
-        if (gltf.scene) {
-          gltf.scene.traverse((child) => {
-            console.log(child)
-            if (child instanceof THREE.Group && child.name === 'Körper') {
-              child.traverse((childChild) => {
-                if (childChild instanceof THREE.Mesh) {
-                  childChild.material.wireframe = true
-                  scene.add(childChild)
-                }
-              })
-            }
-          })
-        } else {
-          console.error('Error: GLTF file does not contain a scene.')
-        }
-      },
-      undefined,
-      function (error) {
-        console.error('Error loading GLTF file:', error)
+  loader.load(
+    '/models/mogelei2.glb',
+    function (gltf) {
+      if (gltf.scene) {
+        gltf.scene.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            const material = child.material as THREE.MeshBasicMaterial
+            material.wireframe = true
+            scene.add(child)
+          }
+        })
+      } else {
+        console.error('Error: GLTF file does not contain a scene.')
       }
-    )
-    const ambientLight = new THREE.AmbientLight(0xffffff, 4.5) // color, intensity
-    scene.add(ambientLight)
-
-    window.addEventListener('resize', () => handleResize(renderer, camera))
-
-    function animate() {
-      requestAnimationFrame(animate)
-      //controls.update() // Update controls
-      scene.rotation.x += 0.0
-      scene.rotation.y += 0.0
-      scene.rotation.z += 0.0
-
-      renderer.render(scene, camera)
+    },
+    undefined,
+    function (error) {
+      console.error('Error loading GLTF file:', error)
     }
+  )
 
-    animate()
+  const ambientLight = new THREE.AmbientLight(0xffffff, 4.5)
+  scene.add(ambientLight)
+
+  function handleResize() {
+    const aspect = window.innerWidth / (window.innerHeight - 65)
+    renderer.setSize(window.innerWidth, window.innerHeight - 65)
+    camera.aspect = aspect
+    camera.updateProjectionMatrix()
   }
-  startAnimation('homePageHeading', 'Hello im Monolith')
+
+  window.addEventListener('resize', handleResize)
+
+  function animate() {
+    requestAnimationFrame(animate)
+    controls.update()
+    renderer.render(scene, camera)
+  }
+
+  animate()
+
+  onUnmounted(() => {
+    renderer.dispose()
+    scene.clear()
+  })
 })
 </script>
 
@@ -124,7 +95,6 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-
   width: 100%;
 }
 
