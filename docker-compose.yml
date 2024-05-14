@@ -3,7 +3,7 @@ version: "3.4"
 services:
   monolith-codes-postgres:
     image: postgres:latest
-    container_name: postgres
+    container_name: monolith-codes-postgres
     restart: always
     environment:
       POSTGRES_DB: ${DB_DATABASE}
