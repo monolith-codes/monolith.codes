@@ -27,7 +27,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/monolith_codes
+        tags: ${{ secrets.DOCKER_USERNAME }}/monolith_codes:latest
 
   deploy:
     runs-on: ubuntu-latest
