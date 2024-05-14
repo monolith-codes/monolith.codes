@@ -48,5 +48,5 @@ jobs:
         password: ${{ secrets.DEPLOY_PASSWORD }}
         script: |
           docker compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml down
-          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker-compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml pull
-          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker-compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml up -d
+          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml pull
+          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose -f /home/maurice/MONOLITH/monolith.codes/docker-compose.yml up -d
