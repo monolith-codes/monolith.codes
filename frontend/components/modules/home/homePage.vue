@@ -115,7 +115,7 @@ onMounted(() => {
 
     animate()
   }
-  startAnimation('homePageHeading', 'Hello im Monolith')
+  startAnimation('homePageHeading', 'Hello im Monolith LOOOOL')
 })
 </script>
 
