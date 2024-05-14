@@ -1,3 +1,6 @@
+version: "3.4"
+
+services:
   monolith-codes-postgres:
     image: postgres:latest
     container_name: postgres
@@ -12,3 +15,24 @@
       test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"]
       interval: 10s
       retries: 5
+
+  monolith-codes-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: ${DOCKER_USERNAME}/monolith-codes-frontend:latest
+    container_name: monolith-codes-frontend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - NITRO_PORT=3019
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 3019:3019
+    command: node .output/server/index.mjs
