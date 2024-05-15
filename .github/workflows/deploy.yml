@@ -59,6 +59,6 @@ jobs:
         password: ${{ secrets.DEPLOY_PASSWORD }}
         script: |
           cd ${{ secrets.DOCKER_PATH }}
-          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose down
-          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose pull
-          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose up -d
+          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} doscker compose down
+          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} dodcker compose pull
+          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} doscker compose up -d
