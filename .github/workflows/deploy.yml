@@ -70,6 +70,7 @@ jobs:
         password: ${{ secrets.DEPLOY_PASSWORD }}
         script: |
           cd ${{ secrets.DOCKER_PATH }}
+          echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
           DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose down
           DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose pull
 
