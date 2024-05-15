@@ -16,7 +16,10 @@ backend/dist
 backend/node_modules
 
 docker-compose.yml
-.env
 .vscode/
 
 *.pem
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

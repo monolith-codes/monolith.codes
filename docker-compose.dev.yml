@@ -1,5 +1,3 @@
-version: "3.4"
-
 services:
   frontend:
     build:
@@ -17,7 +15,7 @@ services:
   backend:
     build:
       context: backend
-      target: build
+      dockerfile: Dockerfile.dev
     volumes:
       - ./backend:/usr/src/app
       - /usr/src/app/node_modules

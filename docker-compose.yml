@@ -1,30 +1,7 @@
-version: "3.4"
-
 services:
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - 3000:3000
-    depends_on:
-      - backend
-    command: npm start
-
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - 4000:4000
-    depends_on:
-      - postgres
-    environment:
-      DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@postgres:${DB_PORT}/${DB_DATABASE}
-    command: sh -c "npx prisma migrate deploy --name init && npm start"
-
-  postgres:
-    image: postgres
+  monolith-codes-postgres:
+    image: postgres:latest
+    container_name: monolith-codes-postgres
     restart: always
     environment:
       POSTGRES_DB: ${DB_DATABASE}
@@ -36,3 +13,39 @@ services:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"]
       interval: 10s
       retries: 5
+
+  monolith-codes-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: ${DOCKER_USERNAME}/monolith-codes-backend:latest
+    container_name: monolith-codes-backend
+    restart: unless-stopped
+    depends_on:
+      monolith-codes-postgres:
+        condition: service_healthy
+    ports:
+      - 4000:1909
+    environment:
+      DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@monolith-codes-postgres:${DB_PORT}/${DB_DATABASE}
+    command: sh -c "npx prisma migrate deploy && npx prisma generate && npm start"
+
+  monolith-codes-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: ${DOCKER_USERNAME}/monolith-codes-frontend:latest
+    container_name: monolith-codes-frontend
+    restart: unless-stopped
+    depends_on:
+      - monolith-codes-backend
+    environment:
+      - NITRO_PORT=3019
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 3019:3019
+    command: node .output/server/index.mjs
