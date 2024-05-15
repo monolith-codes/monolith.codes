@@ -51,7 +51,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Stop and remove the running container
+    - name: Fetch and Pull Codebase
       uses: appleboy/ssh-action@v0.1.6
       with:
         host: ${{ secrets.DEPLOY_SERVER }}
@@ -61,7 +61,25 @@ jobs:
           cd ${{ secrets.DOCKER_PATH }}
           git fetch
           git pull
+
+    - name: Stop and Pull Container
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        host: ${{ secrets.DEPLOY_SERVER }}
+        username: ${{ secrets.DEPLOY_USERNAME }}
+        password: ${{ secrets.DEPLOY_PASSWORD }}
+        script: |
+          cd ${{ secrets.DOCKER_PATH }}
           docker compose down
           docker compose pull
+
+    - name: Build and Start Container
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        host: ${{ secrets.DEPLOY_SERVER }}
+        username: ${{ secrets.DEPLOY_USERNAME }}
+        password: ${{ secrets.DEPLOY_PASSWORD }}
+        script: |
+          cd ${{ secrets.DOCKER_PATH }}
           docker compose build
           DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose up -d
