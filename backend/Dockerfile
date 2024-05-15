@@ -15,4 +15,4 @@ COPY package*.json ./
 RUN npm ci --production
 COPY --from=build /usr/src/app/dist ./dist
 COPY --from=build /usr/src/app/prisma ./prisma
-CMD ["sh", "-c", "npx prisma migrate deploy"]
+CMD ["node", "dist/index.js"]
