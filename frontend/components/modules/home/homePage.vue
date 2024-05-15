@@ -8,85 +8,51 @@
         alt="Monolith Logo Animation"
         class="monolithLogoAnimation"
       />
+
       <div class="homePageHeadingWrapper">
-        <h1 class="homePageHeading">Hello, I'm Monolith</h1>
+        <h1 class="homePageHeading">Hello im Monolith</h1>
       </div>
     </div>
+
     <div class="homeWhoAmIWrapper"></div>
-    <div ref="threeContainer" class="appWrapper bg-black"></div>
+
+    <!--v-col cols="12" md="4">
+      <v-card>
+        <template v-slot:title>This is a title</template>
+
+        <template v-slot:subtitle>This is a card subtitle</template>
+
+        <template v-slot:text>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,
+          ratione debitis quis est labore voluptatibus!
+        </template>
+      </v-card>
+    </v-col-->
+    <TresCanvas clear-color="#fffff" window-size>
+      <TresPerspectiveCamera :position="campos" :look-at="[0, 0, 0]" />
+      <TresMesh>
+        <TresBoxGeometry :args="[2, 1, 1]" />
+        <TresMeshBasicMaterial :color="color" />
+      </TresMesh>
+    </TresCanvas>
   </div>
 </template>
 
 <script setup lang="ts">
-import * as THREE from 'three'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { Color, Vector3 } from 'three'
 
-const threeContainer = ref<HTMLDivElement | null>(null)
+import { onMounted } from 'vue'
+import { startAnimation } from '~/components/shared/helpers/promptText'
+
+const color = new Color('#00ff90')
+const campos = new Vector3(3, 2, 3)
+
+function handleResize() {
+  const aspect = window.innerWidth / (window.innerHeight - 65)
+}
 
 onMounted(() => {
-  const scene = new THREE.Scene()
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / (window.innerHeight - 65),
-    0.1,
-    1000
-  )
-
-  const renderer = new THREE.WebGLRenderer()
-  renderer.setSize(window.innerWidth, window.innerHeight - 65)
-  threeContainer.value?.appendChild(renderer.domElement)
-
-  const loader = new GLTFLoader()
-  const controls = new OrbitControls(camera, renderer.domElement)
-
-  camera.position.set(0, 0, 8)
-
-  loader.load(
-    '/models/mogelei2.glb',
-    function (gltf) {
-      if (gltf.scene) {
-        gltf.scene.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            const material = child.material as THREE.MeshBasicMaterial
-            material.wireframe = true
-            scene.add(child)
-          }
-        })
-      } else {
-        console.error('Error: GLTF file does not contain a scene.')
-      }
-    },
-    undefined,
-    function (error) {
-      console.error('Error loading GLTF file:', error)
-    }
-  )
-
-  const ambientLight = new THREE.AmbientLight(0xffffff, 4.5)
-  scene.add(ambientLight)
-
-  function handleResize() {
-    const aspect = window.innerWidth / (window.innerHeight - 65)
-    renderer.setSize(window.innerWidth, window.innerHeight - 65)
-    camera.aspect = aspect
-    camera.updateProjectionMatrix()
-  }
-
-  window.addEventListener('resize', handleResize)
-
-  function animate() {
-    requestAnimationFrame(animate)
-    controls.update()
-    renderer.render(scene, camera)
-  }
-
-  animate()
-
-  onUnmounted(() => {
-    renderer.dispose()
-    scene.clear()
-  })
+  startAnimation('homePageHeading', 'Hello im Monolith')
 })
 </script>
 
@@ -95,6 +61,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   width: 100%;
 }
 

@@ -1,0 +1,9 @@
+# Use node:21-alpine as base image
+FROM node:21-alpine as build
+WORKDIR /usr/src/app
+COPY package*.json ./
+COPY prisma/schema.prisma ./prisma/schema.prisma
+COPY tsconfig.json ./
+RUN npm install
+COPY . .
+CMD ["npm", "run", "dev"]
