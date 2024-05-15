@@ -63,3 +63,4 @@ jobs:
           DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose down
           DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose pull
           DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose build
+          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose up -d
