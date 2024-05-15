@@ -48,6 +48,7 @@ Here is a list of all technologies used alongside this project.
 - Framework: <a href="https://github.com/nuxt/nuxt" target="_blank">Nuxt3</a>
 - Unit Tests: <a href="https://github.com/jestjs/jest" target="_blank">Jest</a>
 - Vue Components: <a href="https://github.com/vuetifyjs/vuetify" target="_blank">Vuetify</a>
+- Styling Superset: <a href="https://github.com/sass/sass" target="_blank">Sass</a>
 - 3D: <a href="https://github.com/Tresjs/tres" target="_blank">TresJs</a>
 
 ### Backend:
@@ -59,6 +60,7 @@ Here is a list of all technologies used alongside this project.
 ### Shared Tools:
 - Package Managing: <a href="https://github.com/npm" target="_blank">NPM</a>
 - Envoirnment Variables: <a href="https://www.dotenv.org/" target="_blank">Dotenv</a>
+- Container: <a href="https://www.docker.com/get-started/" target="_blank">Docker</a>
 - Linter: <a href="https://github.com/eslint/eslint" target="_blank">ESLint</a>
 - Formatter: <a href="https://github.com/prettier/prettier" target="_blank">Prettier</a>
 
