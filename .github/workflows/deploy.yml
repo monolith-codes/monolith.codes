@@ -70,8 +70,8 @@ jobs:
         password: ${{ secrets.DEPLOY_PASSWORD }}
         script: |
           cd ${{ secrets.DOCKER_PATH }}
-          docker compose down
-          docker compose pull
+          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose down
+          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose pull
 
     - name: Build and Start Container
       uses: appleboy/ssh-action@v0.1.6
@@ -81,5 +81,5 @@ jobs:
         password: ${{ secrets.DEPLOY_PASSWORD }}
         script: |
           cd ${{ secrets.DOCKER_PATH }}
-          docker compose build
+          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose build
           DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose up -d
