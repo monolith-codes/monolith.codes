@@ -30,4 +30,4 @@ services:
       - 4000:4000
     environment:
       DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@monolith-codes-postgres:${DB_PORT}/${DB_DATABASE}
-    command: sh -c "npx prisma migrate deploy && npm start"
+    command: sh -c "npx prisma migrate deploy && npx prisma generate && npm start"

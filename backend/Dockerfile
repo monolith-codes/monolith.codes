@@ -6,6 +6,7 @@ COPY prisma/schema.prisma ./prisma/schema.prisma
 COPY tsconfig.json ./
 RUN npm install --production
 COPY . .
+RUN npx prisma generate
 RUN npm run build
 
 FROM node:21-alpine as production
