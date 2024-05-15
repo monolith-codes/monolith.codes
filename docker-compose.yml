@@ -27,7 +27,7 @@ services:
       monolith-codes-postgres:
         condition: service_healthy
     ports:
-      - 4000:4000
+      - 4000:1909
     environment:
       DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@monolith-codes-postgres:${DB_PORT}/${DB_DATABASE}
     command: sh -c "npx prisma migrate deploy && npx prisma generate && npm start"
