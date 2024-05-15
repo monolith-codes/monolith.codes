@@ -59,9 +59,4 @@ jobs:
         password: ${{ secrets.DEPLOY_PASSWORD }}
         script: |
           cd ${{ secrets.DOCKER_PATH }}
-          git fetch
-          git pull
-          docker compose down
-          docker compose pull
-          docker compose build
-          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} docker compose up -d
+          echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
