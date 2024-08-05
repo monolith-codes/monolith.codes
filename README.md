@@ -65,10 +65,8 @@ Here is a list of all technologies used alongside this project.
 - Linter: <a href="https://github.com/eslint/eslint" target="_blank">ESLint</a>
 - Formatter: <a href="https://github.com/prettier/prettier" target="_blank">Prettier</a>
 
-## CI / CD 
+### CI/CD Pipeline:
+> This project is built, tested, and deployed via GitHub Actions. All Container are synced via Docker Hub.
 
-### Github Actions
-
-This project is tested, build and deployed via github actions.
-The actions get executed via a custom action runner to my production server.
-All docker container are managed via docker hub.
+- <a href="https://github.com/features/actions" target="_blank">Github Actions</a>
+- <a href="https://www.docker.com/get-started/" target="_blank">Docker Hub</a>

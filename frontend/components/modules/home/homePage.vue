@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="homeWhoAmIWrapper"></div>
+    <!--div class="homeWhoAmIWrapper"></div-->
 
     <!--v-col cols="12" md="4">
       <v-card>
@@ -28,13 +28,14 @@
         </template>
       </v-card>
     </v-col-->
-    <TresCanvas clear-color="#fffff" window-size>
+
+    <!--TresCanvas clear-color="#fffff" window-size>
       <TresPerspectiveCamera :position="campos" :look-at="[0, 0, 0]" />
       <TresMesh>
         <TresBoxGeometry :args="[2, 1, 1]" />
         <TresMeshBasicMaterial :color="color" />
       </TresMesh>
-    </TresCanvas>
+    </TresCanvas-->
   </div>
 </template>
 
@@ -95,7 +96,7 @@ onMounted(() => {
 
 .homePageHeadingWrapper {
   width: 100%;
-  background-color: green;
+  background-color: pink;
 }
 
 .homePageHeading {
