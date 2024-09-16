@@ -1,18 +1,6 @@
 <template>
   <div class="homePageWrapper">
-    <div class="homeFrontPageWrapper">
-      <img
-        src="~/assets/animations/monolith_square.gif"
-        height="200"
-        width="200"
-        alt="Monolith Logo Animation"
-        class="monolithLogoAnimation"
-      />
-
-      <div class="homePageHeadingWrapper">
-        <h1 class="homePageHeading">Hello im Monolith</h1>
-      </div>
-    </div>
+    <div class="homeFrontPageWrapper"></div>
 
     <!--div class="homeWhoAmIWrapper"></div-->
 
@@ -29,13 +17,14 @@
       </v-card>
     </v-col-->
 
-    <!--TresCanvas clear-color="#fffff" window-size>
+    <TresCanvas clear-color="#fffff" window-size>
       <TresPerspectiveCamera :position="campos" :look-at="[0, 0, 0]" />
       <TresMesh>
         <TresBoxGeometry :args="[2, 1, 1]" />
         <TresMeshBasicMaterial :color="color" />
       </TresMesh>
-    </TresCanvas-->
+    </TresCanvas>
+    <div class="homeFrontPageLowerWrapper"></div>
   </div>
 </template>
 
@@ -45,7 +34,7 @@ import { Color, Vector3 } from 'three'
 import { onMounted } from 'vue'
 import { startAnimation } from '~/components/shared/helpers/promptText'
 
-const color = new Color('#00ff90')
+const color = new Color('pink')
 const campos = new Vector3(3, 2, 3)
 
 function handleResize() {
@@ -62,7 +51,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  background-color: red;
   width: 100%;
 }
 
@@ -70,47 +59,17 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  background-color: rgb(26, 26, 26);
   width: 100%;
-  background-color: black;
+  height: calc(100vh - 65px);
 }
 
-.homeWhoAmIWrapper {
-  display: flex;
+.homeFrontPageLowerWrapper {
+  display: none;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  background-color: rgb(148, 32, 51);
   width: 100%;
-  background-color: green;
-}
-
-.monolithLogoAnimation {
-  margin-top: 2rem;
-  width: 60%;
-  max-width: 400px;
-  height: auto;
-  aspect-ratio: 1/1;
-  border-radius: 100%;
-  opacity: 80%;
-}
-
-.homePageHeadingWrapper {
-  width: 100%;
-  background-color: pink;
-}
-
-.homePageHeading {
-  font-size: 3rem;
-  margin-top: 2rem;
-  font-family: monogram;
-  color: red;
-  text-align: left;
-  background-color: yellow;
-}
-
-.appWrapper {
-  display: flex;
-  width: 100%;
-  height: 100%;
+  height: calc(100vh - 65px);
 }
 </style>

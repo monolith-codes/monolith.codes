@@ -1,5 +1,5 @@
 # Use node:21-alpine as base image
-FROM node:21-alpine as build
+FROM node:20-alpine as build
 WORKDIR /usr/src/app
 COPY package*.json ./
 COPY prisma/schema.prisma ./prisma/schema.prisma
@@ -9,7 +9,7 @@ COPY . .
 RUN npx prisma generate
 RUN npm run build
 
-FROM node:21-alpine as production
+FROM node:20-alpine as production
 WORKDIR /usr/src/app
 COPY tsconfig.json ./
 COPY package*.json ./
