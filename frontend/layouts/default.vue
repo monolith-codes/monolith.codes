@@ -50,7 +50,7 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   position: absolute;
-  height: 100vh;
+  height: calc(100vh - 65px);
   background-color: black;
   width: 100%;
   transition: opacity 0.5s ease;
@@ -88,11 +88,15 @@ onMounted(() => {
 .templateHeaderWrapper {
   height: 65px;
   width: 100%;
-  background-color: black;
+  position: fixed;
+  background-color: rgb(0, 0, 0);
+  z-index: 10;
 }
 
 .templateContentWrapper {
-  height: calc(100vh - 65px);
+  position: relative;
+  top: 65px;
+  min-height: calc(100vh - 65px);
   width: 100%;
 }
 </style>
