@@ -1,13 +1,26 @@
 <template>
   <div class="homePageWrapper">
-    <div class="homeFrontPageWrapper"></div>
+    <div class="homeFrontPageWrapper">
+      <homeSlide1 class="homeSlide1" />
+    </div>
   </div>
 </template>
+
+<script lang="ts">
+export async function loadHomepage() {
+  console.log('MUUULM')
+  //await loadSlide1()
+  console.log('MUUULM2')
+}
+</script>
 
 <script setup lang="ts">
 import { Color, Vector3 } from 'three'
 import { onMounted } from 'vue'
 import { startAnimation } from '~/components/shared/helpers/promptText'
+import homeSlide1, {
+  loadSlide1
+} from '~/components/modules/home/homeSlide1.vue'
 import KUTE from 'kute.js'
 
 const color = new Color('pink')
@@ -33,7 +46,7 @@ onMounted(() => {
   */
 })
 
-export async function loadHomepage() {
+async function loadHomepage() {
   console.log('MUUULM')
 }
 </script>
@@ -46,24 +59,14 @@ export async function loadHomepage() {
   //background-color: green;
 }
 
-.homeFrontPageInfoWrapper {
-  height: 35%;
-  width: 100%;
-  //background-color: orange;
-}
-
-.homeFrontLearnMoreWrapper {
-  height: 20%;
-  width: 100%;
-  //background-color: purple;
-}
-
 .homePageWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   //background-color: red;
   width: 100%;
+  height: 100vh;
+  overflow: hidden !important;
 }
 
 .homeFrontPageWrapper {
@@ -73,7 +76,8 @@ export async function loadHomepage() {
   background-color: rgb(26, 26, 26);
   width: 100%;
   max-width: 800px;
-  height: calc(100vh);
+  height: 100vh;
+  overflow: hidden !important;
 }
 
 .homeFrontPageLowerWrapper {
@@ -82,6 +86,10 @@ export async function loadHomepage() {
   align-items: center;
   background-color: rgb(148, 32, 51);
   width: 100%;
-  height: calc(100vh);
+  height: 100vh;
+}
+
+.homeSlide1 {
+  overflow: hidden;
 }
 </style>

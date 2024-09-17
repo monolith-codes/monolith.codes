@@ -1,21 +1,27 @@
 <script setup lang="ts">
 import KUTE from 'kute.js'
-import { loadHomepage } from '../components/modules/home/homePage.vue'
-
-async function endLoading() {
-  document.getElementsByClassName('loadingWrapper')[0].classList.add('loaded')
-  document.getElementsByClassName('contentWrapper')[0].classList.add('loaded')
-  document.getElementsByClassName('loadingImage')[0].classList.add('loaded')
-}
-
-async function loadComponents() {
-  await loadHomepage()
-  await endLoading()
-}
+import { loadSlide1 } from '~/components/modules/home/homeSlide1.vue'
 
 onMounted(() => {
-  loadComponents()
+  setTimeout(() => {
+    document.getElementsByClassName('loadingWrapper')[0].classList.add('loaded')
+    document.getElementsByClassName('contentWrapper')[0].classList.add('loaded')
+    document.getElementsByClassName('loadingImage')[0].classList.add('loaded')
+    const blob1 = KUTE.fromTo(
+      '#p_blob1',
+      { path: '#p_blob1' },
+      { path: '#p_blob1_1' },
+      { repeat: 999, duration: 3000, yoyo: true }
+    )
+
+    blob1.start()
+    //loadComponents()
+  }, 250)
 })
+
+async function loadComponents() {
+  await loadSlide1()
+}
 </script>
 
 <template>
@@ -108,12 +114,11 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   position: absolute;
-  height: calc(100vh - 65px);
+  height: 100vh;
   background-color: rgb(0, 0, 0);
   width: 100%;
   transition: opacity 0.5s ease;
-  opacity: 0%;
-  z-index: -1;
+  opacity: 100%;
 
   &.loaded {
     opacity: 0%;
@@ -126,6 +131,7 @@ onMounted(() => {
   width: auto;
   position: fixed;
   z-index: 2;
+  //background-color: rgba(255, 166, 0, 0.37);
 }
 
 .loadingImage {
@@ -153,8 +159,9 @@ onMounted(() => {
 
 .templateContentWrapper {
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
+  //background-color: green;
 }
 
 .monolith_logo_header {

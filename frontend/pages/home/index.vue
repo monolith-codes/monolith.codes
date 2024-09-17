@@ -1,5 +1,6 @@
 <template>
-  <HomePages />
+  <a>MULM</a>
+  <!--HomePages /-->
 </template>
 
 <script setup lang="ts">

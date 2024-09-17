@@ -3,47 +3,158 @@
     <svg
       class="blob2"
       id="visual"
-      width="1650"
-      height="1598"
-      viewBox="0 0 1650 1598"
+      width="659"
+      height="594.4"
+      viewBox="0 0 659 594.4"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       version="1.1"
     >
-      <g>
-        <path
-          width="1650"
-          height="1598"
-          id="p_blob2"
-          d="M1007.11,2.093c268.52-3.1,475.03,58,575.74,222.753,21.4,35,33.38,77.511,45.74,121.32q4.485,24.361,8.95,48.727,2.985,31.322,5.97,62.649v26.85c2.32,10.885,1.6,29.838,0,40.771v26.85c-3.85,17.21-1.25,38.094-4.97,54.694q-0.495,9.446-1,18.894c-5.74,24.849-5.99,52.746-11.93,76.571-5.38,21.565-5.03,41.734-10.94,62.649-15.16,53.655-24.6,107.821-41.76,159.109-38.11,113.91-82.75,216.69-141.2,309.27-19.63,31.09-43.75,59.4-65.63,88.5-8.59,11.42-21.27,20.5-29.83,31.82-8.5,11.23-19,20-28.84,29.84-23.5,23.49-47.43,45.71-74.58,65.63-12.31,9.03-24.2,19.99-36.79,28.84-41.85,29.41-88.75,54.17-138.22,75.57-28.57,12.37-57.949,17.84-90.49,26.85-14.672,4.07-32.686,5.3-48.724,8.95q-12.429.495-24.86,1c-11.148,2.33-32.617,2.47-43.752,0q-11.933-.5-23.865-1c-41.606-9.59-79.92-14.2-115.348-28.84-97.071-40.1-176.433-94.7-256.55-151.15-30.736-21.65-59.3-47.41-89.494-69.61-110.643-81.36-223.837-180.27-297.32-298.33-24.368-39.15-40.751-83.625-54.691-133.251-4.992-17.77-2.789-35.04-6.961-54.694-3.594-16.933-3.771-49.677,0-66.627L6.76,765.815c4.851-20.912,5.181-42.443,10.938-62.649,8.1-28.438,14.949-57.232,25.854-83.532,30.257-72.972,66.933-136.641,109.382-196.9,17.225-24.451,38.695-45.805,56.679-69.61,7.827-10.359,18.866-18.277,26.849-28.839,5.809-7.685,15.117-15.023,22.87-20.883q7.954-8.451,15.91-16.9c19.6-14.833,36.724-31.966,56.68-46.738,14.337-10.612,28.068-23.461,42.758-33.811,52.124-36.722,110.1-71.612,171.034-98.448,42.4-18.674,86.644-35.551,132.252-50.716,23.606-7.85,47.932-12.705,71.6-19.889,39.794-12.08,83.167-14.02,125.292-23.866,17.483-4.086,35.789-2.181,52.7-5.967Z"
-          fill="white"
-        ></path>
-      </g>
+      <!-- Define the image as a pattern -->
+      <defs>
+        <pattern
+          id="imagePattern"
+          patternUnits="userSpaceOnUse"
+          width="659"
+          height="594.4"
+        >
+          <!-- Image inside the SVG, replace 'image_url.jpg' with your image link -->
+          <image
+            class="MauriceWAvatar"
+            xlink:href="~/assets/images/MauriceW.webp"
+            x="0"
+            y="0"
+            width="1650"
+            height="1650"
+            preserveAspectRatio="xMidYMid slice"
+          />
+        </pattern>
 
-      <g>
-        <path
-          id="p_blob2_2"
-          width="1650"
-          height="1598"
-          d="M1001.36,80.279c71.55-.942,142.73-0.424,199.61,14.9,13.61,3.666,25.78,3.726,38.73,7.945,27.66,9.016,54.95,17.583,80.44,28.8,94.04,41.387,172.31,116.777,228.4,196.638,10.25,14.581,17.36,30.174,26.82,45.683,23.7,38.869,39.77,84,53.62,133.079,4.94,17.478,3.82,34.456,7.95,53.628,4.56,21.2,3.91,73.969-1,94.347-5.56,23.1-8.71,46.037-15.88,67.532-34.97,104.687-96.37,182.434-155.92,262.185-17.35,23.236-39.03,43.276-56.6,66.536-4.63,6.13-12.26,10.77-16.88,16.89-16.66,22.02-38.02,39.6-54.62,61.57q-7.455,6.945-14.9,13.9a243.588,243.588,0,0,1-21.85,24.83l-10.92,9.93c-21.21,28.05-49.03,51.48-73.49,76.47-35.18,35.94-69.83,74.78-110.23,105.27-5.01,3.79-8.9,10.12-13.9,13.91-18.41,13.91-35.15,30.1-53.63,43.69C983.2,1457.66,926.7,1493.96,860.344,1521.3c-16.246,6.69-32.008,9.59-49.654,14.9-17.488,5.26-38.111,7.45-57.6,11.91q-11.916.5-23.834,1c-11.63,2.44-34.066,2.57-45.681,0q-16.881-1-33.765-1.99c-28.886-6.77-57.836-9.02-84.411-17.88C314.267,1445.55,128.585,1249.35,45.03,997.924c-9.14-27.5-14.426-56.52-21.848-85.408-4.145-16.133-4.245-32.9-7.945-48.663-2.988-12.733-1.268-26.68-3.972-38.732v-15.89c-2.951-13.894-3.063-60.659,0-74.484l0.993-26.815c5-21.963,3.935-45.25,9.931-66.539,6.671-23.686,11.1-47.682,18.868-70.511,7.522-22.112,17.861-44.24,26.813-64.553,5.887-13.36,10.438-26.492,17.875-38.732,54.667-89.97,114.872-166.756,199.608-226.432,52.917-37.268,114.12-65.926,181.732-88.388,26.058-8.656,53.672-13.362,80.439-20.855,39.96-11.186,83.634-11.156,125.128-20.856,16.287-3.807,33.343-2.451,48.66-5.959L915.956,85.245Z"
-          fill="white"
-        ></path>
-      </g>
+        <!-- Create a mask using the blob path -->
+        <mask id="blobMask">
+          <!-- Make the blob shape white to define the visible area of the mask -->
+          <path
+            id="p_blob2"
+            d="M678.4,30.2c67.8,36,123,116.8,118.3,192.9S727.9,371,660,443,520.4,587.3,439.2,597.1,267,553.6,209.6,481.6s-81.1-162.9-68.2-240.9S203.8,97.4,261.2,61.4,383.6,18.5,456.6,10.7,610.4-5.8,678.4,30.2"
+            transform="translate(-138 -3.8)"
+            fill="white"
+          ></path>
+
+          <path
+            fill="white"
+            style="visibility: hidden"
+            id="p_blob2_2"
+            d="M722.2,73.3c48.1,62.3,35.1,171.2,11.1,256.1s-59,146.1-106.9,192-109.1,76.9-166.9,73.7-112.2-40.7-172-86.8S162.4,408,148.2,339.3,171,187.8,230.8,125.7,373.5,22,469.3,8.9s204.8,2.3,252.9,64.4"
+            transform="translate(-145.2 -4.7)"
+          />
+        </mask>
+      </defs>
+
+      <!-- Apply the mask to a rectangle filled with the image pattern -->
+      <rect
+        class="mauriceWesselyMask"
+        width="1650"
+        height="1598"
+        fill="url(#imagePattern)"
+        mask="url(#blobMask)"
+      />
     </svg>
   </div>
 
-  <div class="homeFrontPageInfoWrapper">
+  <div class="homeFrontPageInfoWrapper1">
     <h1 class="preTitle">I'm</h1>
     <h1 class="Title">Maurice</h1>
     <h1 class="Title">Wessely</h1>
   </div>
+
+  <div class="homeFrontPageInfoWrapper2">
+    <h2 class="homeSubHeading">Software Developer</h2>
+    <h2 class="homeSubHeading">Server Administrator</h2>
+    <h2 class="homeSubHeading">Game Modder</h2>
+    <h2 class="homeSubHeading">3D Artist</h2>
+  </div>
+
+  <div class="homeFrontLearnMoreWrapper">
+    <svg
+      class="blob3"
+      id="visual"
+      viewBox="0 0 658.9 590.7"
+      width="658.9"
+      height="590.7"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      version="1.1"
+    >
+      <path
+        id="p_blob3"
+        d="M747.5,69.8c51.9,68.1,30.2,191.8-5.7,297.3S655.2,559.7,584.4,587s-161.6-5.6-262.1-44.3S111.7,459.7,107,401.9s95.9-129,169.7-202.1S397.6,52,483.8,20.7s211.9-19,263.7,49.1"
+        fill="#747572"
+        transform="translate(-106.8 -4.4)"
+      ></path>
+
+      <path
+        id="p_blob3_3"
+        d="M778.6,107.5c56.8,56.7,33.1,159.9-6.3,247.8S677.5,515.9,600,538.7,423,534,312.9,501.8,82.3,432.6,77.2,384.4,182.1,276.8,263,215.9,395.4,92.6,489.8,66.5s232-15.8,288.8,41"
+        fill="#747572"
+        style="visibility: hidden"
+        transform="translate(-77 -53)"
+      ></path>
+    </svg>
+  </div>
 </template>
 
-<script lang="ts"></script>
+<script lang="ts">
+import KUTE from 'kute.js'
+
+export async function loadSlide1(): Promise<Boolean> {
+  console.log('LOAD SLIDE 1')
+
+  let mulm = document.getElementById('p_blob2')
+  let mulm2 = document.getElementById('p_blob2_2')
+
+  console.log(mulm)
+  console.log(mulm2)
+
+  /*
+  blob2.start()
+  */
+
+  return true
+}
+</script>
+
+<script setup lang="ts">
+onMounted(() => {
+  setTimeout(() => {
+    console.log('START ANIMATION')
+
+    const blob2 = KUTE.fromTo(
+      '#p_blob2',
+      { path: '#p_blob2' },
+      { path: '#p_blob2_2' },
+      { repeat: 999, duration: 3000, yoyo: true }
+    )
+
+    const blob3 = KUTE.fromTo(
+      '#p_blob3',
+      { path: '#p_blob3' },
+      { path: '#p_blob3_3' },
+      { repeat: 999, duration: 5000, yoyo: true }
+    )
+
+    blob2.start()
+    blob3.start()
+  }, 250)
+})
+</script>
 
 <style lang="scss">
+h2 {
+  color: white;
+}
+
 .homeFrontPageMWAvatarWrapper {
-  top: 10vh;
+  top: 16vh;
   display: flex;
   justify-content: flex-end;
   position: relative;
@@ -64,6 +175,18 @@
   left: -10%;
 }
 
+.blob3 {
+  top: -5%;
+  left: -8%;
+  position: relative;
+  height: 60%;
+}
+
+#p_blob3 {
+  position: relative;
+  top: 20%;
+}
+
 .preTitle {
   color: white;
   margin-left: 10%;
@@ -80,5 +203,37 @@
 
 #p_blob2_2 {
   visibility: hidden;
+}
+
+.MauriceWAvatar {
+  width: 112.5%;
+  transform: translate(-12.5%);
+  display: flex;
+  position: relative;
+  left: -120px;
+  height: auto;
+}
+
+.homeSubHeading {
+  margin-top: 0vh;
+  margin-bottom: 0vh;
+  line-height: 2rem;
+}
+
+.homeFrontPageInfoWrapper1 {
+  position: relative;
+  top: 4.5rem;
+}
+
+.homeFrontPageInfoWrapper2 {
+  position: relative;
+  top: 4.5rem;
+  margin-left: 2rem;
+  margin-top: 2rem;
+}
+
+.homeFrontLearnMoreWrapper {
+  height: 100%;
+  width: 100%;
 }
 </style>
