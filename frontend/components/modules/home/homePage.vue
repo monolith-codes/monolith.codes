@@ -65,7 +65,6 @@ async function loadHomepage() {
   align-items: center;
   //background-color: red;
   width: 100%;
-  height: 100vh;
   overflow: hidden !important;
 }
 
@@ -76,7 +75,7 @@ async function loadHomepage() {
   background-color: rgb(26, 26, 26);
   width: 100%;
   max-width: 800px;
-  height: 100vh;
+  height: 100svh;
   overflow: hidden !important;
 }
 
@@ -86,7 +85,6 @@ async function loadHomepage() {
   align-items: center;
   background-color: rgb(148, 32, 51);
   width: 100%;
-  height: 100vh;
 }
 
 .homeSlide1 {
