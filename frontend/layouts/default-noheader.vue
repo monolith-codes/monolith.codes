@@ -114,7 +114,7 @@ async function loadComponents() {
   justify-content: center;
   align-items: center;
   position: absolute;
-  height: 100vh;
+  height: 100svh;
   background-color: rgb(0, 0, 0);
   width: 100%;
   transition: opacity 0.5s ease;
@@ -159,7 +159,7 @@ async function loadComponents() {
 
 .templateContentWrapper {
   position: relative;
-  height: 100vh;
+  height: 100svh;
   width: 100%;
   //background-color: green;
 }
