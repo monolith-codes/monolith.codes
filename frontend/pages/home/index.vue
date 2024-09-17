@@ -1,12 +1,11 @@
 <template>
-  <HomePages />
+  <a>MULM</a>
+  <!--HomePages /-->
 </template>
 
 <script setup lang="ts">
-import HomePage from '~/components/modules/home/homePage.vue'
-
 definePageMeta({
-  layout: 'default'
+  layout: 'default-noheader'
 })
 </script>
 
