@@ -139,7 +139,7 @@ onMounted(() => {
       '#p_blob3',
       { path: '#p_blob3' },
       { path: '#p_blob3_3' },
-      { repeat: 999, duration: 5000, yoyo: true }
+      { repeat: 999, duration: 3000, yoyo: true }
     )
 
     blob2.start()
