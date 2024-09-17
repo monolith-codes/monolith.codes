@@ -12,11 +12,15 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "@nuxtjs/i18n": "^8.5.3",
+    "@nuxtjs/tailwindcss": "^6.12.1",
     "@tresjs/nuxt": "^2.1.2",
     "dotenv": "^16.4.5",
+    "kute.js": "^2.2.4",
     "nuxt": "^3.10.3",
     "vue": "^3.4.19",
     "vue-router": "^4.3.0",
+    "vue3-lottie": "^3.3.1",
     "vuetify-nuxt-module": "^0.14.0"
   },
   "devDependencies": {

@@ -12,13 +12,5 @@
   src: url('./assets/fonts/monogram.ttf') format('truetype');
 }
 
-html {
-  overflow-y: auto;
-  background-color: black;
-}
-
-body,
-.v-application {
-  background-color: black !important;
-}
+@import '~/assets/styles/main.scss';
 </style>

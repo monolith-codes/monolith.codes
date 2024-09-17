@@ -1,38 +1,14 @@
 <template>
   <div class="homePageWrapper">
     <div class="homeFrontPageWrapper"></div>
-
-    <!--div class="homeWhoAmIWrapper"></div-->
-
-    <!--v-col cols="12" md="4">
-      <v-card>
-        <template v-slot:title>This is a title</template>
-
-        <template v-slot:subtitle>This is a card subtitle</template>
-
-        <template v-slot:text>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,
-          ratione debitis quis est labore voluptatibus!
-        </template>
-      </v-card>
-    </v-col-->
-
-    <TresCanvas clear-color="#fffff" window-size>
-      <TresPerspectiveCamera :position="campos" :look-at="[0, 0, 0]" />
-      <TresMesh>
-        <TresBoxGeometry :args="[2, 1, 1]" />
-        <TresMeshBasicMaterial :color="color" />
-      </TresMesh>
-    </TresCanvas>
-    <div class="homeFrontPageLowerWrapper"></div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Color, Vector3 } from 'three'
-
 import { onMounted } from 'vue'
 import { startAnimation } from '~/components/shared/helpers/promptText'
+import KUTE from 'kute.js'
 
 const color = new Color('pink')
 const campos = new Vector3(3, 2, 3)
@@ -42,26 +18,62 @@ function handleResize() {
 }
 
 onMounted(() => {
-  startAnimation('homePageHeading', 'Hello im Monolith')
+  console.log('START ANIMATION')
+
+  /*
+  const blob2 = KUTE.fromTo(
+    '#p_blob2',
+    { path: '#p_blob2' },
+    { path: '#p_blob2_2' },
+    { repeat: 999, duration: 3000, yoyo: true }
+  )
+
+  blob2.start()
+  
+  */
 })
+
+export async function loadHomepage() {
+  console.log('MUUULM')
+}
 </script>
 
 <style lang="scss">
+.homeFrontPageMonolithLogoWrapper {
+  height: 20%;
+  width: auto;
+  aspect-ratio: 1/1;
+  //background-color: green;
+}
+
+.homeFrontPageInfoWrapper {
+  height: 35%;
+  width: 100%;
+  //background-color: orange;
+}
+
+.homeFrontLearnMoreWrapper {
+  height: 20%;
+  width: 100%;
+  //background-color: purple;
+}
+
 .homePageWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: red;
+  //background-color: red;
   width: 100%;
 }
 
 .homeFrontPageWrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   background-color: rgb(26, 26, 26);
   width: 100%;
-  height: calc(100vh - 65px);
+  max-width: 800px;
+  height: calc(100vh);
 }
 
 .homeFrontPageLowerWrapper {
@@ -70,6 +82,6 @@ onMounted(() => {
   align-items: center;
   background-color: rgb(148, 32, 51);
   width: 100%;
-  height: calc(100vh - 65px);
+  height: calc(100vh);
 }
 </style>

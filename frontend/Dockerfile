@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM node:20-alpine AS prod
+FROM node:22-alpine AS prod
 
 # Set working directory
 WORKDIR /usr/src/app/frontend
