@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express";
-//import { prisma } from "../lib/prisma";
-import Startup from "./services/startup";
+import { prisma } from "./lib/prisma";
+import { Startup } from "./services/startup";
 
 const app = express();
 
@@ -13,7 +13,7 @@ main()
     console.error(e.message);
   })
   .finally(async () => {
-    //await prisma.$disconnect();
+    await prisma.$disconnect();
   });
 
 app.get("/", async (req: Request, res: Response) => {

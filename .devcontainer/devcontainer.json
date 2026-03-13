@@ -1,0 +1,23 @@
+{
+    "name": "monolith.codes",
+    "dockerComposeFile": "../docker-compose.dev.yml",
+    "service": "monolith.codes-backend",
+    "workspaceFolder": "/usr/app",
+    
+    // Swapped from Alpine-specific features to standard official features
+    "features": {
+    },
+    
+    "remoteUser": "node",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "Vue.volar",
+                "dbaeumer.vscode-eslint",
+                "rvest.vs-code-prettier-eslint",
+                "ms-vscode.vscode-typescript-next",
+                "esbenp.prettier-vscode"
+            ]
+        }
+    }
+}
