@@ -1,7 +1,6 @@
 services:
   monolith.codes-postgres:
     image: postgres:latest
-    container_name: monolith-codes-postgres
     restart: always
     environment:
       POSTGRES_DB: MonoDB
@@ -29,3 +28,20 @@ services:
       DATABASE_URL: postgres://Monolith:Mulmer123!@monolith.codes-postgres:5432/MonoDB
     command: sh -c "npx prisma generate && npx prisma migrate deploy &&npm run dev"    # CHANGED: This forces the container to stay awake forever, 
     # even if your Node app isn't running yet.
+
+  monolith.codes-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./frontend:/usr/app
+      - /usr/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - monolith.codes-postgres
+      - monolith.codes-backend
+    environment:
+      - NUXT_API_BASE=http://monolith.codes-backend:1909
+      - NUXT_PUBLIC_API_BASE=http://localhost:4000
+    command: npm run dev

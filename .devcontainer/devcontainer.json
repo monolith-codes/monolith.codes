@@ -1,7 +1,7 @@
 {
     "name": "monolith.codes",
     "dockerComposeFile": "../docker-compose.dev.yml",
-    "service": "monolith.codes-backend",
+    "service": "monolith.codes-frontend",
     "workspaceFolder": "/usr/app",
     
     // Swapped from Alpine-specific features to standard official features

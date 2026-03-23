@@ -24,6 +24,9 @@ export async function StartDBSeeding() {
         }
     })
 
+    const userCount = await prisma.user.count();
+    const postCount = await prisma.post.count();
+
     if(userCount != 0 && postCount != 0) {
         console.log("DB Seeding successfully!")
     }else{
