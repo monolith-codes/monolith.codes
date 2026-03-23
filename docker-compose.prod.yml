@@ -1,0 +1,40 @@
+services:
+  monolith.codes-postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: MonoDB
+      POSTGRES_USER: Monolith
+      POSTGRES_PASSWORD: Mulmer123!
+    volumes:
+      - pg_data:/var/lib/postgresql/data 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U Monolith -d MonoDB"]
+      interval: 10s
+      retries: 5
+      
+  monolith.codes-backend:
+    image: ghcr.io/monolithcodes/monolith-backend:latest
+    restart: always
+    depends_on:
+      monolith.codes-postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://Monolith:Mulmer123!@monolith.codes-postgres:5432/MonoDB
+    command: sh -c "npx prisma generate && npx prisma migrate deploy &&npm run dev"    # CHANGED: This forces the container to stay awake forever, 
+    # even if your Node app isn't running yet.
+
+  monolith.codes-frontend:
+    image: ghcr.io/monolithcodes/monolith-frontend:latest
+    restart: always
+    ports:
+          - "80:3000"
+    depends_on:
+          - monolith.codes-postgres
+          - monolith.codes-backend
+    environment:
+      # Server-side Nuxt can reach the backend using Docker's internal DNS
+      - NUXT_API_BASE=http://monolith.codes-backend:1909
+      
+volumes:
+  pg_data:
