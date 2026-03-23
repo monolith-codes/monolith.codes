@@ -1,3 +1,7 @@
+import { StartDBSeeding } from "../lib/seed"
+
 export async function Startup() {
-  console.log("App service is started succesfully!")
+  console.log("Monolith Services started succesfully!")
+
+  await StartDBSeeding()
 }

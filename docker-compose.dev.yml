@@ -27,5 +27,5 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgres://Monolith:Mulmer123!@monolith.codes-postgres:5432/MonoDB
-    command: sh -c "npx prisma generate && npx prisma migrate dev --name init && npm run dev"    # CHANGED: This forces the container to stay awake forever, 
+    command: sh -c "npx prisma generate && npx prisma migrate deploy &&npm run dev"    # CHANGED: This forces the container to stay awake forever, 
     # even if your Node app isn't running yet.

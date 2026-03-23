@@ -16,7 +16,8 @@
                 "dbaeumer.vscode-eslint",
                 "rvest.vs-code-prettier-eslint",
                 "ms-vscode.vscode-typescript-next",
-                "esbenp.prettier-vscode"
+                "esbenp.prettier-vscode",
+                "google.geminicodeassist"
             ]
         }
     }
