@@ -15,17 +15,17 @@ services:
       retries: 5
       
   monolith.codes-backend:
-    # UPDATED: Matches the exact image name built by your GitHub Actions logs
     image: ghcr.io/monolith-codes/monolith-backend:latest
     restart: always
     depends_on:
       monolith.codes-postgres:
         condition: service_healthy
     environment:
-      # SECURED: Dynamically constructed using the env var
-      DATABASE_URL: postgresql://Monolith:${DB_PASSWORD}@monolith.codes-postgres:5432/MonoDB
-    # CHANGED: Runs your database migrations, then starts the compiled production app
-    command: sh -c "npx prisma migrate deploy && node dist/index.js"
+      # Use the "interpolation" syntax to ensure it's treated as a string
+      - DATABASE_URL=postgresql://Monolith:${DB_PASSWORD}@monolith.codes-postgres:5432/MonoDB
+    # Use the --schema flag explicitly to be safe
+    command: >
+      sh -c "npx prisma migrate deploy --schema ./prisma/schema.prisma && node dist/index.js"
 
   monolith.codes-frontend:
     # UPDATED: Matches the exact image name built by your GitHub Actions logs

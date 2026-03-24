@@ -1,35 +1,20 @@
-# --- Stage 1: Build ---
-FROM node:22-alpine AS builder
-
-# FIX: Allow network access to download openssl, which Prisma needs
-RUN apk update && apk add openssl
-
-WORKDIR /usr/app
-
-# Install dependencies
-COPY package*.json ./
-RUN npm install
-
-# Copy source and prisma schema
-COPY . .
-
-# Provide dummy URL for build-time generation
-RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
-
-RUN npm run build 
-
 # --- Stage 2: Production ---
 FROM node:22-alpine
-# Also install openssl in production stage for the runtime engine
 RUN apk update && apk add openssl
 
 WORKDIR /usr/app
 
+# Copy package files
 COPY package*.json ./
-RUN npm install --omit=dev 
+# If prisma is a devDependency, you need it for 'migrate deploy'
+# You can either move it to dependencies or install it globally:
+RUN npm install --omit=dev && npm install prisma
 
 COPY --from=builder /usr/app/dist ./dist
-COPY --from=builder /usr/app/prisma ./prisma
+# Ensure this includes the /migrations folder!
+COPY --from=builder /usr/app/prisma ./prisma 
+
+# If you use a custom output path for client generation, keep this:
 COPY --from=builder /usr/app/src/generated/prisma ./src/generated/prisma
 
 CMD ["node", "dist/index.js"]
