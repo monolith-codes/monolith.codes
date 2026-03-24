@@ -79,11 +79,11 @@ jobs:
             cd ~/monolith-deploy
             
             # 1. Generate the .env file with dynamically built DATABASE_URL
-            cat <<EOF > .env
-            POSTGRES_USER="${{ secrets.POSTGRES_USER }}"
-            POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}"
-            POSTGRES_DB="${{ secrets.POSTGRES_DB }}"
-            DATABASE_URL="postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@monolith.codes-postgres:5432/${{ secrets.POSTGRES_DB }}?schema=public"
+            cat <<'EOF' > .env
+            POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+            DATABASE_URL=postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@monolith.codes-postgres:5432/${{ secrets.POSTGRES_DB }}?schema=public
             EOF
             
             # 2. Log in to GHCR
