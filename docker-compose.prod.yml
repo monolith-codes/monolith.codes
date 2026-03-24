@@ -14,6 +14,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - backend_net
 
   backend:
     image: ghcr.io/monolith-codes/monolith-backend:latest
@@ -24,8 +26,26 @@ services:
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
       # Add other app variables here
+    networks:
+      - backend_net
+      - frontend_net
+
+  frontend:
+    image: ghcr.io/monolith-codes/monolith-frontend:latest
+    restart: always
+    depends_on:
+      - backend
+    environment:
+      - NUXT_API_BASE=http://backend:3000
+      # Add other app variables here
     ports:
-      - "3000:3000"
+      - "3000:3000" # Exposes the frontend to the outside world
+    networks:
+      - frontend_net
 
 volumes:
   pg_data:
+
+networks:
+  frontend_net:
+  backend_net:
