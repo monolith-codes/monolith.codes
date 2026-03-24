@@ -10,10 +10,12 @@ RUN npm install
 
 COPY . .
 
-# Generate the client using the custom path defined in your schema
+# FIX: Provide a dummy DATABASE_URL so the generator doesn't crash.
+# This value is NOT saved in the final build; it's just for the CLI tool.
+ENV DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
 RUN npx prisma generate
 
-RUN npm run build 
+RUN npm run build
 
 # --- Stage 2: Production ---
 FROM node:22-alpine
