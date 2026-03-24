@@ -1,37 +1,48 @@
 services:
   monolith.codes-db:
-    image: postgres:15-alpine # Use specific versions, not 'latest'
+    image: postgres:15-alpine
     container_name: postgres_db
     restart: always
     env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
 
+  prisma-migrate:
+    # Use the same image as your backend so you don't need local source code
+    image: ghcr.io/monolith-codes/monolith.codes-backend:latest
+    command: npx prisma migrate deploy
+    env_file: .env # CRITICAL: Needs this to know the DATABASE_URL
+    depends_on:
+      monolith.codes-db: # FIXED: Matches the actual DB service name
+        condition: service_healthy
+
   monolith.codes-backend:
     image: ghcr.io/monolith-codes/monolith.codes-backend:latest
     restart: always
-    depends_on:
-      monolith.codes-db:
-        condition: service_healthy
     env_file: .env
     ports:
       - "3001:3000"
+    depends_on:
+      monolith.codes-db:
+        condition: service_healthy
+      prisma-migrate:
+        condition: service_completed_successfully
 
   # monolith.codes-frontend:
-  #   image: ghcr.io/monolith-codes/monolith-frontend:latest # Update with your actual frontend image
+  #   image: ghcr.io/monolith-codes/monolith-frontend:latest
   #   restart: always
+  #   environment:
+  #     - NUXT_PUBLIC_API_BASE=http://monolith.codes-backend:3000
+  #   ports:
+  #     - "3198:3000"
   #   depends_on:
   #     - monolith.codes-db
   #     - monolith.codes-backend
-  #   environment:
-  #     - NUXT_PUBLIC_API_BASE=http://monolith.codes-backend:3000 # Nuxt server-side URL variable
-  #   ports:
-  #     - "3198:3000"
 
 volumes:
   pg_data:
