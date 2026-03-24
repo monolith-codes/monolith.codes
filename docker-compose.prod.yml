@@ -1,5 +1,5 @@
 services:
-  db:
+  monolith.codes-db:
     image: postgres:15-alpine # Use specific versions, not 'latest'
     container_name: postgres_db
     restart: always
@@ -15,7 +15,7 @@ services:
       timeout: 5s
       retries: 5
 
-  backend:
+  monolith.codes-backend:
     image: ghcr.io/monolith-codes/monolith-backend:latest
     restart: always
     depends_on:
