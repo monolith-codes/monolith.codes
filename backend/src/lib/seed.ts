@@ -3,6 +3,11 @@ import { prisma } from "./prisma";
 export async function StartDBSeeding() {
   console.log("Starting DB Seeding")
 
+  if(!prisma.user || !prisma.post) {
+    console.log("ERROR: Prisma not migrated!")
+    return
+  }
+
   const userCount = await prisma.user.count();
   const postCount = await prisma.post.count();
 
