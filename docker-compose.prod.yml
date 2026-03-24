@@ -25,15 +25,16 @@ services:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@monolith.codes-db:5432/${POSTGRES_DB}?schema=public
       # Add other app variables here
 
-  monolith.codes-frontend:
-    image: ghcr.io/monolith-codes/monolith-frontend:latest # Update with your actual frontend image
-    restart: always
-    depends_on:
-      - monolith.codes-backend
-    environment:
-      - NUXT_PUBLIC_API_BASE=http://monolith.codes-backend:3000 # Nuxt server-side URL variable
-    ports:
-      - "3198:3000"
+  # monolith.codes-frontend:
+  #   image: ghcr.io/monolith-codes/monolith-frontend:latest # Update with your actual frontend image
+  #   restart: always
+  #   depends_on:
+  #     - monolith.codes-db
+  #     - monolith.codes-backend
+  #   environment:
+  #     - NUXT_PUBLIC_API_BASE=http://monolith.codes-backend:3000 # Nuxt server-side URL variable
+  #   ports:
+  #     - "3198:3000"
 
 volumes:
   pg_data:
