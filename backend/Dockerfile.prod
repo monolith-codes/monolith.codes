@@ -9,19 +9,13 @@ COPY package*.json ./
 COPY prisma ./prisma/
 
 RUN npm ci
-
 COPY . .
-
 RUN ls -la
 
-# --- THE FIX ---
-# Provide a dummy URL so Prisma can generate the client during build
 ENV DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
 RUN npx prisma generate
-# ----------------
-
+RUN npx prisma migrate deploy
 RUN npm run build
-
 
 
 # Stage 2: Production
@@ -37,12 +31,10 @@ COPY --from=builder /usr/app/prisma.config.ts ./
 COPY --from=builder /usr/app/node_modules ./node_modules
 COPY --from=builder /usr/app/dist ./dist
 COPY --from=builder /usr/app/prisma ./prisma
-
-
-RUN ls -la && test -f prisma.config.ts || (echo "Missing config!" && exit 1)
+COPY --from=builder /usr/app/src/generated ./src/generated
 
 USER node
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/index.js"]
+CMD ["sh", "-c", "node dist/index.js"]
