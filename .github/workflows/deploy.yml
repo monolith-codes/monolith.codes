@@ -78,13 +78,12 @@ jobs:
           script: |
             cd ~/monolith-deploy
             
-            # 1. Generate the .env file
-            cat <<'EOF' > .env
-            POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-            POSTGRES_DB=${{ secrets.POSTGRES_DB }}
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
-            DB_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            # 1. Generate the .env file with dynamically built DATABASE_URL
+            cat <<EOF > .env
+            POSTGRES_USER="${{ secrets.POSTGRES_USER }}"
+            POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}"
+            POSTGRES_DB="${{ secrets.POSTGRES_DB }}"
+            DATABASE_URL="postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@monolith.codes-postgres:5432/${{ secrets.POSTGRES_DB }}?schema=public"
             EOF
             
             # 2. Log in to GHCR
@@ -94,8 +93,7 @@ jobs:
             docker compose -f docker-compose.prod.yml pull
             
             # 4. Restart containers
-            # The 'command' in docker-compose will trigger the migration automatically
             docker compose -f docker-compose.prod.yml up -d --remove-orphans
-
+            
             # 5. Clean up old images
             docker image prune -af
