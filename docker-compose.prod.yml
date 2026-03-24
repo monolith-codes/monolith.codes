@@ -39,7 +39,7 @@ services:
     environment:
       - NUXT_PUBLIC_API_BASE=http://monolith.codes-backend:3000
     ports:
-      - "3198:3001"
+      - "3198:3000"
     depends_on:
       - monolith.codes-db
       - monolith.codes-backend
