@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsup src/index.ts --format esm --clean",
+    "db:deploy": "npx prisma migrate deploy && npx prisma generate",
     "start": "node dist/index.js",
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix"
