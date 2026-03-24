@@ -12,8 +12,8 @@ COPY . .
 
 # FIX: Provide a dummy DATABASE_URL so the generator doesn't crash.
 # This value is NOT saved in the final build; it's just for the CLI tool.
-ENV DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
-RUN npx prisma generate
+ENV DATABASE_URL="postgresql://johndoe:random@localhost:5432/mydb"
+RUN npx prisma generate --schema=./prisma/schema.prisma
 
 RUN npm run build
 
