@@ -33,4 +33,4 @@ COPY --from=builder /usr/app/src/generated/prisma ./src/generated/prisma
 EXPOSE 3000
 
 # Run database migrations and start the backend
-CMD ["sh", "-c", "npx prisma migrate deploy && node dist/index.js"]
+CMD ["node", "dist/index.js"]

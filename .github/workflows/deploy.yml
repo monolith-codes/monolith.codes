@@ -1,16 +1,13 @@
 name: Deploy to Production
 
-# This triggers the workflow whenever you push to the 'main' branch
 on:
   push:
     branches:
       - main
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  # Dynamic base image name tied to your repository
   IMAGE_NAME: ${{ github.repository }}/backend
 
 jobs:
@@ -19,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write # Needed to push to GHCR
+      packages: write
 
     steps:
       - name: Checkout repository
@@ -55,7 +52,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-
   deploy:
     name: Deploy to Server
     needs: build-and-push
@@ -82,28 +78,24 @@ jobs:
           script: |
             cd ~/monolith-deploy
             
-            # 1. Securely generate the .env file on the server
-            # 'EOF' in quotes guarantees secret values with special bash chars (e.g. '$') aren't evaluated
+            # 1. Generate the .env file
             cat <<'EOF' > .env
             POSTGRES_USER=${{ secrets.POSTGRES_USER }}
             POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
             POSTGRES_DB=${{ secrets.POSTGRES_DB }}
             DATABASE_URL=${{ secrets.DATABASE_URL }}
+            DB_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
             EOF
             
-            # 2. Log in to GHCR on the server
+            # 2. Log in to GHCR
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
             
-            # 3. Pull the latest images
+            # 3. Pull latest images
             docker compose -f docker-compose.prod.yml pull
             
-            # 4. Restart the containers (database & backend) with the new images
+            # 4. Restart containers
+            # The 'command' in docker-compose will trigger the migration automatically
             docker compose -f docker-compose.prod.yml up -d --remove-orphans
-            
-            # 5. Run Database Migrations 
-            # Assuming you use Prisma (as seen in your dependencies). 
-            # Note: change 'backend' if your service is named differently in docker-compose.prod.yml
-            docker compose -f docker-compose.prod.yml exec -T backend npx prisma migrate deploy
 
-            # 6. Clean up old unused Docker images to save server disk space
+            # 5. Clean up old images
             docker image prune -af
