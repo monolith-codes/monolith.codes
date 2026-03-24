@@ -23,16 +23,17 @@ services:
       - DATABASE_URL=postgresql://Monolith:${DB_PASSWORD}@monolith.codes-postgres:5432/MonoDB
     command: >
       sh -c "npx prisma migrate deploy && node dist/index.js"
-  monolith.codes-frontend:
-    image: ghcr.io/monolith-codes/monolith-frontend:latest
-    restart: always
-    ports:
-      - "3198:3000"
-    depends_on:
-      - monolith.codes-postgres
-      - monolith.codes-backend
-    environment:
-      - NUXT_API_BASE=http://monolith.codes-backend:1909
+      
+  # monolith.codes-frontend:
+  #   image: ghcr.io/monolith-codes/monolith-frontend:latest
+  #   restart: always
+  #   ports:
+  #     - "3198:3000"
+  #   depends_on:
+  #     - monolith.codes-postgres
+  #     - monolith.codes-backend
+  #   environment:
+  #     - NUXT_API_BASE=http://monolith.codes-backend:1909
 
 volumes:
   pg_data:
