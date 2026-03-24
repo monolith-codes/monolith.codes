@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:15-alpine # Use specific versions, not 'latest'
+    image: postgres:15-alpine
     container_name: postgres_db
     restart: always
     environment:
@@ -18,28 +18,28 @@ services:
       - backend_net
 
   backend:
-    image: ghcr.io/monolith-codes/monolith-backend:latest
+    # WICHTIG: Name muss zum GitHub Action Tag passen
+    image: ghcr.io/<dein-nutzer>/<dein-repo>-backend:latest
     restart: always
     depends_on:
       db:
         condition: service_healthy
     environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
-      # Add other app variables here
+      - DATABASE_URL=${DATABASE_URL}
     networks:
       - backend_net
       - frontend_net
 
   frontend:
-    image: ghcr.io/monolith-codes/monolith-frontend:latest
+    # WICHTIG: Name muss zum GitHub Action Tag passen
+    image: ghcr.io/<dein-nutzer>/<dein-repo>-frontend:latest
     restart: always
     depends_on:
       - backend
     environment:
-      - NUXT_API_BASE=http://backend:3000
-      # Add other app variables here
+      - NUXT_API_BASE=${NUXT_API_BASE}
     ports:
-      - "3000:3000" # Exposes the frontend to the outside world
+      - "3000:3000"
     networks:
       - frontend_net
 
