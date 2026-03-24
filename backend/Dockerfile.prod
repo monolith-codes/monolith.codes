@@ -4,8 +4,10 @@ RUN apk add --no-cache openssl
 WORKDIR /usr/app
 COPY package*.json ./
 RUN npm install
-COPY prisma ./prisma
 
+# ✨ FIX: Copy the config file early so 'prisma generate' can see it
+COPY prisma.config.ts ./
+COPY prisma ./prisma
 
 # Generate Prisma Client
 RUN npx prisma generate
@@ -26,6 +28,10 @@ RUN npm install --omit=dev && npm install prisma
 # Copy compiled code and Prisma assets
 COPY --from=builder /usr/app/dist ./dist
 COPY --from=builder /usr/app/prisma ./prisma
+
+# ✨ THE CORE FIX: Copy your Prisma v7 config file into the final image
+COPY --from=builder /usr/app/prisma.config.ts ./prisma.config.ts
+
 # Vital: Copy the generated client from the custom path
 COPY --from=builder /usr/app/src/generated/prisma ./src/generated/prisma
 
