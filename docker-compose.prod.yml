@@ -22,7 +22,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://Monolith:${DB_PASSWORD}@monolith.codes-postgres:5432/MonoDB
     command: >
-      sh -c "npx prisma migrate deploy --schema ./prisma/schema.prisma && node dist/index.js"
+      sh -c "echo 'module.exports = { datasource: { url: process.env.DATABASE_URL } }' > prisma.config.cjs && npx prisma migrate deploy --schema ./prisma/schema.prisma && node dist/index.js"
 
   monolith.codes-frontend:
     image: ghcr.io/monolith-codes/monolith-frontend:latest
