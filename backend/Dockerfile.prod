@@ -1,20 +1,35 @@
-# --- Stage 2: Production ---
-FROM node:22-alpine
-RUN apk update && apk add openssl
+# --- Stage 1: Build ---
+FROM node:22-alpine AS builder 
+
+RUN apk update && apk add --no-cache openssl
 
 WORKDIR /usr/app
 
-# Copy package files
 COPY package*.json ./
-# If prisma is a devDependency, you need it for 'migrate deploy'
-# You can either move it to dependencies or install it globally:
+RUN npm install
+
+COPY . .
+
+# Generate the client using the custom path defined in your schema
+RUN npx prisma generate
+
+RUN npm run build 
+
+# --- Stage 2: Production ---
+FROM node:22-alpine
+RUN apk update && apk add --no-cache openssl
+
+WORKDIR /usr/app
+
+COPY package*.json ./
+# Install production deps + prisma cli for migrations
 RUN npm install --omit=dev && npm install prisma
 
+# Copy built app
 COPY --from=builder /usr/app/dist ./dist
-# Ensure this includes the /migrations folder!
-COPY --from=builder /usr/app/prisma ./prisma 
-
-# If you use a custom output path for client generation, keep this:
+# Copy the prisma folder (needed for migrations)
+COPY --from=builder /usr/app/prisma ./prisma
+# Copy the CUSTOM generated client (matches your schema output)
 COPY --from=builder /usr/app/src/generated/prisma ./src/generated/prisma
 
 CMD ["node", "dist/index.js"]
