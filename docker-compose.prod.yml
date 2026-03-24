@@ -17,7 +17,6 @@ services:
     depends_on:
       monolith.codes-postgres:
         condition: service_healthy
-    # Replaces 'environment:' with 'env_file:' to pass all variables seamlessly
     env_file:
       - .env
     command: >
