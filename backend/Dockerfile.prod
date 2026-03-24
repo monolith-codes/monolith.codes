@@ -4,11 +4,13 @@ RUN apk add --no-cache openssl
 WORKDIR /usr/app
 COPY package*.json ./
 RUN npm install
-COPY . .
+COPY prisma ./prisma
+
 
 # Generate Prisma Client
 ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
 RUN npx prisma generate
+COPY . .
 
 # Compile TypeScript to JS
 RUN npm run build
