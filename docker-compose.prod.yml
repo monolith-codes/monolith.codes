@@ -32,8 +32,8 @@ services:
     image: ghcr.io/monolith-codes/monolith-frontend:latest
     restart: always
     ports:
-      # Exposes the frontend to the public internet on standard HTTP port 80
-      - "80:3000"
+      # Exposes the frontend to the public internet on HTTP port 3198
+      - "3198:3000"
     depends_on:
       - monolith.codes-postgres
       - monolith.codes-backend
