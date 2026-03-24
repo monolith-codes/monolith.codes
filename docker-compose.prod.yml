@@ -25,8 +25,7 @@ services:
       # SECURED: Dynamically constructed using the env var
       DATABASE_URL: postgresql://Monolith:${DB_PASSWORD}@monolith.codes-postgres:5432/MonoDB
     # CHANGED: Runs your database migrations, then starts the compiled production app
-    command: >
-          sh -c "npx prisma migrate deploy --url $$DATABASE_URL && node dist/index.js"
+    command: sh -c "npx prisma migrate deploy && node dist/index.js"
 
   monolith.codes-frontend:
     # UPDATED: Matches the exact image name built by your GitHub Actions logs
