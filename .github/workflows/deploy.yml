@@ -118,7 +118,7 @@ jobs:
             docker compose -f docker-compose.prod.yml pull
             
             # 4. Restart containers
-            docker compose -f docker-compose.prod.yml run --rm backend npx prisma migrate deploy   
-                     
+            docker compose -f docker-compose.prod.yml run --rm monolith.codes-backend npx prisma migrate deploy   
+
             # 5. Clean up old images
             docker image prune -af
