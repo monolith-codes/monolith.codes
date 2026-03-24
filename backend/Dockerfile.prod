@@ -1,40 +1,35 @@
 # --- Stage 1: Build ---
 FROM node:22-alpine AS builder
 
-# Install openssl for Prisma binary compatibility
-RUN apk add --no-network openssl
+# FIX: Allow network access to download openssl, which Prisma needs
+RUN apk update && apk add openssl
 
 WORKDIR /usr/app
 
-# Install dependencies first (better caching)
+# Install dependencies
 COPY package*.json ./
 RUN npm install
 
 # Copy source and prisma schema
 COPY . .
 
-# FIX: Provide a dummy DATABASE_URL to satisfy the Prisma CLI during generation
-# This URL is only used for validation and is not embedded in the code
+# Provide dummy URL for build-time generation
 RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
 
-# Build the TypeScript/JavaScript project
 RUN npm run build 
 
 # --- Stage 2: Production ---
 FROM node:22-alpine
+# Also install openssl in production stage for the runtime engine
+RUN apk update && apk add openssl
+
 WORKDIR /usr/app
 
-# Install only production dependencies
 COPY package*.json ./
 RUN npm install --omit=dev 
 
-# Copy the compiled code and prisma folder
 COPY --from=builder /usr/app/dist ./dist
 COPY --from=builder /usr/app/prisma ./prisma
-
-# THE FIX: Copy your custom Prisma generated folder to match the schema's 'output' path
-# Since your output is "../src/generated/prisma", we recreate that structure
 COPY --from=builder /usr/app/src/generated/prisma ./src/generated/prisma
 
-# Start the application
 CMD ["node", "dist/index.js"]
