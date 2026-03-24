@@ -7,21 +7,23 @@ RUN npm install
 COPY . .
 
 # Generate Prisma client (dummy URL used just to pass CLI validation during build)
-RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
+# Inside your Dockerfile Stage 1:
+RUN npx prisma generate --schema=./prisma/schema.prisma
 RUN npm run build 
 
 # --- Stage 2: Production ---
 FROM node:22-alpine
 WORKDIR /usr/app
-
+# Only install production dependencies to keep the image small
 COPY package*.json ./
-# Install production deps + the prisma CLI specifically
-RUN npm install --omit=dev && npm install prisma
+RUN npm install --omit=dev 
 
+# Copy the compiled code and prisma folder from the builder stage
 COPY --from=builder /usr/app/dist ./dist
 COPY --from=builder /usr/app/prisma ./prisma
-# Ensure the generated client is where the app expects it
-COPY --from=builder /usr/app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /usr/app/node_modules/@prisma/client ./node_modules/@prisma/client
 
+# THE FIX: Copy your custom Prisma generated folder instead of node_modules!
+COPY --from=builder /usr/app/src/generated/prisma ./src/generated/prisma
+
+# Start the compiled application (adjust 'dist/index.js' to your actual entry point)
 CMD ["node", "dist/index.js"]
