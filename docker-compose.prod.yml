@@ -33,16 +33,16 @@ services:
       prisma-migrate:
         condition: service_completed_successfully
 
-  # monolith.codes-frontend:
-  #   image: ghcr.io/monolith-codes/monolith-frontend:latest
-  #   restart: always
-  #   environment:
-  #     - NUXT_PUBLIC_API_BASE=http://monolith.codes-backend:3000
-  #   ports:
-  #     - "3198:3000"
-  #   depends_on:
-  #     - monolith.codes-db
-  #     - monolith.codes-backend
+  monolith.codes-frontend:
+    image: ghcr.io/monolith-codes/monolith-frontend:latest
+    restart: always
+    environment:
+      - NUXT_PUBLIC_API_BASE=http://monolith.codes-backend:3000
+    ports:
+      - "3198:3001"
+    depends_on:
+      - monolith.codes-db
+      - monolith.codes-backend
 
 volumes:
   pg_data:

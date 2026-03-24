@@ -54,26 +54,26 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # # --- FRONTEND BUILD ---
-      # - name: Extract Frontend metadata
-      #   id: meta-frontend
-      #   uses: docker/metadata-action@v5
-      #   with:
-      #     images: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE }}-frontend
-      #     tags: |
-      #       type=raw,value=latest
-      #       type=sha
+      # --- FRONTEND BUILD ---
+      - name: Extract Frontend metadata
+        id: meta-frontend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_BASE }}-frontend
+          tags: |
+            type=raw,value=latest
+            type=sha
 
-      # - name: Build and push Frontend
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     context: ./frontend
-      #     file: ./frontend/Dockerfile.prod
-      #     push: true
-      #     tags: ${{ steps.meta-frontend.outputs.tags }}
-      #     labels: ${{ steps.meta-frontend.outputs.labels }}
-      #     cache-from: type=gha
-      #     cache-to: type=gha,mode=max
+      - name: Build and push Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile.prod
+          push: true
+          tags: ${{ steps.meta-frontend.outputs.tags }}
+          labels: ${{ steps.meta-frontend.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   deploy:
     name: Deploy to Server
@@ -108,7 +108,7 @@ jobs:
             POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
             POSTGRES_DB=${{ secrets.POSTGRES_DB }}
             DATABASE_URL=postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@monolith.codes-db:5432/${{ secrets.POSTGRES_DB }}?schema=public
-            NUXT_API_BASE=http://monolith.codes-backend:3000
+            NUXT_API_BASE=http://monolith.codes-backend:3001
             EOF
             
             # 2. Log in to GHCR
