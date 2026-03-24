@@ -10,8 +10,7 @@ RUN npm install
 
 COPY . .
 
-# FIX: Provide a dummy DATABASE_URL so the generator doesn't crash.
-# This value is NOT saved in the final build; it's just for the CLI tool.
+# FIX: Provide a dummy DATABASE_URL so the generator doesn't crash during build.
 ENV DATABASE_URL="postgresql://johndoe:random@localhost:5432/mydb"
 RUN npx prisma generate --schema=./prisma/schema.prisma
 
@@ -24,8 +23,8 @@ RUN apk update && apk add --no-cache openssl
 WORKDIR /usr/app
 
 COPY package*.json ./
-# Install production deps + prisma cli for migrations
-RUN npm install --omit=dev && npm install prisma
+# FIX: Ensure dotenv is installed alongside prisma so prisma.config.ts can execute
+RUN npm install --omit=dev && npm install prisma dotenv
 
 # Copy built app
 COPY --from=builder /usr/app/dist ./dist
@@ -33,5 +32,8 @@ COPY --from=builder /usr/app/dist ./dist
 COPY --from=builder /usr/app/prisma ./prisma
 # Copy the CUSTOM generated client (matches your schema output)
 COPY --from=builder /usr/app/src/generated/prisma ./src/generated/prisma
+
+# FIX: Copy the Prisma config file into the production container
+COPY --from=builder /usr/app/prisma.config.ts ./
 
 CMD ["node", "dist/index.js"]
