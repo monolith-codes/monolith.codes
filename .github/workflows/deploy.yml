@@ -92,12 +92,8 @@ jobs:
             # 3. Pull latest images
             docker compose -f docker-compose.prod.yml pull
             
-            # 4. Restart containers
+            # 4. Restart containers (Migration runs automatically on boot now!)
             docker compose -f docker-compose.prod.yml up -d --remove-orphans
             
-            # 5. Run Prisma database migrations 
-            # Note: Ensure 'backend' perfectly matches the service name in your docker-compose file.
-            docker compose -f docker-compose.prod.yml exec -T backend npx prisma migrate deploy
-            
-            # 6. Clean up old images
+            # 5. Clean up old images
             docker image prune -af
