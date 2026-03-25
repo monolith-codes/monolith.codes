@@ -25,6 +25,12 @@ model User2 {
   id    Int     @id @default(autoincrement()) 
   email String  @unique
   name  String @unique
+}
+
+model User3 { 
+  id    Int     @id @default(autoincrement()) 
+  email String  @unique
+  name  String @unique
 } 
 
 model Post { 

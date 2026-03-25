@@ -5,11 +5,13 @@ export async function StartDBSeeding() {
 
   let userCount = 0;
   let userCount2 = 0;
+  let userCount3 = 0;
   let postCount = 0;
   
   try {
     userCount = await prisma.user.count();
     userCount2 = await prisma.user2.count();
+    userCount3 = await prisma.user3.count();
     postCount = await prisma.post.count();
   } catch (error) {
     console.log("ERROR: Prisma not migrated!")
