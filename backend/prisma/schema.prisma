@@ -19,6 +19,12 @@ model User {
   email String  @unique
   name  String @unique
   posts Post[]
+}
+
+model User2 { 
+  id    Int     @id @default(autoincrement()) 
+  email String  @unique
+  name  String @unique
 } 
 
 model Post { 
