@@ -34,7 +34,7 @@ services:
         condition: service_completed_successfully
 
   monolith.codes-frontend:
-    image: ghcr.io/monolith-codes/monolith-frontend:latest
+    image: ghcr.io/monolith-codes/monolith.codes-frontend:latest
     restart: always
     environment:
       - NUXT_PUBLIC_API_BASE=http://monolith.codes-backend:3000
