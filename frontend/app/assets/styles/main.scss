@@ -1,0 +1,30 @@
+html, body {
+    overflow: hidden;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+}
+
+#__nuxt {
+    height: 100svh; /* Use vh here; it won't resize because body isn't scrolling */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for older iOS */
+}
+
+
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+}
+
+// h1 {
+//     font-family: "Rubik";
+//     font-size: 1.25rem;
+// }
+
+// p {
+//     font-family: "Rubik";
+//     font-size: .9rem;
+// }

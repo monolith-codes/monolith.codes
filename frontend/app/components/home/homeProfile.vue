@@ -1,0 +1,80 @@
+<template>
+  <div class="homeProfileWrapper">
+    <div class="homeProfile">
+      <img height="500" src="~/assets/images/maurice_we_transparent.webp"/>
+    </div>
+    <div class="homeProfileInfo">
+      <h2>Maurice Wessely</h2>
+      <h3>Software Engineer, Full Stack Developer</h3>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+
+</script>
+
+<style lang="scss">
+  .homeProfileWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(87, 87, 87, 0.558);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+    padding: 1svh;
+    gap: 15px;
+    overflow: hidden;
+
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+  }
+
+  .homeProfile {
+    border-radius: 40px;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.294);
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+
+    img {
+      width: 100%;
+      object-fit: cover;
+      height: 100%;
+      border-radius: 25px;
+      object-position: center;
+    }
+  }
+
+  .homeProfileInfo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    container-type: inline-size;
+    color: #ffffff;
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.5rem, 8cqw, 3rem);
+      line-height: 1.2;
+      margin-left: 1svw;
+    }
+
+    h3 {
+      line-height: 2;
+      margin: 0.25rem 0 0 0;
+      font-size: clamp(0.9rem, 4cqw, 1.5rem);
+      font-weight: normal;
+      color: rgba(255, 255, 255, 0.8);
+      margin-left: 1svw;
+    }
+  }
+
+</style>

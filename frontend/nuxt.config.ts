@@ -9,5 +9,9 @@ export default defineNuxtConfig({
         '@vue/devtools-kit',
       ]
     }
-  }
+  },
+  css: [
+    '~/assets/styles/fonts.scss',
+    '~/assets/styles/main.scss',
+  ],
 })

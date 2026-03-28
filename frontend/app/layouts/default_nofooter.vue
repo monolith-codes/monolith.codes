@@ -4,11 +4,9 @@
     const isLoaded = ref(false)
 
     onMounted(() => {
-        // Check if everything is already loaded
         if (document.readyState === 'complete') {
             isLoaded.value = true
         } else {
-            // Wait for the complete page load event
             window.addEventListener('load', () => {
                 isLoaded.value = true
             })
@@ -38,7 +36,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: black; // Change to match your theme
+        background-color: black;
         z-index: 9999;
     }
 
@@ -47,7 +45,7 @@
         height: 50px;
         border: 5px solid rgba(255, 255, 255, 0.1);
         border-radius: 50%;
-        border-top-color: #959595; // Change to match your theme
+        border-top-color: #959595;
         animation: spin 1s ease-in-out infinite;
     }
 
@@ -60,14 +58,12 @@
     .templateWrapper {
         display: flex;
         position: relative;
-
         flex-direction: column;
-
     }
+    
     .templateContentWrapper {
         position: relative;
         min-height: 100dvh;
         width: 100%;
-        //background-color: green;
     }
 </style>

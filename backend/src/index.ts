@@ -15,7 +15,7 @@ async function main() {
 
 main().catch((e) => {
   console.error("Failed to start:", e.message);
-  process.exit(1); // If seeding fails, you usually want to stop the server from running
+  process.exit(1);
 });
 
 app.get("/", async (req: Request, res: Response) => {

@@ -1,5 +1,7 @@
 <template>
-  <homePage></homePage>
+  <homePage/>
+
+  <!-- <StartingOS/> -->
 </template>
 
 <script setup lang="ts">
@@ -7,7 +9,8 @@
     layout: 'default-nofooter',
   })
 
-  import homePage from '~/components/home/homePage.vue'
+  import mainPage from '~/components/home/mainPage.vue'
+  import StartingOS from '~/components/home/startingOS.vue';
 
   useHead({
     title: 'Maurice Wessely | Portfolio',
