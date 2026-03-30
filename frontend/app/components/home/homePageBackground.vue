@@ -1,73 +1,140 @@
 <template>
-    <div ref="bgAnim" class="background-anim">
-        <div ref="interBubble" class="bubble interactive"></div>
-        <div class="bubble bubble1"></div>
-        <div class="bubble bubble2"></div>
-        <div class="bubble bubble3"></div>
-        <div class="bubble bubble4"></div>
+    <div class="background-anim">
+        <canvas ref="canvas"></canvas>
     </div>
 </template>
 
 <script setup lang="ts">
-    const interBubble = ref<HTMLElement | null>(null)
-    const bgAnim = ref<HTMLElement | null>(null)
+    import { ref, onMounted, onUnmounted } from 'vue'
 
-    let curX = 0
-    let curY = 0
-    let tgX = 0
-    let tgY = 0
+    const canvas = ref<HTMLCanvasElement | null>(null)
     let animationFrameId = 0
+    let ctx: CanvasRenderingContext2D | null = null
 
-    // Cache window dimensions to prevent layout thrashing in the animation loop
-    let winWidth = 0
-    let winHeight = 0
+    // Settings
+    const dotSize = 3 // Base size of the dots
+    const spacing = 15 // Distance between dots
+    const waveSpeed = 0.006 // Slower, more pleasuring wave
+    const waveAmplitude = 50 // Height of the waves
 
-    const updateWindowDimensions = () => {
-        winWidth = window.innerWidth
-        winHeight = window.innerHeight
+    let time = 0
+
+    const resize = () => {
+        if (!canvas.value) return
+        canvas.value.width = window.innerWidth
+        canvas.value.height = window.innerHeight
     }
 
-    const move = () => {
-        curX += (tgX - curX) / 20
-        curY += (tgY - curY) / 20
+    const draw = () => {
+        if (!canvas.value || !ctx) return
         
-        if (interBubble.value) {
-        interBubble.value.style.transform = `translate3d(calc(${curX}px - 50%), calc(${curY}px - 50%), 0)`
+        const w = canvas.value.width
+        const h = canvas.value.height
+        
+        ctx.clearRect(0, 0, w, h)
+        
+        // Create a vertical gradient to fade out distant dots
+        const gradient = ctx.createLinearGradient(0, h * 0.1, 0, h)
+        gradient.addColorStop(0, 'rgba(220, 20, 20, 0)')
+        gradient.addColorStop(0.4, 'rgba(220, 20, 20, 0.3)')
+        gradient.addColorStop(1, 'rgba(220, 20, 20, 0.8)')
+        ctx.fillStyle = gradient
+        
+        ctx.beginPath()
+        
+        const cols = Math.ceil(w / spacing) * 3 // Extra wide to cover perspective edges
+        const rows = 85 // Depth of the grid
+        
+        // 3D Camera settings
+        const fov = 350
+        const cameraY = -120 // Camera height above the waves
+        const cameraZ = -150 // Camera distance from the grid
+        const pitch = 0.55 // Looking down angle (radians)
+        const yaw = -0.25 // Horizontal rotation angle (radians)
+        
+        const cosP = Math.cos(pitch)
+        const sinP = Math.sin(pitch)
+        const cosY = Math.cos(yaw)
+        const sinY = Math.sin(yaw)
+        
+        for (let j = -30; j < rows; j++) {
+            for (let i = -cols/2; i < cols/2; i++) {
+                const x = i * spacing
+                const z = j * spacing
+                
+                // Calculate organic, overlapping waves
+                const distance = Math.sqrt(x * x + z * z)
+                const y = Math.sin(x * 0.008 + time) * Math.cos(z * 0.009 + time * 0.8) * waveAmplitude
+                        + Math.sin(x * 0.015 - time * 0.6) * (waveAmplitude * 0.3)
+                        + Math.cos(z * 0.012 + time * 0.5) * (waveAmplitude * 0.4)
+                        + Math.sin(distance * 0.005 - time) * (waveAmplitude * 0.5)
+                
+                // Translate relative to camera
+                const dx = x
+                const dy = y - cameraY
+                const dz = z - cameraZ
+
+                // Rotate around Y axis (yaw)
+                const dx_yaw = dx * cosY - dz * sinY
+                const dz_yaw = dx * sinY + dz * cosY
+                
+                // Rotate around X axis (pitch)
+                const ry = dy * cosP - dz_yaw * sinP
+                const rz = dy * sinP + dz_yaw * cosP
+                
+                // Perspective projection
+                if (rz < 0.1) continue
+                
+                const scale = fov / rz
+                const px = dx_yaw * scale + w / 2
+                const py = ry * scale + h / 2
+                
+                const size = dotSize * scale
+                
+                // Only draw dots that are on screen
+                if (px >= -size && px <= w + size && py >= -size && py <= h + size) {
+                    ctx.rect(px, py, Math.max(0.5, size), Math.max(0.5, size))
+                }
+            }
         }
-        if (bgAnim.value && winWidth > 0 && winHeight > 0) {
-        // Use cached dimensions instead of querying the DOM
-        const offsetX = ((curX / winWidth) - 0.5) * -40
-        const offsetY = ((curY / winHeight) - 0.5) * -40
-        bgAnim.value.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0)`
-        }
         
-        animationFrameId = requestAnimationFrame(move)
-    }
-
-    const handleMouseMove = (event: MouseEvent) => {
-        tgX = event.clientX
-        tgY = event.clientY
-    }
-
-    onMounted(() => {
-        updateWindowDimensions()
-        tgX = winWidth / 2
-        tgY = winHeight / 2
-        curX = tgX
-        curY = tgY
+        ctx.fill()
         
-        window.addEventListener('mousemove', handleMouseMove, { passive: true })
-        window.addEventListener('resize', updateWindowDimensions, { passive: true })
-        animationFrameId = requestAnimationFrame(move)
-    })
+        time += waveSpeed
+        animationFrameId = requestAnimationFrame(draw)
+}
 
-    onUnmounted(() => {
-        window.removeEventListener('mousemove', handleMouseMove)
-        window.removeEventListener('resize', updateWindowDimensions)
-        cancelAnimationFrame(animationFrameId)
-    })
+onMounted(() => {
+    if (canvas.value) {
+        ctx = canvas.value.getContext('2d')
+        resize()
+        window.addEventListener('resize', resize, { passive: true })
+        animationFrameId = requestAnimationFrame(draw)
+    }
+})
+
+onUnmounted(() => {
+    window.removeEventListener('resize', resize)
+    cancelAnimationFrame(animationFrameId)
+})
 </script>
 
-<style lang="scss">
 
+<style lang="scss">
+    .background-anim {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
 </style>
