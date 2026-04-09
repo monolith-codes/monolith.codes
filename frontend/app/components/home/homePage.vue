@@ -58,7 +58,6 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted, onUnmounted } from 'vue'
   import homeProfile from '~/components/home/homeProfile.vue'
   import homeTechStack from '~/components/home/homeTechStack.vue' 
   import homePageBackground from './homePageBackground.vue'

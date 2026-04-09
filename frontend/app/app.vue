@@ -7,6 +7,4 @@
 </template>
 
 <style lang="scss">
-   @use '~/assets/styles/fonts.scss';
-   @use '~/assets/styles/main.scss';
 </style>

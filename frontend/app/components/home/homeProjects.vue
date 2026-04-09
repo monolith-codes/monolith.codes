@@ -11,7 +11,8 @@
       alt="Projects Background"
       width="667" 
       height="250" 
-      sizes="sm:100vw md:50vw lg:667px" 
+      sizes="667px" 
+      densities="1x"
       format="webp"
     />
   </div>

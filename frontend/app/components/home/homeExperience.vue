@@ -13,7 +13,8 @@
       alt="Experience Thumbnail"
       width="444"
       height="250"
-      sizes="sm:100vw md:50vw lg:444px"
+      sizes="444px"
+      densities="1x"
       format="webp"
     />
     <video 
@@ -31,8 +32,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
 const videoRef = ref<HTMLVideoElement | null>(null)
 let playPromise: Promise<void> | undefined
 
