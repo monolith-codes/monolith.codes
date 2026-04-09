@@ -11,10 +11,21 @@
 h2 {
     color: white;
     font-family: 'Oswald';
-    line-height: 1.25rem;
+    margin: 0;
+    font-size: clamp(1.2rem, 5cqw, 1.7rem);
+    line-height: 2;
+    color: #ffffff;
 }
 
 h3 {
     color: white;
+    font-size: clamp(.6rem, 3cqw, 1.2rem);
+    font-family: 'Roboto';
+    font-weight: 400;
+}
+
+p {
+    color: white;
+    font-size: clamp(.4rem, 2cqw, 1rem);
     font-family: 'Roboto';
 }

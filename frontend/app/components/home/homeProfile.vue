@@ -1,7 +1,7 @@
 <template>
   <div class="homeProfileWrapper">
     <div class="homeProfile">
-      <img height="500" src="~/assets/images/maurice_we_transparent.webp"/>
+      <img height="500" src="~/assets/images/mw_profile_transparent.webp"/>
     </div>
     <div class="homeProfileInfo">
       <h2>Maurice Wessely</h2>
@@ -10,9 +10,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss">
   .homeProfileWrapper {
@@ -57,24 +55,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    container-type: inline-size;
     color: #ffffff;
-
-    h2 {
-      margin: 0;
-      font-size: clamp(1.5rem, 8cqw, 3rem);
-      line-height: 1.2;
-      margin-left: 1svw;
-    }
-
-    h3 {
-      line-height: 2;
-      margin: 0.25rem 0 0 0;
-      font-size: clamp(0.9rem, 4cqw, 1.5rem);
-      font-weight: normal;
-      color: rgba(255, 255, 255, 0.8);
-      margin-left: 1svw;
-    }
+    margin-left: 1svw;
   }
-
 </style>

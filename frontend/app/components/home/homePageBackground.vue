@@ -11,11 +11,10 @@
     let animationFrameId = 0
     let ctx: CanvasRenderingContext2D | null = null
 
-    // Settings
-    const dotSize = 3 // Base size of the dots
-    const spacing = 15 // Distance between dots
-    const waveSpeed = 0.006 // Slower, more pleasuring wave
-    const waveAmplitude = 50 // Height of the waves
+    const dotSize = 3
+    const spacing = 15
+    const waveSpeed = 0.006
+    const waveAmplitude = 50
 
     let time = 0
 
@@ -33,7 +32,6 @@
         
         ctx.clearRect(0, 0, w, h)
         
-        // Create a vertical gradient to fade out distant dots
         const gradient = ctx.createLinearGradient(0, h * 0.1, 0, h)
         gradient.addColorStop(0, 'rgba(220, 20, 20, 0)')
         gradient.addColorStop(0.4, 'rgba(220, 20, 20, 0.3)')
@@ -42,15 +40,14 @@
         
         ctx.beginPath()
         
-        const cols = Math.ceil(w / spacing) * 3 // Extra wide to cover perspective edges
-        const rows = 85 // Depth of the grid
+        const cols = Math.ceil(w / spacing) * 3 
+        const rows = 85
         
-        // 3D Camera settings
         const fov = 350
-        const cameraY = -120 // Camera height above the waves
-        const cameraZ = -150 // Camera distance from the grid
-        const pitch = 0.55 // Looking down angle (radians)
-        const yaw = -0.25 // Horizontal rotation angle (radians)
+        const cameraY = -120
+        const cameraZ = -150
+        const pitch = 0.55
+        const yaw = -0.25
         
         const cosP = Math.cos(pitch)
         const sinP = Math.sin(pitch)
@@ -62,27 +59,22 @@
                 const x = i * spacing
                 const z = j * spacing
                 
-                // Calculate organic, overlapping waves
                 const distance = Math.sqrt(x * x + z * z)
                 const y = Math.sin(x * 0.008 + time) * Math.cos(z * 0.009 + time * 0.8) * waveAmplitude
                         + Math.sin(x * 0.015 - time * 0.6) * (waveAmplitude * 0.3)
                         + Math.cos(z * 0.012 + time * 0.5) * (waveAmplitude * 0.4)
                         + Math.sin(distance * 0.005 - time) * (waveAmplitude * 0.5)
                 
-                // Translate relative to camera
                 const dx = x
                 const dy = y - cameraY
                 const dz = z - cameraZ
 
-                // Rotate around Y axis (yaw)
                 const dx_yaw = dx * cosY - dz * sinY
                 const dz_yaw = dx * sinY + dz * cosY
                 
-                // Rotate around X axis (pitch)
                 const ry = dy * cosP - dz_yaw * sinP
                 const rz = dy * sinP + dz_yaw * cosP
                 
-                // Perspective projection
                 if (rz < 0.1) continue
                 
                 const scale = fov / rz
@@ -91,7 +83,6 @@
                 
                 const size = dotSize * scale
                 
-                // Only draw dots that are on screen
                 if (px >= -size && px <= w + size && py >= -size && py <= h + size) {
                     ctx.rect(px, py, Math.max(0.5, size), Math.max(0.5, size))
                 }
@@ -118,7 +109,6 @@ onUnmounted(() => {
     cancelAnimationFrame(animationFrameId)
 })
 </script>
-
 
 <style lang="scss">
     .background-anim {
