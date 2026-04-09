@@ -5,22 +5,22 @@
     </div>
     <div class="homeSocials">
         <div class="homeSocialsItem">
-          <a class="homeSocialsItemLink" alt="Discord Link" href="www.google.de" target="__blank">
+          <a class="homeSocialsItemLink" aria-label="Discord Link" href="www.google.de" target="__blank">
             <discord_logo/>
           </a>
         </div>
         <div class="homeSocialsItem" id="githubSocial">
-          <a class="homeSocialsItemLink" alt="Github Link" href="https://github.com/monolith-codes" target="__blank">
+          <a class="homeSocialsItemLink" aria-label="Github Link" href="https://github.com/monolith-codes" target="__blank">
             <github_circle_logo/>
           </a>
         </div>
         <div class="homeSocialsItem" id="linkedinSocial">
-          <a class="homeSocialsItemLink" alt="Linkedin Link" href="https://www.linkedin.com/in/maurice-wessely-21aab03b7/" target="__blank">
+          <a class="homeSocialsItemLink" aria-label="Linkedin Link" href="https://www.linkedin.com/in/maurice-wessely-21aab03b7/" target="__blank">
             <linkedin_logo/>
           </a>
         </div>
         <div class="homeSocialsItem" id="emailSocial">
-          <a class="homeSocialsItemLink" alt="Email Link" href="mailto:maurice.wessely19@gmail.com" target="__blank">
+          <a class="homeSocialsItemLink" aria-label="Email Link" href="mailto:maurice.wessely19@gmail.com" target="__blank">
             <Email_logo/>
           </a>
         </div>

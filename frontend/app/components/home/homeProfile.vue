@@ -1,7 +1,17 @@
 <template>
   <div class="homeProfileWrapper">
     <div class="homeProfile">
-      <img height="500" src="~/assets/images/mw_profile_transparent.webp"/>
+      <NuxtImg 
+        src="/images/mw_profile_transparent.webp" 
+        width="364"
+        height="485"
+        sizes="364px" 
+        densities="1x" 
+        format="webp"
+        class="homeProfileImage" 
+        alt="Maurice Wessely Profile"
+        fetchpriority="high"
+      />
     </div>
     <div class="homeProfileInfo">
       <h2>Maurice Wessely</h2>
@@ -57,5 +67,13 @@
     justify-content: center;
     color: #ffffff;
     margin-left: 1svw;
+  }
+
+  .homeProfileImage {
+      width: 100%;
+      object-fit: cover;
+      height: 100%;
+      border-radius: 25px;
+      object-position: center;
   }
 </style>

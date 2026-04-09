@@ -7,9 +7,25 @@
         <div class="homeExperienceTitle">
         <h2>Experience</h2>
     </div>
-    <img class="homeExperienceThumbnail homeExperienceBackground" src="/assets/images/experience_thumb.webp" alt="Experience Thumbnail"/>
-    <video ref="videoRef" class="homeExperienceVideo homeExperienceBackground" loop muted playsinline disablePictureInPicture>
-      <source src="/assets/videos/experience_thumb.webm" type="video/webm" />
+    <NuxtImg 
+      class="homeExperienceThumbnail homeExperienceBackground" 
+      src="/images/experience_thumb.webp" 
+      alt="Experience Thumbnail"
+      width="444"
+      height="250"
+      sizes="sm:100vw md:50vw lg:444px"
+      format="webp"
+    />
+    <video 
+      ref="videoRef" 
+      class="homeExperienceVideo homeExperienceBackground" 
+      loop 
+      muted 
+      playsinline 
+      disablePictureInPicture
+    >
+      <source src="/videos/experience_thumb.webm" type="video/webm" />
+      <track kind="captions" src="/assets/videos/empty.vtt" srclang="en" label="None" />    
     </video>
   </div>
 </template>

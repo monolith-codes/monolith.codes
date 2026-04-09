@@ -5,27 +5,35 @@
     </div>
     <div class="homeTechStack">
         <div class="homeTeckStackItems">
-          <div class="homeTechStackItem">
+          
+          <a href="https://nuxt.com/" target="_blank" rel="noopener noreferrer" class="homeTechStackItem" aria-label="Visit Nuxt.js website">
             <Nuxt_logo/>
-          </div>
-          <div class="homeTechStackItem" id="tsTechStack">
+          </a>
+          
+          <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener noreferrer" class="homeTechStackItem" id="tsTechStack" aria-label="Visit TypeScript website">
             <ts_logo/>
-          </div>
-          <div class="homeTechStackItem">
+          </a>
+          
+          <a href="https://cplusplus.com/" target="_blank" rel="noopener noreferrer" class="homeTechStackItem" aria-label="Learn about C++">
             <cpp_logo/> 
-          </div>
-          <div class="homeTechStackItem">
+          </a>
+          
+          <a href="https://learn.microsoft.com/en-us/dotnet/csharp/" target="_blank" rel="noopener noreferrer" class="homeTechStackItem" aria-label="Learn about C#">
             <cs_logo/>
-          </div>
-          <div class="homeTechStackItem">
+          </a>
+          
+          <a href="https://www.unrealengine.com/" target="_blank" rel="noopener noreferrer" class="homeTechStackItem" aria-label="Visit Unreal Engine website">
             <Ue_logo/>
-          </div>
-          <div class="homeTechStackItem">
+          </a>
+          
+          <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer" class="homeTechStackItem" aria-label="Visit Node.js website">
             <Nodejs_logo/>
-          </div>
-          <div class="homeTechStackItem">
+          </a>
+          
+          <a href="https://www.docker.com/" target="_blank" rel="noopener noreferrer" class="homeTechStackItem" aria-label="Visit Docker website">
             <Docker_logo/>
-          </div>
+          </a>
+
         </div>
         <div class="homeTechStackButtonWrapper"></div>
     </div>
@@ -93,6 +101,7 @@
   }
 
   .homeTechStackItem {
+    display: block;
     height: 60%;
     aspect-ratio: 1/1;
     border-radius: 50%;

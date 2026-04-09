@@ -5,7 +5,15 @@
     <div class="homeProjectsTitle">
         <h2>Projects</h2>
     </div>
-    <img class="homeProjectsBackground" height="200" width="600" src="/assets/images/projects_thumb_white.webp" alt="Projects Background"/>
+    <NuxtImg 
+      class="homeProjectsBackground" 
+      src="/images/projects_thumb_white.webp" 
+      alt="Projects Background"
+      width="667" 
+      height="250" 
+      sizes="sm:100vw md:50vw lg:667px" 
+      format="webp"
+    />
   </div>
 </template>
 

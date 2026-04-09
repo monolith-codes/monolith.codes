@@ -10,8 +10,21 @@ export default defineNuxtConfig({
       ]
     }
   },
-  css: [
-    '~/assets/styles/fonts.scss',
-    '~/assets/styles/main.scss',
+  // css: [
+  //   '~/assets/styles/fonts.scss',
+  //   '~/assets/styles/main.scss',
+  // ],
+  modules: [
+    '@nuxt/image'
   ],
+  features: {
+    inlineStyles: true
+  },
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'en'
+      }
+    }
+  }
 })
