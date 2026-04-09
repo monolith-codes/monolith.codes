@@ -9,8 +9,7 @@
     layout: 'default-nofooter',
   })
 
-  import mainPage from '~/components/home/mainPage.vue'
-  import StartingOS from '~/components/home/startingOS.vue';
+  import homePage from '~/components/home/homePage.vue';
 
   useHead({
     title: 'Maurice Wessely | Portfolio',
