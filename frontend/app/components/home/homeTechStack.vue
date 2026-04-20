@@ -35,7 +35,15 @@
           </a>
 
         </div>
-        <div class="homeTechStackButtonWrapper"></div>
+        <div class="homeTechStackButtonWrapper">
+          <button class="homeTechStackButton">
+            <span>See all</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="homeTechStackArrowIcon">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
     </div>
   </div>
 </template>
@@ -97,7 +105,48 @@
     display: flex;
     width: 20%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.256);
+    margin-left: clamp(10px, 1.5svw, 20px);
+  }
+
+  .homeTechStackButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: clamp(20px, 3vw, 40px);
+    color: white;
+    padding: 0;
+    margin: 0;
+    font-size: clamp(14px, 1.5vw, 18px);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgba(0, 0, 0, 0.294);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      transform: translateY(-2px) scale(1.1);
+
+      .homeTechStackArrowIcon {
+        transform: translateX(4px);
+      }
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .homeTechStackArrowIcon {
+    transition: transform 0.3s ease;
   }
 
   .homeTechStackItem {

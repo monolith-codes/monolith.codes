@@ -18,12 +18,20 @@
       <div class="homeInfoButtonWrapper">
         <button class="homeInfoButton">Contact me!</button>
       </div>
+
+      <div class="homeInfoButtonWrapper">
+        <a class="homeInfoButton" href="https://github.com/monolith-codes/monolith.codes" target="_blank" rel="noopener noreferrer">
+          Source code
+          <github_circle_logo class="homeInfoButtonIcon"/>
+        </a>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-
+  import github_circle_logo from '@/assets/svgs/github_circle_logo.vue'
 </script>
 
 <style lang="scss">
@@ -64,7 +72,7 @@
 
     p {
       margin: 1.5svw;
-      background-color: red;
+      // background-color: red;
     }
   }
 
@@ -78,23 +86,43 @@
   }
 
   .homeInfoButton {
-    border: 1px solid rgba(224, 0, 0, 0.15);
-    border-radius: 50px;
-    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
     width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
     color: white;
-    padding: 0.5svh 2svw;
-    font-size: clamp(14px, 2vw, 18px);
+    padding: clamp(6px, 1vh, 12px) clamp(12px, 1.5vw, 20px);
+    font-size: clamp(12px, 1.5vw, 16px);
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: 'Roboto';
+    transition: all 0.2s ease-in-out;
+    font-family: 'Roboto', sans-serif;
     background-color: rgba(0, 0, 0, 0.294);
+    text-decoration: none;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
-      transform: translateY(-2px);
+      background-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      transform: translateX(4px);
+
+      .homeInfoButtonIcon {
+        transform: rotate(5deg);
+      }
     }
 
+    &:active {
+      transform: translateX(0);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .homeInfoButtonIcon {
+    height: 1.4em;
+    width: 1.4em;
+    fill: currentColor;
+    flex-shrink: 0;
   }
 </style>
