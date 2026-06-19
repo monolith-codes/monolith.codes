@@ -17,3 +17,5 @@
 /frontend/.env.*
 /frontend/!.env.example
 /frontend/ecosystem.config.cjs
+
+.env
