@@ -1,7 +1,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/monolith-codes/monolith.codes" target="_blank">
-    <img src="https://cdn.discordapp.com/attachments/1227412631632216145/1232033294309261332/logo.png?ex=6627fbeb&is=6626aa6b&hm=be78ec06dbabfa59e2854a6d7370e2e593091faeee6c582f76c9daaba3b3e22&" alt="Logo" width="100" height="100">
+    <img src="https://monolith.codes/images/monolith2.png" alt="Logo" width="100" height="100">
   </a>
 
   <h3 align="center">monolith.codes</h3>
@@ -17,7 +17,7 @@
 
 [![action status](https://github.com/monolith-codes/monolith.codes/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/monolith-codes/monolith.codes/actions/workflows/deploy.yml)
 ## Info
-This is my personal portfolio homepage made with Nuxt3, Three.js, NodeJS, ExpressJS and PrismaORM.
+This is my personal portfolio homepage made with Nuxt, NodeJS, ExpressJS, PostgreSQL and PrismaORM.
 The whole full stack app is wrapped in a docker compose mono repo setup.  
 
 
@@ -37,9 +37,8 @@ To have a smooth experience while editing the source code you have to take a few
 
 ### Deployment
 
-To deploy and start the docker container simply use:
-
-``` ./startup.sh ```
+This project is designed to be deployed via GitHub Actions runner on a self-hosted server.
+Simply adjust the necessary secrets of the deploy.yml to your target system in your project settings.
 
 ## Technologies
 
@@ -50,7 +49,6 @@ Here is a list of all technologies used alongside this project.
 - Unit Tests: <a href="https://github.com/jestjs/jest" target="_blank">Jest</a>
 - Vue Components: <a href="https://github.com/vuetifyjs/vuetify" target="_blank">Vuetify</a>
 - Styling Superset: <a href="https://github.com/sass/sass" target="_blank">Sass</a>
-- 3D: <a href="https://github.com/Tresjs/tres" target="_blank">TresJs</a>
 
 ### Backend:
 - Database: <a href="https://github.com/postgres/postgres" target="_blank">PostgreSQL</a>
