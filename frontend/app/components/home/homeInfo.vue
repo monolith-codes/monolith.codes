@@ -4,26 +4,35 @@
         <h2>Hey there!</h2>
     </div>
     <div class="homeInfo">
-      <p>
-        I'm Maurice, a passionate software developer and this is my personal portfolio where I showcase my projects and share insights into my journey in the world of technology.
-        <br><br>
-        With a Bachelor of Science in Applied Computer Science, I have a strong foundation for building robust and scalable applications. My passion for technology extends beyond web development into game development and modding, where I enjoy tackling unique technical challenges.
-        <br><br>
-        I also have a keen interest in DevOps, with practical experience in hosting and deploying applications using tools like GitHub Actions and Docker. I enjoy managing the full lifecycle of a project, from local development to a live environment.
-        Whether I'm crafting a user interface, streamlining a deployment pipeline, or creating custom game mechanics, I am driven by the process of turning complex problems into elegant and effective solutions.
-        <br><br>
-        Feel free to explore my projects and reach out if you'd like to collaborate or learn more about my work!
-      </p>
 
-      <div class="homeInfoButtonWrapper">
-        <button class="homeInfoButton">Contact me!</button>
+      <div class="homInfoText">
+        <p>
+          I'm Maurice, a passionate software developer and this is my personal portfolio where I showcase my projects and share insights into my journey in the world of technology.
+          <br><br>
+          With a Bachelor of Science in Applied Computer Science, I have a strong foundation for building robust and scalable applications. My passion for technology extends beyond web development into game development and modding, where I enjoy tackling unique technical challenges.
+          <br><br>
+          I also have a keen interest in DevOps, with practical experience in hosting and deploying applications using tools like GitHub Actions and Docker. I enjoy managing the full lifecycle of a project, from local development to a live environment.
+          Whether I'm crafting a user interface, streamlining a deployment pipeline, or creating custom game mechanics, I am driven by the process of turning complex problems into elegant and effective solutions.
+          <br><br>
+          Feel free to explore my projects and reach out if you'd like to collaborate or learn more about my work!
+        </p>
       </div>
 
-      <div class="homeInfoButtonWrapper">
-        <a class="homeInfoButton" href="https://github.com/monolith-codes/monolith.codes" target="_blank" rel="noopener noreferrer">
-          Source code
-          <github_circle_logo class="homeInfoButtonIcon"/>
-        </a>
+      <div class="homeInfoButtons">
+        <div class="homeInfoButtonWrapper">
+
+          <a class="homeInfoButton" href="mailto:maurice.wessely19@gmail.com" target="_blank" rel="noopener noreferrer">
+            Contact me!
+            <contact_me class="homeInfoButtonIcon"/>
+          </a>
+        </div>
+
+        <div class="homeInfoButtonWrapper">
+          <a class="homeInfoButton" href="https://github.com/monolith-codes/monolith.codes" target="_blank" rel="noopener noreferrer">
+            Source code
+            <github_circle_logo class="homeInfoButtonIcon"/>
+          </a>
+        </div>
       </div>
 
     </div>
@@ -32,6 +41,7 @@
 
 <script setup lang="ts">
   import github_circle_logo from '@/assets/svgs/github_circle_logo.vue'
+import Contact_me from '~/assets/svgs/contact_me.vue';
 </script>
 
 <style lang="scss">
@@ -44,11 +54,13 @@
     width: 100%;
     background-color: rgba(87, 87, 87, 0.558);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 50px;
+    border-radius: clamp(20px, 5vw, 50px);
+
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     box-sizing: border-box;
     padding: 1svh;
     overflow: hidden;
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
   }
   
   .homeInfoTitle {
@@ -56,8 +68,9 @@
     width: 100%;
   }
 
-  .homeInfo {
-    border-radius: clamp(20px, 3vw, 40px);
+  .homeInfo { 
+    border-radius: clamp(16px, 4vw, 40px);
+
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -67,13 +80,32 @@
     flex: 1;
     min-height: 0;
     background-color: rgba(0, 0, 0, 0.256);
-    overflow-y: auto;
+    overflow: hidden;
     container-type: inline-size;
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
 
     p {
       margin: 1.5svw;
+      font-size: clamp(0.7rem, 5cqw, 1rem);
       // background-color: red;
     }
+  }
+
+  .homInfoText {
+    height: auto;
+    width: 100%;
+    //background-color: green;;
+  }
+
+  .homeInfoButtons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    height: auto;
+    padding-bottom: 1.5svw;
+    width: 100%;
+    //background-color: red;
   }
 
   .homeInfoButtonWrapper {
@@ -93,11 +125,12 @@
     width: 100%;
     box-sizing: border-box;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 50px;
+    border-radius: clamp(20px, 5vw, 50px);
+
     color: white;
-    padding: clamp(6px, 1vh, 12px) clamp(12px, 1.5vw, 20px);
-    font-size: clamp(12px, 1.5vw, 16px);
-    cursor: pointer;
+    padding: clamp(4px, 1vh, 12px) clamp(8px, 1.5vw, 20px);
+    font-size: clamp(0.65rem, 4cqw, 1rem);
+        cursor: pointer;
     transition: all 0.2s ease-in-out;
     font-family: 'Roboto', sans-serif;
     background-color: rgba(0, 0, 0, 0.294);
@@ -125,4 +158,6 @@
     fill: currentColor;
     flex-shrink: 0;
   }
+
+  
 </style>

@@ -28,6 +28,12 @@ h3 {
 
 p {
     color: white;
-    font-size: clamp(.4rem, 2cqw, 1rem);
+    font-size: clamp(.9rem, 2cqw, 1rem);
+    font-family: 'Roboto';
+}
+
+a {
+    color: white;
+    font-size: clamp(.9rem, 2cqw, 1rem);
     font-family: 'Roboto';
 }

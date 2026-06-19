@@ -45,7 +45,7 @@
     width: 100%;
     background-color: rgba(87, 87, 87, 0.558);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 50px;
+    border-radius: clamp(20px, 5vw, 50px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     box-sizing: border-box;
     padding: 1svh;
@@ -57,7 +57,7 @@
   }
 
   .homeSocials {
-    border-radius: clamp(20px, 3vw, 40px);
+    border-radius: clamp(16px, 4vw, 40px);
     width: 100%;
     display: flex;
     flex-wrap: wrap;

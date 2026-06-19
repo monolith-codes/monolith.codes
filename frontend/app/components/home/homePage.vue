@@ -5,6 +5,8 @@
       <div class="left-grid">
         <div 
           class="grid-item animated nolink"
+          id="homeProfileGridItem"
+          style="--stagger: 1;"
           @mousemove="onCardMove"
           @mouseenter="onCardEnter"
           @mouseleave="onCardLeave"
@@ -13,6 +15,8 @@
         </div>
         <div 
           class="grid-item animated nolink"
+          id="homeSocialsGridItem"
+          style="--stagger: 3;"
           @mousemove="onCardMove"
           @mouseenter="onCardEnter"
           @mouseleave="onCardLeave"
@@ -22,11 +26,13 @@
       </div>
       <div class="right-grid">
         <div class="right-grid-upper">
-          <div class="grid-item nolink">
+          <div class="grid-item nolink" id="homeInfoGridItem" style="--stagger: 2;">
             <homeInfo/>
           </div>
           <div 
             class="grid-item animated nolink"
+            id="homeTechStackGridItem"
+            style="--stagger: 4;"
             @mousemove="onCardMove"
             @mouseenter="onCardEnter"
             @mouseleave="onCardLeave"
@@ -37,6 +43,8 @@
         <div class="right-grid-lower">
           <div 
             class="grid-item animated"
+            id="homeExperienceGridItem"
+            style="--stagger: 5;"
             @mousemove="onCardMove"
             @mouseenter="onCardEnter"
             @mouseleave="onCardLeave"
@@ -45,6 +53,8 @@
           </div>
           <div 
             class="grid-item animated"
+            id="homeProjectsGridItem"
+            style="--stagger: 6;"
             @mousemove="onCardMove"
             @mouseenter="onCardEnter"
             @mouseleave="onCardLeave"
@@ -155,8 +165,10 @@
   .homePage {
     position: relative;
     z-index: 1;
-    height: calc(100svh - 10rem);
-    width: 70%;
+    width: auto;
+    height: 90%;
+    aspect-ratio: 8/5;
+    max-height: 1000px;
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 5rem;
@@ -165,10 +177,14 @@
 
   .grid-item  {
     overflow: hidden;
-    border-radius: 50px;
+    border-radius: clamp(20px, 5vw, 50px);
     cursor: pointer;
     -webkit-mask-image: -webkit-radial-gradient(white, black);
     transform: translateZ(0); 
+    animation: homeGridFlowIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) backwards;
+    animation-delay: calc(var(--stagger, 0) * 0.15s + 0.1s);
+    min-height: 0;
+    min-width: 0;
 
     &.animated {
       transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--scale, 1)) translateZ(0);
@@ -186,43 +202,241 @@
     }
   }
 
+  @keyframes homeGridFlowIn {
+    0% {
+      opacity: 0;
+      transform: perspective(1000px) translateY(40px) translateZ(-60px) rotateX(-5deg) rotateY(5deg) scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      /* Falling back neatly into the defined hover properties if triggered mid-animation */
+      transform: perspective(1000px) translateY(0) translateZ(0) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--scale, 1));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .grid-item {
+      animation: none !important;
+    }
+  }
+
   .left-grid {
-    height: calc(100svh - 10rem);
     display: grid;
     grid-template-rows: 4.5fr 1fr;
     gap: 3rem;
+    min-height: 0;
   }
 
   .right-grid {
-    height: calc(100svh - 10rem);
     display: grid;
     grid-template-rows: 4.5fr 1fr;
     gap: 3rem;
+    min-height: 0;
   }
 
   .right-grid-upper {
     display: grid;
-    grid-template-rows: 3fr 1fr;
+    grid-template-rows: 3.2fr 1fr;
     gap: 3rem;
+    min-height: 0;
   }
 
   .right-grid-lower {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
     gap: 3rem;
+    min-width: 0;
   }
 
-  @media (max-width: 1024px) and (orientation: portrait), (max-width: 1024px) and (max-height: 600px) and (orientation: landscape) {
-    .homePageWrapper { height: auto; min-height: 100svh; padding: 4rem 0; overflow-y: auto; }
-    .background-anim { position: fixed; }
-    .homePage { height: auto; width: 90%; grid-template-columns: 1fr; }
-    .left-grid { height: auto; grid-template-rows: auto auto; }
-    .right-grid { height: auto; grid-template-rows: auto auto; }
+ @media (min-width: 600px) and (max-aspect-ratio: 36/25) {
+    .homePageWrapper {
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      margin: auto;
+      width: 100%;
+      height: 100svh;
+      min-height: 100svh;
+      overflow-y: auto;
+      background-color: red;
+    }
+
+    .homePage {
+      height: 100%;
+      aspect-ratio: 9/16;
+      width: auto;
+      display: grid;
+      flex-direction: column;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+
+    .left-grid {
+      grid-template-columns: 1fr;
+      height: 100svh;
+      width: auto;
+      aspect-ratio: 9/16;
+      background-color: pink;
+    }
+
+    .right-grid {
+      height: 100svh;
+    }
+
+    .grid-item.animated {
+      --rx: 0deg !important;
+      --ry: 0deg !important;
+      --scale: 1 !important;
+      &:hover {
+        z-index: auto;
+      }
+    }
   }
 
-  @media (max-width: 768px) and (orientation: portrait), (max-height: 500px) and (orientation: landscape) {
-    .homePage { width: 92%; }
-    .right-grid-lower { grid-template-columns: 1fr; }
-    .grid-item { min-height: 250px; border-radius: 35px; }
+  @media (max-width: 600px) and (max-aspect-ratio: 36/25) {
+
+    .homePageWrapper {
+      justify-content: center;
+      align-items: flex-start;
+      display: flex;
+      margin: 37.5px;
+      width: calc(100% - 75px);
+      height: 100%;
+      min-height: calc(100svh - 75px);
+      overflow-y: auto;
+      //background-color: green;
+    }
+
+   .homePage {
+      height: auto;
+      aspect-ratio: unset;
+      width: 100%;
+      display: grid;
+      flex-direction: column;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      max-height: unset;
+    }
+
+    .left-grid {
+      display: flex;
+      flex-direction: column;
+      width: auto;
+      min-height: 100svh;
+      //background-color: blue;
+    }
+
+    #homeProfileGridItem {
+      display: flex;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1/1.5;
+      //background-color: yellow;
+    }
+
+    #homeSocialsGridItem {
+      width: 100%;
+      aspect-ratio: 3/1;
+      //background-color: green;
+    }
+
+
+    .right-grid {
+      height: 100svh;
+    }
+
+    .grid-item.animated {
+      --rx: 0deg !important;
+      --ry: 0deg !important;
+      --scale: 1 !important;
+      &:hover {
+        z-index: auto;
+      }
+    }
+
+    .right-grid {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      //background-color: red;
+    }
+    
+    .right-grid-upper {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      min-height: 0;
+      height: auto;
+    }
+
+    #homeInfoGridItem {
+      width: 100%;
+      height: auto;
+      min-height: max-content;
+    }
+
+    .homInfoText {
+      padding: 1svw;
+      height: unset;
+    }
+
+    .homeInfoButtons {
+      margin-top: 5svw;
+      margin-bottom: 2svw;
+
+      height: unset;
+    }
+
+    .homeInfoButtonWrapper {
+      width: 47%;
+    }
+
+
+    #homeTechStackGridItem {
+      aspect-ratio: 2/1;
+      width: 100%;
+      height: auto;
+    }
+
+    #homeExperienceGridItem {
+      aspect-ratio: 2.5/1;
+      width: 100%;
+      height: auto;
+    }
+
+    #homeProjectsGridItem {
+      aspect-ratio: 2.5/1;
+      width: 100%;
+      height: auto;
+    }
+
+    .homeTeckStackItems {
+      padding: 1svw;
+    }
+
+    .homeTechStackItem {
+      height: 25px;
+    }
+
+    .homeTechStackButton {
+      flex-direction: column;
+      padding: 1svw;
+    }
+
+    .right-grid-lower {
+      display: flex;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      //background: red;
+    }
   }
+
+   @media (min-aspect-ratio: 1/11) {
+    .homePageWrapper {
+      //background-color: orange;
+    }
+
+   }
 </style>
