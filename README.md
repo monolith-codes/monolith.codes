@@ -17,7 +17,7 @@
 
 [![action status](https://github.com/monolith-codes/monolith.codes/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/monolith-codes/monolith.codes/actions/workflows/deploy.yml)
 ## Info
-This is my personal portfolio homepage made with Nuxt3, Three.js, NodeJS, ExpressJS and PrismaORM.
+This is my personal portfolio homepage made with Nuxt, NodeJS, ExpressJS, PostgreSQL and PrismaORM.
 The whole full stack app is wrapped in a docker compose mono repo setup.  
 
 
