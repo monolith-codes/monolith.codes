@@ -38,7 +38,7 @@ To have a smooth experience while editing the source code you have to take a few
 ### Deployment
 
 This project is designed to be deployed via GitHub Actions runner on a self-hosted server.
-Simply add the necessary secrets of the target system to your project's deploy.yml.
+Simply adjust the necessary secrets of the deploy.yml to your target system in your project settings.
 
 ## Technologies
 
