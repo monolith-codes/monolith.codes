@@ -37,8 +37,21 @@ To have a smooth experience while editing the source code you have to take a few
 
 ### Deployment
 
-This project is designed to be deployed via GitHub Actions runner on a self-hosted server.
-Simply adjust the necessary secrets of the deploy.yml to your target system in your project settings.
+This project is designed to be deployed automatically to a self-hosted server via GitHub Actions, using Docker Compose and the GitHub Container Registry (GHCR). 
+
+To enable deployments, you must configure the following **Repository Secrets** in your GitHub project settings (`Settings` > `Secrets and variables` > `Actions`):
+
+**Server Secrets:**
+- `SERVER_HOST`: The IP address or domain of your target server.
+- `SERVER_USER`: The SSH username for your server.
+- `SERVER_SSH_KEY`: A private SSH key authorized to access the server.
+
+**Database Secrets:**
+- `POSTGRES_USER`: Your production database username.
+- `POSTGRES_PASSWORD`: Your production database password.
+- `POSTGRES_DB`: Your production database name.
+
+Once these secrets are set, any push to the `main` branch will automatically build the images, push them to GHCR, and execute the deployment on your server.
 
 ## Technologies
 
@@ -46,7 +59,6 @@ Here is a list of all technologies used alongside this project.
 
 ### Frontend:
 - Framework: <a href="https://github.com/nuxt/nuxt" target="_blank">Nuxt3</a>
-- Unit Tests: <a href="https://github.com/jestjs/jest" target="_blank">Jest</a>
 - Vue Components: <a href="https://github.com/vuetifyjs/vuetify" target="_blank">Vuetify</a>
 - Styling Superset: <a href="https://github.com/sass/sass" target="_blank">Sass</a>
 
@@ -55,6 +67,7 @@ Here is a list of all technologies used alongside this project.
 - Envoirnment: <a href="https://github.com/nodejs" target="_blank">NodeJS</a>
 - Framework: <a href="https://github.com/expressjs/express" target="_blank">ExpressJS</a>
 - ORM: <a href="https://github.com/prisma/prisma" target="_blank">Prisma</a>
+- Unit Tests: <a href="https://github.com/jestjs/jest" target="_blank">Jest</a>
 
 ### Shared Tools:
 - Package Managing: <a href="https://github.com/npm" target="_blank">NPM</a>
@@ -64,7 +77,7 @@ Here is a list of all technologies used alongside this project.
 - Formatter: <a href="https://github.com/prettier/prettier" target="_blank">Prettier</a>
 
 ### CI/CD Pipeline:
-> This project is built, tested, and deployed via GitHub Actions. All Container are synced via Docker Hub.
+> This project is built, tested, and deployed via GitHub Actions. All containers are hosted and synced via the GitHub Container Registry (GHCR).
 
-- <a href="https://github.com/features/actions" target="_blank">Github Actions</a>
-- <a href="https://www.docker.com/get-started/" target="_blank">Docker Hub</a>
+- <a href="https://github.com/features/actions" target="_blank">GitHub Actions</a>
+- <a href="https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry" target="_blank">GitHub Container Registry (GHCR)</a>
