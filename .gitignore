@@ -21,4 +21,6 @@
 /frontend/!.env.example
 /frontend/ecosystem.config.cjs
 
+/backend/coverage
+
 .env
