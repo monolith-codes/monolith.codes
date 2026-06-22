@@ -4,16 +4,12 @@ export async function StartDBSeeding() {
   console.log("Starting DB Seeding")
 
   let userCount = 0;
-  let userCount2 = 0;
-  let userCount3 = 0;
-  let postCount = 0;
+  let projectCount = 0;
   let techStackCount = 0;
   
   try {
     userCount = await prisma.user.count();
-    userCount2 = await prisma.user2.count();
-    userCount3 = await prisma.user3.count();
-    postCount = await prisma.post.count();
+    projectCount = await prisma.project.count();
     techStackCount = await prisma.techStackItem.count();
   } catch (error) {
     console.log("ERROR: Prisma not migrated!")
@@ -73,7 +69,7 @@ export async function StartDBSeeding() {
     console.log("TechStack Seeding completed successfully!");
   }
 
-  if(userCount == 0 && postCount == 0) {
+  if (userCount == 0 && projectCount == 0) {
     console.log("Applying Seed...")
 
     const seedUser = await prisma.user.create({
@@ -83,30 +79,28 @@ export async function StartDBSeeding() {
         }
     })
 
-    const seedUser2 = await prisma.user2.create({
-        data: {
-            name: 'Bob',
-            email: 'bob@example.com',
-        }
-    })
-
-    const post = await prisma.post.create({
+    await prisma.project.create({
         data: {
             title: 'Prisma is awesome',
             content: 'I love how easy it is to link tables',
+            imageUrl: 'https://example.com/project.png',
             authorId: seedUser.id,
+            imageUrls: ['https://example.com/project.png'],
+            videoUrls: ['https://example.com/project.video'],
+            githubUrl: 'https://github.com/example/project',
+            websiteUrl: 'https://example.com',
         }
     })
 
-    const userCount = await prisma.user.count();
-    const postCount = await prisma.post.count();
+    const finalUserCount = await prisma.user.count();
+    const finalProjectCount = await prisma.project.count();
 
-    if(userCount != 0 && postCount != 0) {
+    if (finalUserCount != 0 && finalProjectCount != 0) {
         console.log("DB Seeding successfully!")
-    }else{
+    } else {
         console.log("DB Seeding failed!")
     }
-  }else{
+  } else {
     console.log("DB already seeded, continuing...")
   }
 }

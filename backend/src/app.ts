@@ -1,12 +1,12 @@
 import express, { type Request, type Response } from "express";
 import userRoutes from "./routes/user.routes";
-import postsRoutes from "./routes/posts.routes";
+import projectRoutes from "./routes/project.routes";
 import techstackRoutes from "./routes/techstack.routes";
 
 const app = express();
 app.use(express.json());
 app.use('/users', userRoutes);
-app.use('/posts', postsRoutes);
+app.use('/projects', projectRoutes);
 app.use('/techstack', techstackRoutes);
 
 

@@ -2,14 +2,14 @@ import { prisma } from "../lib/prisma";
 
 export const getAllUsers = async () => {
   return await prisma.user.findMany({
-    include: { posts: true }
+    include: { projects: true }
   });
 };
 
 export const getUserById = async (id: number) => {
   return await prisma.user.findUnique({
     where: { id },
-    include: { posts: true }
+    include: { projects: true }
   });
 };
 
