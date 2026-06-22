@@ -196,58 +196,68 @@
       observer.observe(footerWrapperRef.value)
     }
 
-    // On mobile: use IntersectionObserver to trigger entrance animation per grid item
+    // On mobile: check performance first, then decide animation strategy
     if (isMobileViewport) {
-      nextTick(() => {
-        let mobileStaggerCounter = 0
-
-        gridObserver = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const el = entry.target as HTMLElement
-              const id = el.id
-              if (id && !revealedItems.has(id)) {
-                // Assign a sequential stagger based on reveal order so items
-                // that are visible on first load still cascade nicely
-                mobileStaggerCounter++
-                el.style.setProperty('--stagger', String(mobileStaggerCounter))
-                revealedItems.add(id)
-              }
-              gridObserver?.unobserve(el)
-            }
-          })
-        }, { threshold: 0.15 })
-
-        // Observe all grid items
+      const revealAllImmediately = () => {
+        // Low-power mode: show all items instantly, no animation
         const items = document.querySelectorAll('.grid-item[id]')
         items.forEach((item) => {
-          gridObserver!.observe(item)
+          revealedItems.add(item.id)
         })
-      })
-    }
+      }
 
-    // Benchmark frame rate to infer low power / performance mode (only on mobile viewports)
-    if (typeof window !== 'undefined') {
-      if (isMobileViewport) {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          isLowPowerMode.value = true
-        } else {
-          let frameCount = 0
-          const startTime = performance.now()
-          const checkFrame = (now: number) => {
-            frameCount++
-            const elapsed = now - startTime
-            if (elapsed >= 100) {
-              const fps = (frameCount / elapsed) * 1000
-              if (fps < 40) {
-                isLowPowerMode.value = true
+      const setupScrollAnimations = () => {
+        // Normal performance: use IntersectionObserver for scroll-triggered entrance
+        nextTick(() => {
+          let mobileStaggerCounter = 0
+
+          gridObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const el = entry.target as HTMLElement
+                const id = el.id
+                if (id && !revealedItems.has(id)) {
+                  // Assign a sequential stagger based on reveal order so items
+                  // that are visible on first load still cascade nicely
+                  mobileStaggerCounter++
+                  el.style.setProperty('--stagger', String(mobileStaggerCounter))
+                  revealedItems.add(id)
+                }
+                gridObserver?.unobserve(el)
               }
+            })
+          }, { threshold: 0.15 })
+
+          const items = document.querySelectorAll('.grid-item[id]')
+          items.forEach((item) => {
+            gridObserver!.observe(item)
+          })
+        })
+      }
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        isLowPowerMode.value = true
+        revealAllImmediately()
+      } else {
+        // Benchmark frame rate before deciding animation strategy
+        let frameCount = 0
+        const startTime = performance.now()
+        const checkFrame = (now: number) => {
+          frameCount++
+          const elapsed = now - startTime
+          if (elapsed >= 100) {
+            const fps = (frameCount / elapsed) * 1000
+            if (fps < 40) {
+              isLowPowerMode.value = true
+              revealAllImmediately()
             } else {
-              requestAnimationFrame(checkFrame)
+              setupScrollAnimations()
             }
+          } else {
+            requestAnimationFrame(checkFrame)
           }
-          requestAnimationFrame(checkFrame)
         }
+        requestAnimationFrame(checkFrame)
       }
     }
   })
