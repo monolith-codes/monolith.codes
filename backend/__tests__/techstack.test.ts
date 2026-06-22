@@ -1,5 +1,7 @@
+import { jest } from "@jest/globals";
 import request from "supertest";
 import app from "../src/app";
+import { prisma } from "../src/lib/prisma";
 
 describe("TechStack CRUD API", () => {
   let createdId: number;
@@ -128,5 +130,143 @@ describe("TechStack CRUD API", () => {
     const res = await request(app).delete("/techstack/99999");
     expect(res.status).toBe(404);
     expect(res.body).toHaveProperty("error", "Tech stack item not found");
+  });
+
+  describe("Edge Cases and Error Handling (Additional Coverage)", () => {
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    // --- Service failures (500 errors) ---
+    it("GET /techstack - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.techStackItem, "findMany").mockRejectedValue(new Error("DB error"));
+      const res = await request(app).get("/techstack");
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to fetch tech stack items");
+    });
+
+    it("GET /techstack/:id - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.techStackItem, "findUnique").mockRejectedValue(new Error("DB error"));
+      const res = await request(app).get(`/techstack/${createdId || 1}`);
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to fetch tech stack item");
+    });
+
+    it("POST /techstack - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.techStackItem, "create").mockRejectedValue(new Error("DB error"));
+      const res = await request(app)
+        .post("/techstack")
+        .send({
+          name: "Rust500",
+          imageUrl: "https://example.com/logo.png",
+          companyUrl: "https://example.com",
+          description: "Description"
+        });
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to create tech stack item");
+    });
+
+    it("PUT /techstack/:id - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.techStackItem, "update").mockRejectedValue(new Error("DB error"));
+      const res = await request(app)
+        .put(`/techstack/${createdId || 1}`)
+        .send({ name: "UpdateFail" });
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to update tech stack item");
+    });
+
+    it("DELETE /techstack/:id - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.techStackItem, "delete").mockRejectedValue(new Error("DB error"));
+      const res = await request(app).delete(`/techstack/${createdId || 1}`);
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to delete tech stack item");
+    });
+
+    // --- Validation and Input type checks ---
+    it("POST /techstack - should return 400 when fields are not strings", async () => {
+      const res = await request(app)
+        .post("/techstack")
+        .send({
+          name: 123,
+          imageUrl: "https://example.com/logo.png",
+          companyUrl: "https://example.com",
+          description: "Description"
+        });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "All fields must be strings");
+    });
+
+    it("PUT /techstack/:id - should return 400 when no fields to update are provided", async () => {
+      const res = await request(app)
+        .put(`/techstack/${createdId || 1}`)
+        .send({});
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "At least one field to update is required");
+    });
+
+    it("PUT /techstack/:id - should return 400 when update fails with duplicate (P2002)", async () => {
+      const prismaError = new Error("Duplicate key");
+      (prismaError as any).code = "P2002";
+      jest.spyOn(prisma.techStackItem, "update").mockRejectedValue(prismaError);
+
+      const res = await request(app)
+        .put(`/techstack/${createdId || 1}`)
+        .send({ name: "DuplicateName" });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "Tech stack item with this name already exists");
+    });
+
+    it("GET /techstack/:id - should return 400 for invalid ID parameter (isNaN)", async () => {
+      const res = await request(app).get("/techstack/notaninteger");
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "Invalid ID");
+    });
+
+    it("PUT /techstack/:id - should return 400 for invalid ID parameter (isNaN)", async () => {
+      const res = await request(app)
+        .put("/techstack/notaninteger")
+        .send({ name: "ValidName" });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "Invalid ID");
+    });
+
+    it("DELETE /techstack/:id - should return 400 for invalid ID parameter (isNaN)", async () => {
+      const res = await request(app).delete("/techstack/notaninteger");
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "Invalid ID");
+    });
+
+    // --- Direct invocation for non-string idParam ---
+    it("should return 400 for non-string ID param on getTechStackItemById, updateTechStackItem, deleteTechStackItem (direct invocation)", async () => {
+      const { getTechStackItemById, updateTechStackItem, deleteTechStackItem } = await import("../src/controllers/techstack.controller");
+
+      const mockRes = () => {
+        const res: any = {};
+        res.status = jest.fn().mockReturnValue(res);
+        res.json = jest.fn().mockReturnValue(res);
+        return res;
+      };
+
+      // test getTechStackItemById
+      const reqGet = { params: { id: 123 } } as any;
+      const resGet = mockRes();
+      await getTechStackItemById(reqGet, resGet);
+      expect(resGet.status).toHaveBeenCalledWith(400);
+      expect(resGet.json).toHaveBeenCalledWith({ error: "Invalid ID" });
+
+      // test updateTechStackItem
+      const reqUpdate = { params: { id: 123 }, body: { name: "Update" } } as any;
+      const resUpdate = mockRes();
+      await updateTechStackItem(reqUpdate, resUpdate);
+      expect(resUpdate.status).toHaveBeenCalledWith(400);
+      expect(resUpdate.json).toHaveBeenCalledWith({ error: "Invalid ID" });
+
+      // test deleteTechStackItem
+      const reqDelete = { params: { id: 123 } } as any;
+      const resDelete = mockRes();
+      await deleteTechStackItem(reqDelete, resDelete);
+      expect(resDelete.status).toHaveBeenCalledWith(400);
+      expect(resDelete.json).toHaveBeenCalledWith({ error: "Invalid ID" });
+    });
   });
 });

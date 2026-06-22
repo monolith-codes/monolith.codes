@@ -1,3 +1,4 @@
+import { jest } from "@jest/globals";
 import request from "supertest";
 import app from "../src/app";
 import { prisma } from "../src/lib/prisma";
@@ -136,5 +137,147 @@ describe("User CRUD API", () => {
     const res = await request(app).delete("/users/99999");
     expect(res.status).toBe(404);
     expect(res.body).toHaveProperty("error", "User not found");
+  });
+
+  describe("Edge Cases and Error Handling (Additional Coverage)", () => {
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    // --- Service failures (500 errors) ---
+    it("GET /users - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.user, "findMany").mockRejectedValue(new Error("DB error"));
+      const res = await request(app).get("/users");
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to fetch users");
+    });
+
+    it("GET /users/:id - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.user, "findUnique").mockRejectedValue(new Error("DB error"));
+      const res = await request(app).get(`/users/${createdUserId || 1}`);
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to fetch user");
+    });
+
+    it("POST /users - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.user, "create").mockRejectedValue(new Error("DB error"));
+      const res = await request(app)
+        .post("/users")
+        .send({ name: "FailUser", email: "failuser@example.com" });
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to create user");
+    });
+
+    it("PUT /users/:id - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.user, "update").mockRejectedValue(new Error("DB error"));
+      const res = await request(app)
+        .put(`/users/${createdUserId || 1}`)
+        .send({ name: "FailUpdate" });
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to update user");
+    });
+
+    it("DELETE /users/:id - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.user, "delete").mockRejectedValue(new Error("DB error"));
+      const res = await request(app).delete(`/users/${createdUserId || 1}`);
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to delete user");
+    });
+
+    // --- Validation and Input type checks ---
+    it("POST /users - should return 400 when fields are not strings", async () => {
+      const res = await request(app)
+        .post("/users")
+        .send({ name: 123, email: "string@example.com" });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "All fields must be strings");
+
+      const res2 = await request(app)
+        .post("/users")
+        .send({ name: "string", email: true });
+      expect(res2.status).toBe(400);
+      expect(res2.body).toHaveProperty("error", "All fields must be strings");
+    });
+
+    it("PUT /users/:id - should return 400 when name or email is not a string", async () => {
+      const res = await request(app)
+        .put(`/users/${createdUserId || 1}`)
+        .send({ name: 123 });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "Name must be a string");
+
+      const res2 = await request(app)
+        .put(`/users/${createdUserId || 1}`)
+        .send({ email: true });
+      expect(res2.status).toBe(400);
+      expect(res2.body).toHaveProperty("error", "Email must be a string");
+    });
+
+    it("PUT /users/:id - should return 400 when no fields to update are provided", async () => {
+      const res = await request(app)
+        .put(`/users/${createdUserId || 1}`)
+        .send({});
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "At least one field to update is required");
+    });
+
+    it("PUT /users/:id - should return 400 when update fails with duplicate (P2002)", async () => {
+      const prismaError = new Error("Duplicate key");
+      (prismaError as any).code = "P2002";
+      jest.spyOn(prisma.user, "update").mockRejectedValue(prismaError);
+
+      const res = await request(app)
+        .put(`/users/${createdUserId || 1}`)
+        .send({ name: "DuplicateName" });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "User with this name or email already exists");
+    });
+
+    it("PUT /users/:id - should return 400 for invalid ID parameter (isNaN)", async () => {
+      const res = await request(app)
+        .put("/users/notaninteger")
+        .send({ name: "ValidName" });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "Invalid ID");
+    });
+
+    it("DELETE /users/:id - should return 400 for invalid ID parameter (isNaN)", async () => {
+      const res = await request(app).delete("/users/notaninteger");
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "Invalid ID");
+    });
+
+    // --- Direct invocation for non-string idParam ---
+    it("should return 400 for non-string ID param on getUserById, updateUser, deleteUser (direct invocation)", async () => {
+      const { getUserById, updateUser, deleteUser } = await import("../src/controllers/user.controller");
+
+      const mockRes = () => {
+        const res: any = {};
+        res.status = jest.fn().mockReturnValue(res);
+        res.json = jest.fn().mockReturnValue(res);
+        return res;
+      };
+
+      // test getUserById
+      const reqGet = { params: { id: 123 } } as any; // number instead of string
+      const resGet = mockRes();
+      await getUserById(reqGet, resGet);
+      expect(resGet.status).toHaveBeenCalledWith(400);
+      expect(resGet.json).toHaveBeenCalledWith({ error: "Invalid ID" });
+
+      // test updateUser
+      const reqUpdate = { params: { id: 123 }, body: { name: "Update" } } as any;
+      const resUpdate = mockRes();
+      await updateUser(reqUpdate, resUpdate);
+      expect(resUpdate.status).toHaveBeenCalledWith(400);
+      expect(resUpdate.json).toHaveBeenCalledWith({ error: "Invalid ID" });
+
+      // test deleteUser
+      const reqDelete = { params: { id: 123 } } as any;
+      const resDelete = mockRes();
+      await deleteUser(reqDelete, resDelete);
+      expect(resDelete.status).toHaveBeenCalledWith(400);
+      expect(resDelete.json).toHaveBeenCalledWith({ error: "Invalid ID" });
+    });
   });
 });

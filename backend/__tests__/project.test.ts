@@ -1,3 +1,4 @@
+import { jest } from "@jest/globals";
 import request from "supertest";
 import app from "../src/app";
 import { prisma } from "../src/lib/prisma";
@@ -166,5 +167,220 @@ describe("Project CRUD API", () => {
     const res = await request(app).delete("/projects/99999");
     expect(res.status).toBe(404);
     expect(res.body).toHaveProperty("error", "Project not found");
+  });
+
+  describe("Edge Cases and Error Handling (Additional Coverage)", () => {
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    // --- Service failures (500 errors) ---
+    it("GET /projects - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.project, "findMany").mockRejectedValue(new Error("DB error"));
+      const res = await request(app).get("/projects");
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to fetch projects");
+    });
+
+    it("GET /projects/:id - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.project, "findUnique").mockRejectedValue(new Error("DB error"));
+      const res = await request(app).get(`/projects/${createdProjectId || 1}`);
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to fetch project");
+    });
+
+    it("POST /projects - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.project, "create").mockRejectedValue(new Error("DB error"));
+      const res = await request(app)
+        .post("/projects")
+        .send({
+          title: "Fail Project",
+          content: "Content",
+          imageUrl: "https://example.com/img.png",
+          authorId: seedUserId,
+        });
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to create project");
+    });
+
+    it("PUT /projects/:id - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.project, "update").mockRejectedValue(new Error("DB error"));
+      const res = await request(app)
+        .put(`/projects/${createdProjectId || 1}`)
+        .send({ title: "FailUpdate" });
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to update project");
+    });
+
+    it("DELETE /projects/:id - should return 500 when service fails", async () => {
+      jest.spyOn(prisma.project, "delete").mockRejectedValue(new Error("DB error"));
+      const res = await request(app).delete(`/projects/${createdProjectId || 1}`);
+      expect(res.status).toBe(500);
+      expect(res.body).toHaveProperty("error", "Failed to delete project");
+    });
+
+    // --- Validation: invalid field types on POST ---
+    it("POST /projects - should return 400 for invalid field types", async () => {
+      const res = await request(app)
+        .post("/projects")
+        .send({
+          title: 123,
+          content: "Content",
+          imageUrl: "https://example.com/img.png",
+          authorId: seedUserId,
+        });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "Invalid field types");
+    });
+
+    it("POST /projects - should return 400 for non-number authorId", async () => {
+      const res = await request(app)
+        .post("/projects")
+        .send({
+          title: "Title",
+          content: "Content",
+          imageUrl: "https://example.com/img.png",
+          authorId: "notanumber",
+        });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "Invalid field types");
+    });
+
+    it("POST /projects - should return 400 for invalid imageUrls (not an array)", async () => {
+      const res = await request(app)
+        .post("/projects")
+        .send({
+          title: "Title",
+          content: "Content",
+          imageUrl: "https://example.com/img.png",
+          authorId: seedUserId,
+          imageUrls: "not-an-array",
+        });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "imageUrls must be an array of strings");
+    });
+
+    it("POST /projects - should return 400 for invalid videoUrls (not an array)", async () => {
+      const res = await request(app)
+        .post("/projects")
+        .send({
+          title: "Title",
+          content: "Content",
+          imageUrl: "https://example.com/img.png",
+          authorId: seedUserId,
+          videoUrls: "not-an-array",
+        });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "videoUrls must be an array of strings");
+    });
+
+    // --- Validation on PUT ---
+    it("PUT /projects/:id - should return 400 for non-number authorId", async () => {
+      const res = await request(app)
+        .put(`/projects/${createdProjectId || 1}`)
+        .send({ authorId: "notanumber" });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "authorId must be a number");
+    });
+
+    it("PUT /projects/:id - should return 400 for non-existent authorId", async () => {
+      const res = await request(app)
+        .put(`/projects/${createdProjectId || 1}`)
+        .send({ authorId: 99999 });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "Author user not found");
+    });
+
+    it("PUT /projects/:id - should return 400 for invalid imageUrls (not an array)", async () => {
+      const res = await request(app)
+        .put(`/projects/${createdProjectId || 1}`)
+        .send({ imageUrls: "not-an-array" });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "imageUrls must be an array of strings");
+    });
+
+    it("PUT /projects/:id - should return 400 for invalid videoUrls (not an array)", async () => {
+      const res = await request(app)
+        .put(`/projects/${createdProjectId || 1}`)
+        .send({ videoUrls: "not-an-array" });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "videoUrls must be an array of strings");
+    });
+
+    // --- Invalid ID (isNaN) ---
+    it("PUT /projects/:id - should return 400 for invalid ID parameter (isNaN)", async () => {
+      const res = await request(app)
+        .put("/projects/notaninteger")
+        .send({ title: "ValidTitle" });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "Invalid ID");
+    });
+
+    it("DELETE /projects/:id - should return 400 for invalid ID parameter (isNaN)", async () => {
+      const res = await request(app).delete("/projects/notaninteger");
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "Invalid ID");
+    });
+
+    // --- Direct invocation for non-string idParam ---
+    it("should return 400 for non-string ID param on getProjectById, updateProject, deleteProject (direct invocation)", async () => {
+      const { getProjectById, updateProject, deleteProject } = await import("../src/controllers/project.controller");
+
+      const mockRes = () => {
+        const res: any = {};
+        res.status = jest.fn().mockReturnValue(res);
+        res.json = jest.fn().mockReturnValue(res);
+        return res;
+      };
+
+      // test getProjectById
+      const reqGet = { params: { id: 123 } } as any;
+      const resGet = mockRes();
+      await getProjectById(reqGet, resGet);
+      expect(resGet.status).toHaveBeenCalledWith(400);
+      expect(resGet.json).toHaveBeenCalledWith({ error: "Invalid ID" });
+
+      // test updateProject
+      const reqUpdate = { params: { id: 123 }, body: { title: "Update" } } as any;
+      const resUpdate = mockRes();
+      await updateProject(reqUpdate, resUpdate);
+      expect(resUpdate.status).toHaveBeenCalledWith(400);
+      expect(resUpdate.json).toHaveBeenCalledWith({ error: "Invalid ID" });
+
+      // test deleteProject
+      const reqDelete = { params: { id: 123 } } as any;
+      const resDelete = mockRes();
+      await deleteProject(reqDelete, resDelete);
+      expect(resDelete.status).toHaveBeenCalledWith(400);
+      expect(resDelete.json).toHaveBeenCalledWith({ error: "Invalid ID" });
+    });
+
+    it("PUT /projects/:id - should successfully update authorId, imageUrls, and videoUrls", async () => {
+      // First create a project to update
+      const createRes = await request(app)
+        .post("/projects")
+        .send({
+          title: "CoverageProject",
+          content: "Content for coverage",
+          imageUrl: "https://example.com/img.png",
+          authorId: seedUserId,
+        });
+      const projectId = createRes.body.id;
+
+      const res = await request(app)
+        .put(`/projects/${projectId}`)
+        .send({
+          authorId: seedUserId,
+          imageUrls: ["https://example.com/a.png", "https://example.com/b.png"],
+          videoUrls: ["https://example.com/v.mp4"],
+        });
+      expect(res.status).toBe(200);
+      expect(res.body.authorId).toBe(seedUserId);
+      expect(res.body.imageUrls).toEqual(["https://example.com/a.png", "https://example.com/b.png"]);
+      expect(res.body.videoUrls).toEqual(["https://example.com/v.mp4"]);
+
+      // Cleanup
+      await request(app).delete(`/projects/${projectId}`);
+    });
   });
 });
