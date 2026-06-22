@@ -168,7 +168,7 @@
   /* ── Mobile adjustments ── */
   @container (max-width: 400px) {
     .homeInfoButtonWrapper {
-      width: 48%;
+      width: 44%;
     }
 
     .homeInfo p {

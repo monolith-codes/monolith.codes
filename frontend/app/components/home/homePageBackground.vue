@@ -88,6 +88,10 @@
                 idx++
             }
         }
+
+        if (props.disabled) {
+            draw()
+        }
     }
 
     const draw = () => {
@@ -204,6 +208,7 @@
 watch(() => props.disabled, (newVal) => {
     if (newVal) {
         cancelAnimationFrame(animationFrameId)
+        draw()
     } else {
         cancelAnimationFrame(animationFrameId)
         animationFrameId = requestAnimationFrame(draw)
@@ -215,7 +220,9 @@ onMounted(() => {
         ctx = canvas.value.getContext('2d')
         resize()
         window.addEventListener('resize', resize, { passive: true })
-        animationFrameId = requestAnimationFrame(draw)
+        if (!props.disabled) {
+            animationFrameId = requestAnimationFrame(draw)
+        }
     }
 })
 
