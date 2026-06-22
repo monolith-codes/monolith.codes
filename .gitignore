@@ -4,6 +4,9 @@
 /frontend/.output
 /frontend/.data
 /frontend/.nuxt
+/frontend/.nuxt-dev
+/frontend/.nuxt-user
+
 /frontend/.nitro
 /frontend/.cache
 /frontend/dist
