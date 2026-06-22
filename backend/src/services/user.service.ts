@@ -5,3 +5,32 @@ export const getAllUsers = async () => {
     include: { posts: true }
   });
 };
+
+export const getUserById = async (id: number) => {
+  return await prisma.user.findUnique({
+    where: { id },
+    include: { posts: true }
+  });
+};
+
+export const createUser = async (data: { name: string; email: string }) => {
+  return await prisma.user.create({
+    data
+  });
+};
+
+export const updateUser = async (
+  id: number,
+  data: Partial<{ name: string; email: string }>
+) => {
+  return await prisma.user.update({
+    where: { id },
+    data
+  });
+};
+
+export const deleteUser = async (id: number) => {
+  return await prisma.user.delete({
+    where: { id }
+  });
+};
