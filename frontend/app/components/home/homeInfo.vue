@@ -40,37 +40,41 @@
 </template>
 
 <script setup lang="ts">
-  import github_circle_logo from '@/assets/svgs/github_circle_logo.vue'
-import Contact_me from '~/assets/svgs/contact_me.vue';
+  import github_circle_logo from '~/assets/svgs/github_circle_logo.vue'
+  import Contact_me from '~/assets/svgs/contact_me.vue';
 </script>
 
 <style lang="scss">
   .homeInfoWrapper {
+    container-type: inline-size;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     height: 100%;
     width: 100%;
-    background-color: rgba(87, 87, 87, 0.558);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: clamp(20px, 5vw, 50px);
-
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    background-color: var(--card-bg);
+    border: var(--card-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--card-shadow);
     box-sizing: border-box;
-    padding: 1svh;
+    padding: var(--space-sm);
+    gap: var(--space-title-gap);
     overflow: hidden;
     -webkit-mask-image: -webkit-radial-gradient(white, black);
   }
   
   .homeInfoTitle {
-    margin-left: 1svw;
+    padding-left: var(--space-sm);
     width: 100%;
+
+    h2 {
+      line-height: 1.35;
+    }
   }
 
   .homeInfo { 
-    border-radius: clamp(16px, 4vw, 40px);
-
+    border-radius: var(--radius-inner);
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -79,22 +83,20 @@ import Contact_me from '~/assets/svgs/contact_me.vue';
     box-sizing: border-box;
     flex: 1;
     min-height: 0;
-    background-color: rgba(0, 0, 0, 0.256);
+    background-color: var(--card-inner-bg);
     overflow: hidden;
-    container-type: inline-size;
     -webkit-mask-image: -webkit-radial-gradient(white, black);
 
     p {
-      margin: 1.5svw;
-      font-size: clamp(0.7rem, 5cqw, 1rem);
-      // background-color: red;
+      margin: var(--space-md);
+      font-size: var(--text-body);
+      line-height: 1.55;
     }
   }
 
   .homInfoText {
     height: auto;
     width: 100%;
-    //background-color: green;;
   }
 
   .homeInfoButtons {
@@ -103,18 +105,17 @@ import Contact_me from '~/assets/svgs/contact_me.vue';
     align-items: center;
     flex-wrap: wrap;
     height: auto;
-    padding-bottom: 1.5svw;
+    padding: 0 var(--space-md) var(--space-md);
+    gap: var(--space-sm);
     width: 100%;
-    //background-color: red;
   }
 
   .homeInfoButtonWrapper {
     display: flex;
     height: auto;
-    width: 25%;
+    width: clamp(120px, 30%, 200px);
     padding: 0;
     margin: 0;
-    margin-left: 1.5svw;
   }
 
   .homeInfoButton {
@@ -124,22 +125,23 @@ import Contact_me from '~/assets/svgs/contact_me.vue';
     gap: 0.5em;
     width: 100%;
     box-sizing: border-box;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: clamp(20px, 5vw, 50px);
-
+    border: var(--btn-border);
+    border-radius: var(--radius-button);
     color: white;
-    padding: clamp(4px, 1vh, 12px) clamp(8px, 1.5vw, 20px);
-    font-size: clamp(0.65rem, 4cqw, 1rem);
-        cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    font-family: 'Roboto', sans-serif;
-    background-color: rgba(0, 0, 0, 0.294);
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--text-btn);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+    font-family: var(--btn-font);
+    background-color: var(--btn-bg);
     text-decoration: none;
+    white-space: nowrap;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      transform: translateX(4px);
+      background-color: var(--btn-hover-bg);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+      transform: translateY(-2px);
 
       .homeInfoButtonIcon {
         transform: rotate(5deg);
@@ -147,17 +149,26 @@ import Contact_me from '~/assets/svgs/contact_me.vue';
     }
 
     &:active {
-      transform: translateX(0);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transform: translateY(0);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
     }
   }
 
   .homeInfoButtonIcon {
-    height: 1.4em;
-    width: 1.4em;
+    height: 1.2em;
+    width: 1.2em;
     fill: currentColor;
     flex-shrink: 0;
   }
 
-  
+  /* ── Mobile adjustments ── */
+  @container (max-width: 400px) {
+    .homeInfoButtonWrapper {
+      width: 48%;
+    }
+
+    .homeInfo p {
+      font-size: var(--text-btn);
+    }
+  }
 </style>

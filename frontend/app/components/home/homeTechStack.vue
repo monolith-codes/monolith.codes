@@ -61,51 +61,60 @@
 
 <style lang="scss">
   .homeTechStackWrapper {
+    container-type: inline-size;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     height: 100%;
     width: 100%;
-    background-color: rgba(87, 87, 87, 0.558);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: clamp(20px, 5vw, 50px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    background-color: var(--card-bg);
+    border: var(--card-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--card-shadow);
     box-sizing: border-box;
-    padding: 1svh;
+    padding: var(--space-sm);
+    gap: var(--space-title-gap);
   }
 
  .homeTechStackTitle {
     width: 100%;
-    margin-left: 1svw;
-  }
+    padding-left: var(--space-sm);
 
-  .homeTeckStackItems {
-    border-radius: clamp(16px, 4vw, 40px);
-    width: 80%;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: space-around;
-    box-sizing: border-box;
-    gap: clamp(10px, 3cqw, 20px);
-    flex: 1;
-    min-height: 0;
-    background-color: rgba(0, 0, 0, 0.256);
-    overflow-y: auto;
+    h2 {
+      line-height: 1.35;
+    }
   }
 
   .homeTechStack {
     width: 100%;
     height: 100%;
     display: flex;
+    flex: 1;
+    min-height: 0;
+    gap: var(--space-sm);
+  }
+
+  .homeTeckStackItems {
+    border-radius: var(--radius-inner);
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-around;
+    box-sizing: border-box;
+    gap: clamp(8px, 2.5cqw, 18px);
+    flex: 1;
+    min-height: 0;
+    background-color: var(--card-inner-bg);
+    overflow-y: auto;
+    padding: var(--space-sm);
   }
 
   .homeTechStackButtonWrapper {
     display: flex;
     width: 20%;
     height: 100%;
-    margin-left: clamp(10px, 1.5svw, 20px);
   }
 
   .homeTechStackButton {
@@ -113,26 +122,26 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: clamp(16px, 4vw, 40px);
+    border: var(--btn-border);
+    border-radius: var(--radius-button);
     color: white;
     padding: 0;
     margin: 0;
-    font-size: clamp(14px, 1.5vw, 18px);
+    font-size: var(--text-btn);
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: 'Roboto', sans-serif;
-    background-color: rgba(0, 0, 0, 0.294);
+    transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+    font-family: var(--btn-font);
+    background-color: var(--btn-bg);
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      transform: translateY(-2px) scale(1.1);
+      background-color: var(--btn-hover-bg);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+      transform: translateY(-2px) scale(1.05);
 
       .homeTechStackArrowIcon {
         transform: translateX(4px);
@@ -141,7 +150,7 @@
 
     &:active {
       transform: translateY(0);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
     }
   }
 
@@ -151,8 +160,8 @@
 
   .homeTechStackItem {
     display: block;
-    height: 60%;
-    aspect-ratio: 1/1;
+    width: clamp(26px, 8cqw, 42px);
+    height: clamp(26px, 8cqw, 42px);
     border-radius: 50%;
     flex-shrink: 0;
     transition: transform 0.3s ease;
@@ -162,8 +171,36 @@
       transform: scale(1.2);
     }
 
-    &#tsTechStack {
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
 
+  @container (max-width: 480px) {
+    .homeTechStack {
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .homeTeckStackItems {
+      width: 100%;
+      height: auto;
+      flex: 1;
+      padding: var(--space-sm);
+      gap: clamp(8px, 3.5cqw, 14px);
+    }
+
+    .homeTechStackButtonWrapper {
+      width: 100%;
+      height: clamp(36px, 10cqw, 44px);
+      margin-left: 0;
+    }
+
+    .homeTechStackButton {
+      flex-direction: row;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--radius-button);
     }
   }
 </style>

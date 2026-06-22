@@ -37,7 +37,7 @@ services:
       - ./frontend:/usr/app
       - /usr/app/node_modules
     ports:
-      - "3000:3000"
+      - "3019:3019"
     depends_on:
       - monolith.codes-postgres
       - monolith.codes-backend

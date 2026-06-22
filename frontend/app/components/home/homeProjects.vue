@@ -24,16 +24,16 @@
 
 <style lang="scss">
   .homeProjectsWrapper {
+    container-type: inline-size;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     height: 100%;
     width: 100%;
-    background-color: rgba(87, 87, 87, 0.558);
-
-    border-radius: 50px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    background-color: var(--card-bg);
+    border-radius: var(--radius-card);
+    box-shadow: var(--card-shadow);
     box-sizing: border-box;
     overflow: hidden;
     position: relative;
@@ -46,8 +46,8 @@
 
       .homeProjectsTitle {
         h2 {
-          opacity: .5;
-          font-size: clamp(1.2rem, 5cqw, 5.5rem);
+          opacity: .4;
+          letter-spacing: 0.25em;
           text-transform: uppercase;
           color: black;
         }
@@ -82,9 +82,7 @@
     transition: opacity 0.5s ease;
 
     h2 {
-      transition: color 0.5s ease;
+      transition: color 0.5s ease, letter-spacing 0.5s ease, opacity 0.5s ease;
     }
   }
-
-  
 </style>

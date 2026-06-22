@@ -24,36 +24,37 @@
 
 <style lang="scss">
   .homeProfileWrapper {
+    container-type: inline-size;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     height: 100%;
     width: 100%;
-    background-color: rgba(87, 87, 87, 0.558);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: clamp(20px, 5vw, 50px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    background-color: var(--card-bg);
+    border: var(--card-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--card-shadow);
     box-sizing: border-box;
-    padding: 1svh;
-    gap: 15px;
+    padding: var(--space-sm);
+    gap: var(--space-title-gap);
     overflow: hidden;
     -webkit-mask-image: -webkit-radial-gradient(white, black);
   }
 
   .homeProfile {
-    border-radius: clamp(16px, 4vw, 40px);
+    border-radius: var(--radius-inner);
     width: 100%;
     height: 100%;
     flex: 1;
     min-height: 0;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.294);
+    background-color: var(--card-inner-bg);
     -webkit-mask-image: -webkit-radial-gradient(white, black);
 
     img {
       object-fit: cover;
-      border-radius: clamp(10px, 2.5vw, 25px);
+      border-radius: var(--radius-inner);
       object-position: top;
     }
   }
@@ -64,14 +65,23 @@
     flex-direction: column;
     justify-content: center;
     color: #ffffff;
-    margin-left: 1svw;
+    padding: 0 var(--space-sm) var(--space-sm);
+    gap: 3px;
+
+    h2 {
+      line-height: 1.35;
+    }
+
+    h3 {
+      font-size: var(--text-sub);
+    }
   }
 
   .homeProfileImage {
-      width: 100%;
-      object-fit: cover;
-      height: 100%;
-      border-radius: clamp(10px, 2.5vw, 25px);
-      object-position: center;
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+    border-radius: var(--radius-inner);
+    object-position: center;
   }
 </style>

@@ -37,38 +37,45 @@
 
 <style lang="scss">
   .homeSocialsWrapper {
+    container-type: inline-size;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     height: 100%;
     width: 100%;
-    background-color: rgba(87, 87, 87, 0.558);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: clamp(20px, 5vw, 50px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    background-color: var(--card-bg);
+    border: var(--card-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--card-shadow);
     box-sizing: border-box;
-    padding: 1svh;
+    padding: var(--space-sm);
+    gap: var(--space-title-gap);
   }
 
  .homeSocialsTitle {
     width: 100%;
-    margin-left: 1svw;
+    padding-left: var(--space-sm);
+    
+    h2 {
+      line-height: 1.35;
+    }
   }
 
   .homeSocials {
-    border-radius: clamp(16px, 4vw, 40px);
+    border-radius: var(--radius-inner);
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-around;
     box-sizing: border-box;
-    gap: clamp(10px, 3cqw, 20px);
+    gap: clamp(8px, 2.5cqw, 18px);
     flex: 1;
     min-height: 0;
-    background-color: rgba(0, 0, 0, 0.256);
-    overflow-y: auto;
+    background-color: var(--card-inner-bg);
+    overflow: hidden;
+    padding: 0 var(--space-sm);
   }
 
   .homeSocialsItem {
@@ -76,15 +83,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 68%;
+    height: min(68%, 18cqw);
     width: auto;
     aspect-ratio: 1/1;
     border-radius: 50%;
-    flex-shrink: 0;
+    flex-shrink: 1;
     transition: transform 0.3s ease;
   
     &:hover {
-      transform: scale(1.2);
+      transform: scale(1.15);
     }
 
     svg {
@@ -94,15 +101,15 @@
     }
 
     &#githubSocial {
-      height: 63%;
+      height: min(63%, 16.7cqw);
     }
 
     &#linkedinSocial {
-      height: 54%;
+      height: min(54%, 14.3cqw);
     }
 
     &#emailSocial {
-      height: 58%;
+      height: min(58%, 15.4cqw);
     }
   }
 </style>
