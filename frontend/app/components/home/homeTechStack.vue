@@ -99,15 +99,15 @@
     border-radius: var(--radius-inner);
     width: 80%;
     display: flex;
-    flex-wrap: wrap;
-    align-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
     justify-content: space-around;
     box-sizing: border-box;
     gap: clamp(8px, 2.5cqw, 18px);
     flex: 1;
     min-height: 0;
     background-color: var(--card-inner-bg);
-    overflow-y: auto;
+    overflow: hidden;
     padding: var(--space-sm);
   }
 
@@ -187,8 +187,11 @@
       width: 100%;
       height: auto;
       flex: 1;
+      flex-wrap: wrap;
+      align-content: center;
       padding: var(--space-sm);
       gap: clamp(8px, 3.5cqw, 14px);
+      overflow-y: auto;
     }
 
     .homeTechStackButtonWrapper {

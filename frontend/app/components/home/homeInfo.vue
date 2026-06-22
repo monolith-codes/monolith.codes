@@ -47,6 +47,9 @@
 <style lang="scss">
   .homeInfoWrapper {
     container-type: inline-size;
+    @media (min-width: 1025px) {
+      container-type: size;
+    }
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -58,18 +61,20 @@
     border-radius: var(--radius-card);
     box-shadow: var(--card-shadow);
     box-sizing: border-box;
-    padding: var(--space-sm);
-    gap: var(--space-title-gap);
+    padding: clamp(0.5rem, 2.5cqh, var(--space-sm));
+    gap: clamp(0.25rem, 2cqh, var(--space-title-gap));
     overflow: hidden;
     -webkit-mask-image: -webkit-radial-gradient(white, black);
   }
   
   .homeInfoTitle {
-    padding-left: var(--space-sm);
+    padding-left: clamp(0.5rem, 2.5cqh, var(--space-sm));
     width: 100%;
 
     h2 {
       line-height: 1.35;
+      font-size: clamp(1.2rem, 5.5cqh, 1.8rem);
+      margin: 0;
     }
   }
 
@@ -77,26 +82,24 @@
     border-radius: var(--radius-inner);
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    justify-content: flex-start;
+    flex-direction: column;
     box-sizing: border-box;
     flex: 1;
     min-height: 0;
     background-color: var(--card-inner-bg);
     overflow: hidden;
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
 
     p {
-      margin: var(--space-md);
-      font-size: var(--text-body);
-      line-height: 1.55;
+      margin: clamp(0.25rem, 3.5cqh, var(--space-md));
+      font-size: clamp(0.65rem, 3.5cqh, var(--text-body));
+      line-height: 1.45;
     }
   }
 
   .homInfoText {
     height: auto;
     width: 100%;
+    flex-shrink: 0;
   }
 
   .homeInfoButtons {
@@ -105,15 +108,16 @@
     align-items: center;
     flex-wrap: wrap;
     height: auto;
-    padding: 0 var(--space-md) var(--space-md);
-    gap: var(--space-sm);
+    padding: 0 clamp(0.5rem, 3.5cqh, var(--space-md)) clamp(0.5rem, 3.5cqh, var(--space-md));
+    gap: clamp(0.25rem, 2.5cqh, var(--space-sm));
     width: 100%;
+    flex-shrink: 0;
   }
 
   .homeInfoButtonWrapper {
     display: flex;
     height: auto;
-    width: clamp(120px, 30%, 200px);
+    width: clamp(110px, 30%, 200px);
     padding: 0;
     margin: 0;
   }
@@ -128,8 +132,8 @@
     border: var(--btn-border);
     border-radius: var(--radius-button);
     color: white;
-    padding: var(--space-sm) var(--space-md);
-    font-size: var(--text-btn);
+    padding: clamp(0.25rem, 2.5cqh, var(--space-sm)) clamp(0.5rem, 3.5cqh, var(--space-md));
+    font-size: clamp(0.6rem, 3.35cqh, var(--text-btn));
     font-weight: 500;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);

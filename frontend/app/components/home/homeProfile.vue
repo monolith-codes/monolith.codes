@@ -45,7 +45,6 @@
   .homeProfile {
     border-radius: var(--radius-inner);
     width: 100%;
-    height: 100%;
     flex: 1;
     min-height: 0;
     overflow: hidden;
@@ -67,6 +66,7 @@
     color: #ffffff;
     padding: 0 var(--space-sm) var(--space-sm);
     gap: 3px;
+    flex-shrink: 0;
 
     h2 {
       line-height: 1.35;
