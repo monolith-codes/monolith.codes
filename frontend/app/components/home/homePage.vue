@@ -353,7 +353,7 @@
       align-items: flex-start;
       height: auto;
       min-height: 100svh;
-      overflow-y: auto;
+      overflow: visible;
       padding: var(--space-md);
     }
 

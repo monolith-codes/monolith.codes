@@ -35,17 +35,24 @@ html, body {
   width: 100%;
 }
 
-@media (max-width: 1024px) {
-  html, body {
-    position: relative;
-    overflow: visible;
-  }
-}
-
 #__nuxt {
   height: 100svh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 1024px) {
+  html, body {
+    position: relative;
+    overflow: visible;
+    height: auto;
+  }
+
+  #__nuxt {
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+  }
 }
 
 body {
