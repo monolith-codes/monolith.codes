@@ -75,14 +75,14 @@ export async function StartDBSeeding() {
     const seedUser = await prisma.user.create({
         data: {
             name: 'Hans',
-            email: 'bob@example.com',
+            email: 'hans@example.com',
         }
     })
 
     await prisma.project.create({
         data: {
-            title: 'Prisma is awesome',
-            content: 'I love how easy it is to link tables',
+            title: 'Test Project',
+            content: 'This is a test project created during DB seeding.',
             imageUrl: 'https://example.com/project.png',
             authorId: seedUser.id,
             imageUrls: ['https://example.com/project.png'],
