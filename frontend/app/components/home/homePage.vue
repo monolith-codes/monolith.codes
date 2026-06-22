@@ -1,6 +1,6 @@
 <template>
-  <div class="homePageWrapper">
-    <homePageBackground />
+  <div class="homePageWrapper" :class="{ 'low-power': isLowPowerMode }">
+    <homePageBackground :disabled="isLowPowerMode" />
     <div class="homePageContentWrapper">
       <div class="homePage">
         <div class="left-grid">
@@ -91,6 +91,7 @@
 
   const footerWrapperRef = ref<HTMLElement | null>(null)
   const isFooterVisible = ref(false)
+  const isLowPowerMode = ref(false)
   let observer: IntersectionObserver | null = null
 
   let tgX = 0
@@ -104,11 +105,13 @@
   }
 
   const handleMouseMove = (event: MouseEvent) => {
+    if (isLowPowerMode.value) return
     tgX = event.clientX
     tgY = event.clientY
   }
 
   const onCardMove = (e: MouseEvent) => {
+    if (isLowPowerMode.value) return
     const card = e.currentTarget as HTMLElement;
     const rect = card.getBoundingClientRect();
 
@@ -136,12 +139,14 @@
   };
   
   const onCardEnter = (e: MouseEvent) => {
+    if (isLowPowerMode.value) return
     const card = e.currentTarget as HTMLElement;
     card.style.setProperty('--transition-speed', '0.1s');
     card.style.setProperty('--glare-opacity', '1');
   };
 
   const onCardLeave = (e: MouseEvent) => {
+    if (isLowPowerMode.value) return
     const card = e.currentTarget as HTMLElement;
     card.style.setProperty('--transition-speed', '0.5s');
     card.style.setProperty('--glare-opacity', '0');
@@ -168,6 +173,29 @@
 
     if (footerWrapperRef.value) {
       observer.observe(footerWrapperRef.value)
+    }
+
+    // Benchmark frame rate to infer low power / performance mode
+    if (typeof window !== 'undefined') {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        isLowPowerMode.value = true
+      } else {
+        let frameCount = 0
+        const startTime = performance.now()
+        const checkFrame = (now: number) => {
+          frameCount++
+          const elapsed = now - startTime
+          if (elapsed >= 100) {
+            const fps = (frameCount / elapsed) * 1000
+            if (fps < 40) {
+              isLowPowerMode.value = true
+            }
+          } else {
+            requestAnimationFrame(checkFrame)
+          }
+        }
+        requestAnimationFrame(checkFrame)
+      }
     }
   })
 
@@ -196,6 +224,31 @@
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
+  }
+
+  .homePageWrapper.low-power {
+    .grid-item {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      
+      &.animated {
+        transform: none !important;
+        transition: none !important;
+        
+        &:hover {
+          transform: none !important;
+          --scale: 1 !important;
+        }
+      }
+    }
+    
+    .homePageFooter {
+      transform: none !important;
+      opacity: 1 !important;
+      transition: none !important;
+    }
   }
 
   .homePageContentWrapper {

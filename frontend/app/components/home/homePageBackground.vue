@@ -5,6 +5,10 @@
 </template>
 
 <script setup lang="ts">
+    const props = defineProps<{
+        disabled?: boolean
+    }>()
+
     const canvas = ref<HTMLCanvasElement | null>(null)
     let animationFrameId = 0
     let ctx: CanvasRenderingContext2D | null = null
@@ -189,9 +193,22 @@
         
         ctx.fill()
         
+        if (props.disabled) {
+            return
+        }
+        
         time += waveSpeed
         animationFrameId = requestAnimationFrame(draw)
 }
+
+watch(() => props.disabled, (newVal) => {
+    if (newVal) {
+        cancelAnimationFrame(animationFrameId)
+    } else {
+        cancelAnimationFrame(animationFrameId)
+        animationFrameId = requestAnimationFrame(draw)
+    }
+})
 
 onMounted(() => {
     if (canvas.value) {
