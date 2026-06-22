@@ -38,10 +38,22 @@
     let sin_d005 = new Float32Array(0)
     let cos_d005 = new Float32Array(0)
 
+    let lastWidth = 0
+    let lastHeight = 0
+
     const resize = () => {
         if (!canvas.value || !ctx) return
         const w = window.innerWidth
         const h = window.innerHeight
+        
+        // Ignore minor height changes (e.g. mobile address bar show/hide)
+        if (lastWidth > 0 && Math.abs(w - lastWidth) < 2 && Math.abs(h - lastHeight) < 120) {
+            return
+        }
+        
+        lastWidth = w
+        lastHeight = h
+        
         canvas.value.width = w
         canvas.value.height = h
         

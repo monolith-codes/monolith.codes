@@ -16,4 +16,6 @@ module.exports = {
   },
   testMatch: ["**/__tests__/**/*.test.ts"],
   moduleFileExtensions: ["ts", "js", "json"],
+  coverageReporters: ["json-summary", "text", "lcov", "clover"],
 };
+

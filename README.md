@@ -16,6 +16,7 @@
 </div>
 
 [![action status](https://github.com/monolith-codes/monolith.codes/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/monolith-codes/monolith.codes/actions/workflows/deploy.yml)
+![Backend Coverage](https://codecov.io/gh/monolith-codes/monolith.codes/branch/main/graph/badge.svg?flag=backend)
 ## Info
 This is my personal portfolio homepage made with Nuxt, NodeJS, ExpressJS, PostgreSQL and PrismaORM.
 The whole full stack app is wrapped in a docker compose mono repo setup.  
