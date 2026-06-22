@@ -1,7 +1,5 @@
 <template>
   <homePage/>
-
-  <!-- <StartingOS/> -->
 </template>
 
 <script setup lang="ts">

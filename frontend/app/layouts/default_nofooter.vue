@@ -1,7 +1,9 @@
 <script setup lang="ts">
     import { ref, onMounted } from 'vue'
+    import homePageBackground from '~/components/home/homePageBackground.vue'
 
     const isLoaded = ref(false)
+    const isLowPowerMode = ref(false)
 
     onMounted(() => {
         if (document.readyState === 'complete') {
@@ -10,6 +12,32 @@
             window.addEventListener('load', () => {
                 isLoaded.value = true
             })
+        }
+
+        // Benchmark frame rate to infer low power / performance mode (only on mobile viewports)
+        if (typeof window !== 'undefined') {
+            const isMobileViewport = window.matchMedia('(max-width: 1024px)').matches
+            if (isMobileViewport) {
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    isLowPowerMode.value = true
+                } else {
+                    let frameCount = 0
+                    const startTime = performance.now()
+                    const checkFrame = (now: number) => {
+                        frameCount++
+                        const elapsed = now - startTime
+                        if (elapsed >= 100) {
+                            const fps = (frameCount / elapsed) * 1000
+                            if (fps < 40) {
+                                isLowPowerMode.value = true
+                            }
+                        } else {
+                            requestAnimationFrame(checkFrame)
+                        }
+                    }
+                    requestAnimationFrame(checkFrame)
+                }
+            }
         }
     })
 </script>
@@ -20,6 +48,7 @@
     </div>
 
     <div class="templateWrapper" v-show="isLoaded">
+        <homePageBackground :disabled="isLowPowerMode" />
         <div class="templateContentWrapper">
             <slot />
         </div>

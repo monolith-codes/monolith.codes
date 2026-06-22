@@ -1,7 +1,5 @@
 <template>
   <div class="legalPageWrapper">
-    <homePageBackground />
-    
     <div class="legalContentWrapper">
       <div class="legalCard">
         <div class="legalCardHeader">
@@ -250,8 +248,6 @@
 </template>
 
 <script setup lang="ts">
-  import homePageBackground from '~/components/home/homePageBackground.vue'
-
   definePageMeta({
     layout: 'default-nofooter',
   })
@@ -271,7 +267,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgb(10, 2, 0);
     box-sizing: border-box;
     position: relative;
     overflow: hidden;

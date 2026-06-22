@@ -1,6 +1,5 @@
 <template>
   <div class="homePageWrapper" :class="{ 'low-power': isLowPowerMode }">
-    <homePageBackground :disabled="isLowPowerMode" />
     <div class="homePageContentWrapper">
       <div class="homePage">
         <div class="left-grid">
@@ -84,7 +83,6 @@
   import { ref, onMounted, onUnmounted } from 'vue'
   import homeProfile from '~/components/home/homeProfile.vue'
   import homeTechStack from '~/components/home/homeTechStack.vue' 
-  import homePageBackground from './homePageBackground.vue'
   import homeInfo from '~/components/home/homeInfo.vue'
   import homeProjects from '~/components/home/homeProjects.vue'
   import homeSocials from '~/components/home/homeSocials.vue'
@@ -175,26 +173,29 @@
       observer.observe(footerWrapperRef.value)
     }
 
-    // Benchmark frame rate to infer low power / performance mode
+    // Benchmark frame rate to infer low power / performance mode (only on mobile viewports)
     if (typeof window !== 'undefined') {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        isLowPowerMode.value = true
-      } else {
-        let frameCount = 0
-        const startTime = performance.now()
-        const checkFrame = (now: number) => {
-          frameCount++
-          const elapsed = now - startTime
-          if (elapsed >= 100) {
-            const fps = (frameCount / elapsed) * 1000
-            if (fps < 40) {
-              isLowPowerMode.value = true
+      const isMobileViewport = window.matchMedia('(max-width: 1024px)').matches
+      if (isMobileViewport) {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          isLowPowerMode.value = true
+        } else {
+          let frameCount = 0
+          const startTime = performance.now()
+          const checkFrame = (now: number) => {
+            frameCount++
+            const elapsed = now - startTime
+            if (elapsed >= 100) {
+              const fps = (frameCount / elapsed) * 1000
+              if (fps < 40) {
+                isLowPowerMode.value = true
+              }
+            } else {
+              requestAnimationFrame(checkFrame)
             }
-          } else {
-            requestAnimationFrame(checkFrame)
           }
+          requestAnimationFrame(checkFrame)
         }
-        requestAnimationFrame(checkFrame)
       }
     }
   })
@@ -220,7 +221,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    background: rgb(10, 2, 0);
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
