@@ -38,21 +38,22 @@
     overflow: hidden;
     position: relative;
 
-    &:hover {
-      .homeProjectsBackground {
-        filter: grayscale(0%);
-        opacity: 1;
-      }
+    @media (hover: hover) {
+      &:hover {
+        .homeProjectsBackground {
+          filter: grayscale(0%);
+          opacity: 1;
+        }
 
-      .homeProjectsTitle {
-        h2 {
-          opacity: .4;
-          letter-spacing: 0.25em;
-          text-transform: uppercase;
-          color: black;
+        .homeProjectsTitle {
+          h2 {
+            opacity: .4;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: black;
+          }
         }
       }
-      
     }
   }
 

@@ -1,13 +1,6 @@
-import express, { type Request, type Response } from "express";
+import app from "./app";
 import { prisma } from "./lib/prisma";
 import { Startup } from "./services/startup.service";
-import userRoutes from "./routes/user.routes";
-import postsRoutes from "./routes/posts.routes";
-
-const app = express();
-app.use(express.json());
-app.use('/users', userRoutes);
-app.use('/posts', postsRoutes);
 
 async function main() {
   await Startup();
@@ -16,10 +9,6 @@ async function main() {
 main().catch((e) => {
   console.error("Failed to start:", e.message);
   process.exit(1);
-});
-
-app.get("/", async (req: Request, res: Response) => {
-  return res.send("API ALIVE")
 });
 
 app.listen(1909, () => console.log("listening on port 1909"));

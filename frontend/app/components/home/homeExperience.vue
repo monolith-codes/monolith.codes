@@ -66,25 +66,26 @@ const pauseVideo = () => {
     overflow: hidden;
     position: relative;
 
-    &:hover {
-      .homeExperienceThumbnail {
-        opacity: 0;
-      }
+    @media (hover: hover) {
+      &:hover {
+        .homeExperienceThumbnail {
+          opacity: 0;
+        }
 
-      .homeExperienceVideo {
-        filter: grayscale(0%);
-        opacity: 1;
-      }
+        .homeExperienceVideo {
+          filter: grayscale(0%);
+          opacity: 1;
+        }
 
-      .homeExperienceTitle {
-        h2 {
-          opacity: .4;
-          letter-spacing: 0.25em;
-          text-transform: uppercase;
-          color: black;
+        .homeExperienceTitle {
+          h2 {
+            opacity: .4;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: black;
+          }
         }
       }
-      
     }
   }
 
