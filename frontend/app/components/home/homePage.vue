@@ -5,7 +5,9 @@
         <div class="left-grid">
           <div 
             class="grid-item animated nolink"
+            :class="{ 'grid-item--pending': isMobile && !revealedItems.has('homeProfileGridItem') }"
             id="homeProfileGridItem"
+            ref="gridItemRefs"
             style="--stagger: 1;"
             @mousemove="onCardMove"
             @mouseenter="onCardEnter"
@@ -15,7 +17,9 @@
           </div>
           <div 
             class="grid-item animated nolink"
+            :class="{ 'grid-item--pending': isMobile && !revealedItems.has('homeSocialsGridItem') }"
             id="homeSocialsGridItem"
+            ref="gridItemRefs"
             style="--stagger: 3;"
             @mousemove="onCardMove"
             @mouseenter="onCardEnter"
@@ -26,12 +30,20 @@
         </div>
         <div class="right-grid">
           <div class="right-grid-upper">
-            <div class="grid-item nolink" id="homeInfoGridItem" style="--stagger: 2;">
+            <div 
+              class="grid-item nolink" 
+              :class="{ 'grid-item--pending': isMobile && !revealedItems.has('homeInfoGridItem') }"
+              id="homeInfoGridItem" 
+              ref="gridItemRefs"
+              style="--stagger: 2;"
+            >
               <homeInfo/>
             </div>
             <div 
               class="grid-item animated nolink"
+              :class="{ 'grid-item--pending': isMobile && !revealedItems.has('homeTechStackGridItem') }"
               id="homeTechStackGridItem"
+              ref="gridItemRefs"
               style="--stagger: 4;"
               @mousemove="onCardMove"
               @mouseenter="onCardEnter"
@@ -43,7 +55,9 @@
           <div class="right-grid-lower">
             <div 
               class="grid-item animated"
+              :class="{ 'grid-item--pending': isMobile && !revealedItems.has('homeExperienceGridItem') }"
               id="homeExperienceGridItem"
+              ref="gridItemRefs"
               style="--stagger: 5;"
               @mousemove="onCardMove"
               @mouseenter="onCardEnter"
@@ -53,7 +67,9 @@
             </div>
             <div 
               class="grid-item animated"
+              :class="{ 'grid-item--pending': isMobile && !revealedItems.has('homeProjectsGridItem') }"
               id="homeProjectsGridItem"
+              ref="gridItemRefs"
               style="--stagger: 6;"
               @mousemove="onCardMove"
               @mouseenter="onCardEnter"
@@ -80,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted, onUnmounted } from 'vue'
+  import { ref, reactive, onMounted, onUnmounted, nextTick } from 'vue'
   import homeProfile from '~/components/home/homeProfile.vue'
   import homeTechStack from '~/components/home/homeTechStack.vue' 
   import homeInfo from '~/components/home/homeInfo.vue'
@@ -88,9 +104,13 @@
   import homeSocials from '~/components/home/homeSocials.vue'
 
   const footerWrapperRef = ref<HTMLElement | null>(null)
+  const gridItemRefs = ref<HTMLElement[]>([])
   const isFooterVisible = ref(false)
   const isLowPowerMode = ref(false)
+  const isMobile = ref(false)
+  const revealedItems = reactive(new Set<string>())
   let observer: IntersectionObserver | null = null
+  let gridObserver: IntersectionObserver | null = null
 
   let tgX = 0
   let tgY = 0
@@ -160,6 +180,9 @@
     tgX = winWidth / 2
     tgY = winHeight / 2
 
+    const isMobileViewport = window.matchMedia('(max-width: 1024px)').matches
+    isMobile.value = isMobileViewport
+
     window.addEventListener('mousemove', handleMouseMove, { passive: true })
     window.addEventListener('resize', updateWindowDimensions, { passive: true })
 
@@ -173,9 +196,38 @@
       observer.observe(footerWrapperRef.value)
     }
 
+    // On mobile: use IntersectionObserver to trigger entrance animation per grid item
+    if (isMobileViewport) {
+      nextTick(() => {
+        let mobileStaggerCounter = 0
+
+        gridObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const el = entry.target as HTMLElement
+              const id = el.id
+              if (id && !revealedItems.has(id)) {
+                // Assign a sequential stagger based on reveal order so items
+                // that are visible on first load still cascade nicely
+                mobileStaggerCounter++
+                el.style.setProperty('--stagger', String(mobileStaggerCounter))
+                revealedItems.add(id)
+              }
+              gridObserver?.unobserve(el)
+            }
+          })
+        }, { threshold: 0.15 })
+
+        // Observe all grid items
+        const items = document.querySelectorAll('.grid-item[id]')
+        items.forEach((item) => {
+          gridObserver!.observe(item)
+        })
+      })
+    }
+
     // Benchmark frame rate to infer low power / performance mode (only on mobile viewports)
     if (typeof window !== 'undefined') {
-      const isMobileViewport = window.matchMedia('(max-width: 1024px)').matches
       if (isMobileViewport) {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
           isLowPowerMode.value = true
@@ -206,6 +258,9 @@
 
     if (observer) {
       observer.disconnect()
+    }
+    if (gridObserver) {
+      gridObserver.disconnect()
     }
   })
 </script>
@@ -297,6 +352,13 @@
 
     &.nolink {
       cursor: default;
+    }
+
+    /* Mobile: items start hidden until IntersectionObserver reveals them */
+    &.grid-item--pending {
+      opacity: 0;
+      transform: perspective(1000px) translateY(40px) translateZ(-60px) scale(0.95);
+      animation: none;
     }
   }
 
@@ -482,6 +544,30 @@
       width: 100%;
       max-width: 600px;
       height: 64px;
+    }
+
+    /* On mobile, use the observer-driven animation instead of the default CSS one */
+    .grid-item {
+      animation: none;
+      opacity: 1;
+      transform: none;
+
+      /* When revealed by IntersectionObserver, play the entrance animation */
+      &:not(.grid-item--pending) {
+        animation: homeGridFlowInMobile 0.7s cubic-bezier(0.23, 1, 0.32, 1) backwards;
+        animation-delay: calc(var(--stagger, 0) * 0.12s);
+      }
+    }
+
+    @keyframes homeGridFlowInMobile {
+      0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     /* Disable 3D tilt on touch devices */
