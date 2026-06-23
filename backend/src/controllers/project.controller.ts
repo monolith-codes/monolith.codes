@@ -41,7 +41,10 @@ export const createProject = async (req: Request, res: Response) => {
       imageUrls,
       videoUrls,
       githubUrl,
-      websiteUrl
+      websiteUrl,
+      videoUrl,
+      instagramUrl,
+      tiktokUrl
     } = req.body;
 
     // Validate required fields
@@ -81,6 +84,17 @@ export const createProject = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "videoUrls must be an array of strings" });
     }
 
+    // Optional string fields validation
+    if (videoUrl !== undefined && typeof videoUrl !== "string" && videoUrl !== null) {
+      return res.status(400).json({ error: "videoUrl must be a string or null" });
+    }
+    if (instagramUrl !== undefined && typeof instagramUrl !== "string" && instagramUrl !== null) {
+      return res.status(400).json({ error: "instagramUrl must be a string or null" });
+    }
+    if (tiktokUrl !== undefined && typeof tiktokUrl !== "string" && tiktokUrl !== null) {
+      return res.status(400).json({ error: "tiktokUrl must be a string or null" });
+    }
+
     const project = await projectService.createProject({
       title,
       content,
@@ -89,7 +103,10 @@ export const createProject = async (req: Request, res: Response) => {
       imageUrls: imageUrls || [],
       videoUrls: videoUrls || [],
       githubUrl: githubUrl || null,
-      websiteUrl: websiteUrl || null
+      websiteUrl: websiteUrl || null,
+      videoUrl: videoUrl || null,
+      instagramUrl: instagramUrl || null,
+      tiktokUrl: tiktokUrl || null
     });
 
     res.status(201).json(project);
@@ -117,7 +134,10 @@ export const updateProject = async (req: Request, res: Response) => {
       imageUrls,
       videoUrls,
       githubUrl,
-      websiteUrl
+      websiteUrl,
+      videoUrl,
+      instagramUrl,
+      tiktokUrl
     } = req.body;
 
     const data: any = {};
@@ -150,6 +170,24 @@ export const updateProject = async (req: Request, res: Response) => {
     }
     if (githubUrl !== undefined) data.githubUrl = githubUrl;
     if (websiteUrl !== undefined) data.websiteUrl = websiteUrl;
+    if (videoUrl !== undefined) {
+      if (typeof videoUrl !== "string" && videoUrl !== null) {
+        return res.status(400).json({ error: "videoUrl must be a string or null" });
+      }
+      data.videoUrl = videoUrl;
+    }
+    if (instagramUrl !== undefined) {
+      if (typeof instagramUrl !== "string" && instagramUrl !== null) {
+        return res.status(400).json({ error: "instagramUrl must be a string or null" });
+      }
+      data.instagramUrl = instagramUrl;
+    }
+    if (tiktokUrl !== undefined) {
+      if (typeof tiktokUrl !== "string" && tiktokUrl !== null) {
+        return res.status(400).json({ error: "tiktokUrl must be a string or null" });
+      }
+      data.tiktokUrl = tiktokUrl;
+    }
 
     const updatedProject = await projectService.updateProject(id, data);
     res.status(200).json(updatedProject);

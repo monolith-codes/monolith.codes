@@ -1,21 +1,23 @@
 <template>
-  <div 
-    class="homeProjectsWrapper"
-  >
-    <div class="homeProjectsTitle">
-        <h2>Projects</h2>
+  <NuxtLink to="/projects" class="homeProjectsLink">
+    <div 
+      class="homeProjectsWrapper"
+    >
+      <div class="homeProjectsTitle">
+          <h2>Projects</h2>
+      </div>
+      <NuxtImg 
+        class="homeProjectsBackground" 
+        src="/images/projects_thumb_white.webp" 
+        alt="Projects Background"
+        width="667" 
+        height="250" 
+        sizes="667px" 
+        densities="1x"
+        format="webp"
+      />
     </div>
-    <NuxtImg 
-      class="homeProjectsBackground" 
-      src="/images/projects_thumb_white.webp" 
-      alt="Projects Background"
-      width="667" 
-      height="250" 
-      sizes="667px" 
-      densities="1x"
-      format="webp"
-    />
-  </div>
+  </NuxtLink>
 </template>
 
 <script setup lang="ts">
@@ -23,6 +25,14 @@
 </script>
 
 <style lang="scss">
+  .homeProjectsLink {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
   .homeProjectsWrapper {
     container-type: inline-size;
     display: flex;

@@ -52,6 +52,9 @@ describe("Project CRUD API", () => {
       videoUrls: ["https://example.com/demo.mp4"],
       githubUrl: "https://github.com/myusername/portfolio",
       websiteUrl: "https://myportfolio.example.com",
+      videoUrl: "https://www.youtube.com/watch?v=UcnoVx4YDXA",
+      instagramUrl: "https://instagram.com/myusername",
+      tiktokUrl: "https://tiktok.com/@myusername",
     };
 
     const res = await request(app)
@@ -68,6 +71,9 @@ describe("Project CRUD API", () => {
     expect(res.body.videoUrls).toEqual(newProject.videoUrls);
     expect(res.body.githubUrl).toBe(newProject.githubUrl);
     expect(res.body.websiteUrl).toBe(newProject.websiteUrl);
+    expect(res.body.videoUrl).toBe(newProject.videoUrl);
+    expect(res.body.instagramUrl).toBe(newProject.instagramUrl);
+    expect(res.body.tiktokUrl).toBe(newProject.tiktokUrl);
 
     createdProjectId = res.body.id;
   });
@@ -79,6 +85,9 @@ describe("Project CRUD API", () => {
     expect(res.body.title).toBe("My Portfolio Website");
     expect(res.body.author).toBeDefined();
     expect(res.body.author.id).toBe(seedUserId);
+    expect(res.body.videoUrl).toBe("https://www.youtube.com/watch?v=UcnoVx4YDXA");
+    expect(res.body.instagramUrl).toBe("https://instagram.com/myusername");
+    expect(res.body.tiktokUrl).toBe("https://tiktok.com/@myusername");
   });
 
   it("GET /projects/:id - should return 404 for non-existent project", async () => {
@@ -128,6 +137,9 @@ describe("Project CRUD API", () => {
     const updates = {
       title: "My Portfolio Website v2",
       githubUrl: "https://github.com/myusername/portfolio-v2",
+      videoUrl: "https://www.youtube.com/watch?v=UcnoVx4YDXA_updated",
+      instagramUrl: "https://instagram.com/myusername_updated",
+      tiktokUrl: "https://tiktok.com/@myusername_updated",
     };
 
     const res = await request(app)
@@ -138,6 +150,9 @@ describe("Project CRUD API", () => {
     expect(res.body.id).toBe(createdProjectId);
     expect(res.body.title).toBe(updates.title);
     expect(res.body.githubUrl).toBe(updates.githubUrl);
+    expect(res.body.videoUrl).toBe(updates.videoUrl);
+    expect(res.body.instagramUrl).toBe(updates.instagramUrl);
+    expect(res.body.tiktokUrl).toBe(updates.tiktokUrl);
   });
 
   it("PUT /projects/:id - should return 404 for updating non-existent project", async () => {
@@ -274,6 +289,48 @@ describe("Project CRUD API", () => {
       expect(res.body).toHaveProperty("error", "videoUrls must be an array of strings");
     });
 
+    it("POST /projects - should return 400 for invalid videoUrl (not a string)", async () => {
+      const res = await request(app)
+        .post("/projects")
+        .send({
+          title: "Title",
+          content: "Content",
+          imageUrl: "https://example.com/img.png",
+          authorId: seedUserId,
+          videoUrl: 123,
+        });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "videoUrl must be a string or null");
+    });
+
+    it("POST /projects - should return 400 for invalid instagramUrl (not a string)", async () => {
+      const res = await request(app)
+        .post("/projects")
+        .send({
+          title: "Title",
+          content: "Content",
+          imageUrl: "https://example.com/img.png",
+          authorId: seedUserId,
+          instagramUrl: 123,
+        });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "instagramUrl must be a string or null");
+    });
+
+    it("POST /projects - should return 400 for invalid tiktokUrl (not a string)", async () => {
+      const res = await request(app)
+        .post("/projects")
+        .send({
+          title: "Title",
+          content: "Content",
+          imageUrl: "https://example.com/img.png",
+          authorId: seedUserId,
+          tiktokUrl: 123,
+        });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "tiktokUrl must be a string or null");
+    });
+
     // --- Validation on PUT ---
     it("PUT /projects/:id - should return 400 for non-number authorId", async () => {
       const res = await request(app)
@@ -305,6 +362,30 @@ describe("Project CRUD API", () => {
         .send({ videoUrls: "not-an-array" });
       expect(res.status).toBe(400);
       expect(res.body).toHaveProperty("error", "videoUrls must be an array of strings");
+    });
+
+    it("PUT /projects/:id - should return 400 for invalid videoUrl (not a string)", async () => {
+      const res = await request(app)
+        .put(`/projects/${createdProjectId || 1}`)
+        .send({ videoUrl: 123 });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "videoUrl must be a string or null");
+    });
+
+    it("PUT /projects/:id - should return 400 for invalid instagramUrl (not a string)", async () => {
+      const res = await request(app)
+        .put(`/projects/${createdProjectId || 1}`)
+        .send({ instagramUrl: 123 });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "instagramUrl must be a string or null");
+    });
+
+    it("PUT /projects/:id - should return 400 for invalid tiktokUrl (not a string)", async () => {
+      const res = await request(app)
+        .put(`/projects/${createdProjectId || 1}`)
+        .send({ tiktokUrl: 123 });
+      expect(res.status).toBe(400);
+      expect(res.body).toHaveProperty("error", "tiktokUrl must be a string or null");
     });
 
     // --- Invalid ID (isNaN) ---
