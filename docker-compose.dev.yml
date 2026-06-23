@@ -3,9 +3,9 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_DB: MonoDB
-      POSTGRES_USER: Monolith
-      POSTGRES_PASSWORD: Mulmer123!
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "2109:5432"
     healthcheck:
@@ -25,8 +25,8 @@ services:
       monolith.codes-postgres:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgres://Monolith:Mulmer123!@monolith.codes-postgres:5432/MonoDB
-    command: sh -c "npx prisma generate && npx prisma migrate deploy &&npm run dev"    # CHANGED: This forces the container to stay awake forever, 
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@monolith.codes-postgres:5432/${POSTGRES_DB}
+    command: sh -c "npx prisma generate && npx prisma migrate deploy && npm run dev"    # CHANGED: This forces the container to stay awake forever, 
     # even if your Node app isn't running yet.
 
   monolith.codes-frontend:
@@ -37,7 +37,7 @@ services:
       - ./frontend:/usr/app
       - /usr/app/node_modules
     ports:
-      - "3000:3000"
+      - "3019:3019"
     depends_on:
       - monolith.codes-postgres
       - monolith.codes-backend

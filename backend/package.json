@@ -6,10 +6,13 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "npx rimraf ./dist && tsc --project tsconfig.json",
+    "build": "tsup src/index.ts --format esm --clean",
+    "db:deploy": "npx prisma migrate deploy && npx prisma generate",
     "start": "node dist/index.js",
     "lint": "eslint src/**/*.ts",
-    "format": "eslint src/**/*.ts --fix"
+    "format": "eslint src/**/*.ts --fix",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' npx jest --forceExit --detectOpenHandles",
+    "test:ci": "NODE_OPTIONS='--experimental-vm-modules' npx jest --forceExit --detectOpenHandles --ci --coverage"
   },
   "keywords": [],
   "author": "",
@@ -23,10 +26,17 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.5.0",
     "@types/pg": "^8.18.0",
+    "@types/supertest": "^7.2.0",
+    "jest": "^30.4.2",
+    "jest-coverage-badges": "^1.1.2",
     "prisma": "^7.5.0",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
+    "tsup": "^8.0.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }

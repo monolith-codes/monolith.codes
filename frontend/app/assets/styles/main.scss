@@ -1,0 +1,96 @@
+/* ─── Design Token System ─── */
+:root {
+  /* Border radius tokens */
+  --radius-card: clamp(16px, 2.5vw, 32px);
+  --radius-inner: clamp(12px, 2vw, 24px);
+  --radius-button: clamp(10px, 1.5vw, 18px);
+
+  /* Spacing tokens */
+  --space-xs: clamp(4px, 0.5vw, 8px);
+  --space-sm: clamp(8px, 1vw, 14px);
+  --space-md: clamp(12px, 1.5vw, 20px);
+  --space-lg: clamp(16px, 2vw, 28px);
+  --space-xl: clamp(24px, 3vw, 40px);
+  /* Gap between a card title and its inner content panel */
+  --space-title-gap: clamp(6px, 0.8vw, 12px);
+
+  /* Card common styles */
+  --card-bg: rgba(87, 87, 87, 0.558);
+  --card-border: 1px solid rgba(255, 255, 255, 0.12);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  --card-inner-bg: rgba(0, 0, 0, 0.27);
+
+  /* Button common styles */
+  --btn-bg: rgba(0, 0, 0, 0.30);
+  --btn-border: 1px solid rgba(255, 255, 255, 0.15);
+  --btn-hover-bg: rgba(255, 255, 255, 0.12);
+  --btn-font: 'Roboto', sans-serif;
+}
+
+/* ─── Base Reset ─── */
+html, body {
+  overflow: hidden;
+  height: 100%;
+  position: fixed;
+  width: 100%;
+}
+
+#__nuxt {
+  height: 100svh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 1024px) {
+  html, body {
+    position: relative;
+    overflow: visible;
+    height: auto;
+  }
+
+  #__nuxt {
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(10, 2, 0);
+}
+
+/* ─── Smooth scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Page Transitions ─── */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: perspective(1000px) translate3d(0, 40px, -100px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: perspective(1000px) translate3d(0, -40px, -100px);
+}

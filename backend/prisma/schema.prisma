@@ -18,13 +18,27 @@ model User {
   id    Int     @id @default(autoincrement()) 
   email String  @unique
   name  String @unique
-  posts Post[]
-} 
+  projects Project[]
+}
 
-model Post { 
+model Project { 
   id        Int     @id @default(autoincrement()) 
   title     String
-  content   String? 
+  content   String
+  imageUrl  String
   author    User    @relation(fields: [authorId], references: [id]) 
   authorId  Int
+  imageUrls String[]
+  videoUrls String[]
+  githubUrl String?
+  websiteUrl String?
 } 
+
+model TechStackItem {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  imageUrl    String
+  companyUrl  String
+  description String
+}
+ 

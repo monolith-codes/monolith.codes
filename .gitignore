@@ -1,10 +1,12 @@
 /backend/node_modules
 /backend/src/generated
-/backend/prisma/migrations
 
 /frontend/.output
 /frontend/.data
 /frontend/.nuxt
+/frontend/.nuxt-dev
+/frontend/.nuxt-user
+
 /frontend/.nitro
 /frontend/.cache
 /frontend/dist
@@ -18,3 +20,7 @@
 /frontend/.env.*
 /frontend/!.env.example
 /frontend/ecosystem.config.cjs
+
+/backend/coverage
+
+.env

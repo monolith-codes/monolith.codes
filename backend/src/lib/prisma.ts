@@ -1,6 +1,5 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
-// Remove "/client" from the end of this path
 import { PrismaClient } from "../generated/prisma/client"; 
 
 const adapter = new PrismaPg({

@@ -1,28 +1,56 @@
-# --- Stage 1: Build ---
-FROM node:22-alpine AS builder
+# Stage 1: Build
+FROM node:22-slim AS builder
+
+RUN apt-get update -y && apt-get install -y openssl
+
 WORKDIR /usr/app
+
+# 1. Install all dependencies (including devDependencies for the build)
 COPY package*.json ./
-COPY prisma ./prisma
-RUN npm install
+COPY prisma ./prisma/
+RUN npm ci
+
+# 2. Copy source code
 COPY . .
 
-# Generate Prisma client (dummy URL used just to pass CLI validation during build)
-RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
-RUN npm run build 
+# 3. Generate Prisma client
+# Provide a dummy URL so Prisma can generate the client during build
+ENV DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
+RUN npx prisma generate
 
-# --- Stage 2: Production ---
-FROM node:22-alpine
+# 4. Build the application
+RUN npm run build
+
+# 5. OPTIMIZATION: Remove dev dependencies before copying to the runner
+# This drops heavy packages like TypeScript and ESLint, saving a lot of space.
+RUN npm prune --omit=dev
+
+
+# Stage 2: Production
+FROM node:22-slim AS runner
+
+# Install OpenSSL for Prisma and clean up apt cache to keep the image lean
+RUN apt-get update -y && \
+    apt-get install -y openssl && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /usr/app
-# Only install production dependencies to keep the image small
-COPY package*.json ./
-RUN npm install --omit=dev 
+ENV NODE_ENV=production
 
-# Copy the compiled code and prisma folder from the builder stage
+# Copy only what is needed for production from the builder
+COPY --from=builder /usr/app/package*.json ./
+COPY --from=builder /usr/app/prisma.config.ts ./
+COPY --from=builder /usr/app/node_modules ./node_modules
 COPY --from=builder /usr/app/dist ./dist
 COPY --from=builder /usr/app/prisma ./prisma
+COPY --from=builder /usr/app/src/generated ./src/generated
 
-# THE FIX: Copy your custom Prisma generated folder instead of node_modules!
-COPY --from=builder /usr/app/src/generated/prisma ./src/generated/prisma
+RUN ls -la && test -f prisma.config.ts || (echo "Missing config!" && exit 1)
 
-# Start the compiled application (adjust 'dist/index.js' to your actual entry point)
+# Run as non-root user for security
+USER node
+
+EXPOSE 3000
+
+# THE FIX: Start the app directly. No migrations here!
 CMD ["node", "dist/index.js"]
