@@ -32,6 +32,9 @@ model Project {
   videoUrls String[]
   githubUrl String?
   websiteUrl String?
+  videoUrl String?
+  instagramUrl String?
+  tiktokUrl String?
 } 
 
 model TechStackItem {

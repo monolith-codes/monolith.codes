@@ -26,6 +26,9 @@ export const createProject = async (data: {
   videoUrls?: string[];
   githubUrl?: string | null;
   websiteUrl?: string | null;
+  videoUrl?: string | null;
+  instagramUrl?: string | null;
+  tiktokUrl?: string | null;
 }) => {
   return await prisma.project.create({
     data
@@ -43,6 +46,9 @@ export const updateProject = async (
     videoUrls: string[];
     githubUrl: string | null;
     websiteUrl: string | null;
+    videoUrl: string | null;
+    instagramUrl: string | null;
+    tiktokUrl: string | null;
   }>
 ) => {
   return await prisma.project.update({

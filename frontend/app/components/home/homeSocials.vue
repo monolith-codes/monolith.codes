@@ -5,7 +5,7 @@
     </div>
     <div class="homeSocials">
         <div class="homeSocialsItem">
-          <a class="homeSocialsItemLink" aria-label="Discord Link" href="www.google.de" target="__blank">
+          <a class="homeSocialsItemLink" aria-label="Discord Link" href="https://discord.gg/CEvzJvEPBq" target="__blank">
             <discord_logo/>
           </a>
         </div>
