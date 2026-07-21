@@ -180,7 +180,7 @@ export async function StartDBSeeding() {
     },
     {
       title: 'Discord Bots',
-      content: 'Development and hosting of several custom discord bots. Including ticket bots, moderation bots, and more',
+      content: 'Development and hosting of several custom discord bots. Including ticket bots, moderation bots, and more.',
       imageUrl: '/images/project_thumbnails/dbot_thumb.webp',
       imageUrls: [],
       videoUrls: [],
@@ -202,7 +202,7 @@ export async function StartDBSeeding() {
     },
     {
       title: 'Mythic Garden - Student Project',
-      content: 'WPF UI application showcasing an agricultural vehicle shop. Showcases basic and advanced UI design principles including custom animations and modern design trends.',
+      content: 'Digital plant companion AR application. Made with Unity.',
       imageUrl: '/images/project_thumbnails/mythic_garden_thumb.webp',
       githubUrl: 'https://github.com/monolith-codes/MythicGarden',
       imageUrls: [],
@@ -210,7 +210,7 @@ export async function StartDBSeeding() {
     },
     {
       title: 'Yoshy Project Hearth Explosion - 3D Animation',
-      content: 'Project focusing on 3D modelling and animation of an Hearthstone-inspired card game.',
+      content: 'Project focusing on 3D modelling and animation of a Hearth Necklace for the Brand Yoshy Project.',
       imageUrl: '/images/project_thumbnails/szenaryo_thumb.webp',
       instagramUrl: 'https://www.instagram.com/yoshyproject/',
       videoUrl: 'https://www.instagram.com/reel/DGFh8lvIEC3/',
@@ -219,7 +219,7 @@ export async function StartDBSeeding() {
     },
     {
       title: 'Pokemon Biomes - 3D Animation - Student Project',
-      content: 'Project focusing on 3D modelling and animation of an Hearthstone-inspired card game.',
+      content: 'Project focusing on 3D modelling and animation of various Pokemon Biomes. Made with Blender.',
       imageUrl: '/images/project_thumbnails/pokemon_thumb.webp',
       videoUrl: 'https://www.youtube.com/watch?v=UcnoVx4YDXA',
       imageUrls: [],
